@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { SharedService } from './services/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'tori';
+  // when resizing, update screen size
+  @HostListener('window:resize', ['$event'])
+  handleResize() {
+    this.sharedService.setScreenSize();
+  }
+
+  constructor(public sharedService: SharedService) {
+    // when initializing, set screen size
+    this.sharedService.setScreenSize();
+  }
 }

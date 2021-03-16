@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body,
+*[theme] {
+  --shadow-1: 0 0 0 1px rgba(var(--neutral-1), .2) !important;
+  --base-1: var(--base-0) !important;
+  --base-2: var(--base-0) !important;
+  --base-3: var(--base-0) !important;
+  --base-4: var(--base-0) !important;
+  --accent-1: 235, 65, 10 !important;
+  --accent-1b: 245, 75, 20 !important;
+  --accent-1c: 225, 55, 0 !important;
+  --header-1: normal 16px/24px 'Archivo Black' !important;
+  --header-2: normal 14px/24px 'Archivo Black' !important;
+  // --border-radius: 8px;
+  font: var(--body-1) !important;
+  color: var(--text-1);
+}
+
+kor-nav-bar kor-tab-item {
+  border: unset;
+  &[active] {
+    color: rgb(var(--accent-1));
+  }
+}
