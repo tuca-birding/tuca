@@ -1,0 +1,54 @@
+:host {
+  width: 100%;
+  height: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // upload
+  .illustration {
+    height: calc(100% - 200px);
+    max-height: 240px;
+  }
+  > kor-text {
+    font-size: 24px;
+    line-height: 1.5;
+    max-width: 400px;
+    text-align: center;
+  }
+  > kor-button,
+  > kor-text {
+    margin: 24px 0;
+  }
+  input[type="file"] {
+    display: none;
+  }
+  // result
+  kor-grid {
+    &.mobile {
+      height: fit-content;
+      margin-bottom: auto;
+    }
+    &:not(.mobile) > * img {
+      flex: 1;
+    }
+    > * {
+      display: flex;
+      flex-direction: column;
+      > kor-text {
+        margin-bottom: 16px;
+        font-size: 20px;
+        display: flex;
+        kor-icon {
+          margin-right: 8px;
+        }
+      }
+      img {
+        object-fit: scale-down;
+        background: rgba(var(--neutral-1), .05);
+      }
+    }
+  }
+}

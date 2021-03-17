@@ -1,6 +1,7 @@
 <kor-page
   theme="{{sharedService.appTheme}}"
   flex-direction="column"
+  scrollable
 >
   <!-- app bar -->
   <kor-app-bar
@@ -22,6 +23,8 @@
       (click)="!userService.user ? userService.signInModalVisible = true : userService.userDrawerVisible = true"
     ></kor-avatar>
   </kor-app-bar>
+  <!-- body -->
+  <router-outlet></router-outlet>
 </kor-page>
 <!-- sign in modal -->
 <app-sign-in-modal

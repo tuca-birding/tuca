@@ -1,0 +1,51 @@
+<ng-container *ngIf="!uploadedImage; then upload; else result"></ng-container>
+<!-- upload -->
+<ng-template #upload>
+  <!-- illustration -->
+  <img
+    class="illustration"
+    src="https://ouch-cdn.icons8.com/preview/228/301aeadf-37de-4b4e-81cb-a0af7a07422c.png"
+    alt=""
+  />
+  <!-- text -->
+  <kor-text size="header-1">
+    Upload a bird picture and we tell you what it is
+  </kor-text>
+  <!-- button -->
+  <kor-button
+    label="Upload"
+    (click)="triggerUpload()"
+  ></kor-button>
+  <input
+    type="file"
+    accept="image/*"
+    (change)="uploadImage($event.target.files[0])"
+    #fileInput
+  />
+</ng-template>
+<!-- result -->
+<ng-template #result>
+  <kor-grid
+    spacing="l"
+    [columns]="sharedService.screenSize === 's' ? 1 : 2"
+    [ngClass]="sharedService.screenSize === 's' ? 'mobile' : null"
+  >
+    <div class="image">
+      <kor-text size="header-1">
+        <kor-icon
+          button
+          icon="arrow_back"
+          (click)="uploadedImage = unset"
+        ></kor-icon>
+        Image
+      </kor-text>
+      <img
+        [src]="uploadedImage"
+        alt=""
+      />
+    </div>
+    <div class="suggestions">
+      <kor-text size="header-1">Suggested species</kor-text>
+    </div>
+  </kor-grid>
+</ng-template>
