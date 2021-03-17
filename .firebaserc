@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "tori-bd722": {
+      "hosting": {
+        "tori": [
+          "tori-bd722"
+        ]
+      }
+    }
+  }
+}
