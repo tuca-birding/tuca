@@ -22,21 +22,8 @@
       (click)="!userService.user ? userService.signInModalVisible = true : userService.userDrawerVisible = true"
     ></kor-avatar>
   </kor-app-bar>
-  <!-- body -->
-  Hello World
-  <!-- nav bar -->
-  <kor-nav-bar slot="bottom">
-    <kor-tabs>
-      <kor-tab-item
-        icon="home"
-        active
-      ></kor-tab-item>
-      <kor-tab-item icon="home"></kor-tab-item>
-      <kor-tab-item icon="home"></kor-tab-item>
-    </kor-tabs>
-  </kor-nav-bar>
 </kor-page>
-<!-- sign in -->
+<!-- sign in modal -->
 <app-sign-in-modal
   *ngIf="userService.signInModalVisible"
   (close)="userService.signInModalVisible = false"
