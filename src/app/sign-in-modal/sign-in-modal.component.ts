@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UserService } from '../services/user.service';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-sign-in-modal',
@@ -12,7 +13,7 @@ export class SignInModalComponent implements OnInit {
   visible: boolean;
   @Output() close = new EventEmitter();
 
-  constructor(public userService: UserService, public auth: AngularFireAuth) { }
+  constructor(public userService: UserService, public sharedService: SharedService, public auth: AngularFireAuth) { }
 
   ngOnInit(): void {
     // start animation

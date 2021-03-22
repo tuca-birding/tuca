@@ -2,11 +2,28 @@
   label="Sign In"
   [visible]="visible"
   (visible-changed)="!$event.target.visible ? closeModal() : ''"
+  [height]="sharedService.screenSize === 's' ? '100%' : '560px'"
 >
+  <!-- illustration -->
+  <div class="empty-state">
+    <img
+      src="https://ouch-cdn.icons8.com/preview/718/b59c9ac3-889c-461f-8ca9-5ccc822f9a7d.png"
+      alt=""
+      height="240px"
+    />
+    Welcome to Tuca, the bird identification app. Sign in or register with your social media account.
+  </div>
+  <kor-divider></kor-divider>
   <kor-menu-item
     label="Sign in with Google"
     icon="url(https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-google-icon-logo-png-transparent-svg-vector-bie-supply-14.png)"
     [toggle]="false"
     (click)="signIn('google')"
+  ></kor-menu-item>
+  <kor-menu-item
+    label="Sign in with Facebook"
+    icon="url(https://www.freepnglogos.com/uploads/facebook-logo-13.png)"
+    [toggle]="false"
+    (click)="signIn('facebook')"
   ></kor-menu-item>
 </kor-modal>

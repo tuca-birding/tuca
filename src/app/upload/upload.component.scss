@@ -1,26 +1,33 @@
 :host {
   width: 100%;
-  height: 100%;
+  flex: 1;
+  height: fit-content;
   max-width: 1024px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  > * + * {
+    margin-top: 32px;
+  }
   // upload
   .illustration {
-    height: calc(100% - 200px);
+    height: calc(100% - 160px);
     max-height: 240px;
   }
   > kor-text {
-    font-size: 24px;
     line-height: 1.5;
     max-width: 400px;
     text-align: center;
-  }
-  > kor-button,
-  > kor-text {
-    margin: 24px 0;
+    &[size="header-1"] {
+      display: flex;
+      flex-direction: column;
+      font-size: 24px;
+      kor-text[size="body-1"] {
+        font-size: 16px;
+      }
+    }
   }
   input[type="file"] {
     display: none;
