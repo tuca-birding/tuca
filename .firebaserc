@@ -1,14 +1,14 @@
 {
   "targets": {
-    "tori-bd722": {
+    "tuca-app": {
       "hosting": {
-        "tori": [
-          "tori-bd722"
+        "tuca": [
+          "tuca-app"
         ]
       }
     }
   },
   "projects": {
-    "default": "tori-bd722"
+    "default": "tuca-app"
   }
 }

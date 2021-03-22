@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class SharedService {
   screenSize: string;
   appTheme = 'light';
-  appLabel = 'Tori';
+  appLabel = 'Tuca';
 
   constructor() { }
 
