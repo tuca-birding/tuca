@@ -11,13 +11,15 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { UserDrawerComponent } from './components/user-drawer/user-drawer.component';
 import { UploadComponent } from './upload/upload.component';
+import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignInModalComponent,
     UserDrawerComponent,
-    UploadComponent
+    UploadComponent,
+    EmptyStateComponent
   ],
   imports: [
     BrowserModule,

@@ -5,14 +5,10 @@
   [height]="sharedService.screenSize === 's' ? '100%' : '560px'"
 >
   <!-- illustration -->
-  <div class="empty-state">
-    <img
-      src="https://ouch-cdn.icons8.com/preview/718/b59c9ac3-889c-461f-8ca9-5ccc822f9a7d.png"
-      alt=""
-      height="240px"
-    />
-    Welcome to Tuca, the bird identification app. Sign in or register with your social media account.
-  </div>
+  <app-empty-state
+    label="Welcome to Tuca! Sign in or register with your social media account."
+    image="https://ouch-cdn.icons8.com/preview/786/3fd077a2-eeef-49d6-93c7-848f58056304.png"
+  ></app-empty-state>
   <kor-menu-item
     label="Sign in with Google"
     icon="url(https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-google-icon-logo-png-transparent-svg-vector-bie-supply-14.png)"

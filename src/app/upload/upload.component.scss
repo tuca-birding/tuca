@@ -8,24 +8,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  > * + * {
-    margin-top: 32px;
-  }
-  // upload
-  .illustration {
-    height: calc(100% - 160px);
-    max-height: 240px;
-  }
-  > kor-text {
-    line-height: 1.5;
-    max-width: 400px;
-    text-align: center;
-    &[size="header-1"] {
-      display: flex;
-      flex-direction: column;
-      font-size: 24px;
-    }
-  }
   input[type="file"] {
     display: none;
   }

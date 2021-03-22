@@ -1,0 +1,23 @@
+:host {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: auto;
+  ::ng-deep kor-button {
+    margin-top: 24px;
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
+    kor-text[size="header-1"] {
+      font-size: 24px;
+    }
+    > * + * {
+      margin-top: 8px;
+    }
+  }
+}

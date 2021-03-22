@@ -1,24 +1,17 @@
 <ng-container *ngIf="!uploadedImage; then upload; else result"></ng-container>
 <!-- upload -->
 <ng-template #upload>
-  <!-- illustration -->
-  <img
-    class="illustration"
-    src="https://ouch-cdn.icons8.com/preview/228/301aeadf-37de-4b4e-81cb-a0af7a07422c.png"
-    alt=""
-  />
-  <!-- text -->
-  <kor-text size="header-1">
-    What the bird?
-    <kor-text size="body-1">
-      Upload a bird picture and we tell you what it is
-    </kor-text>
-  </kor-text>
-  <!-- button -->
-  <kor-button
-    label="Upload"
-    (click)="triggerUpload()"
-  ></kor-button>
+  <app-empty-state
+    header="What the bird?"
+    label="Upload a bird picture and we tell you what it is"
+    image="https://ouch-cdn.icons8.com/preview/284/4ee61a37-4228-46e5-b85f-135679e8ab2f.png"
+  >
+    <!-- button -->
+    <kor-button
+      label="Upload"
+      (click)="triggerUpload()"
+    ></kor-button>
+  </app-empty-state>
   <input
     type="file"
     accept="image/*"
