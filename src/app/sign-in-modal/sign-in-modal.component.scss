@@ -8,3 +8,13 @@
   max-width: 480px;
   margin: auto;
 }
+kor-menu-item {
+  background: rgba(var(--neutral-1), .05);
+  padding: 12px 44px 12px 12px;
+  margin-left: unset;
+  margin-right: unset;
+  text-align: center;
+  &:hover {
+    background: rgba(var(--neutral-1), .1);
+  }
+}
