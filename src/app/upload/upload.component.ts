@@ -7,8 +7,8 @@ import { SharedService } from '../services/shared.service';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  @ViewChild('fileInput') fileInput: ElementRef;
-  uploadedImage: string;
+  @ViewChild('fileInput') fileInput: ElementRef | undefined;
+  uploadedImage: string | undefined;
 
   constructor(public sharedService: SharedService) { }
 
@@ -16,13 +16,16 @@ export class UploadComponent implements OnInit {
   }
 
   triggerUpload(): void {
-    this.fileInput.nativeElement.click();
+    this.fileInput?.nativeElement.click();
   }
 
-  uploadImage(file: File): void {
-    this.resizeImage(file).then((res: string) => {
-      this.uploadedImage = res;
-    });
+  uploadImage(tar: EventTarget | null): void {
+    const files = (<HTMLInputElement>tar).files;
+    if (files) {
+      this.resizeImage(files[0]).then((res: string) => {
+        this.uploadedImage = res;
+      });
+    }
   }
 
   async resizeImage(file: File, max: number = 800): Promise<string> {
@@ -34,8 +37,8 @@ export class UploadComponent implements OnInit {
       canvas = res[1];
     });
     // handle images bigger than max width/height
-    let width = img.naturalWidth;
-    let height = img.naturalHeight;
+    let width = img!.naturalWidth;
+    let height = img!.naturalHeight;
     if (width >= height && width > max) {
       height *= max / width;
       width = max;
@@ -43,13 +46,12 @@ export class UploadComponent implements OnInit {
       width *= max / height;
       height = max;
     }
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, width, height);
+    canvas!.width = width;
+    canvas!.height = height;
+    const ctx = canvas!.getContext('2d');
+    ctx!.drawImage(img!, 0, 0, width, height);
     // generate data url from drawn canvas
-    const result = canvas.toDataURL('image/png', 0.95);
-    return result;
+    return canvas!.toDataURL('image/png', 0.95);
   }
 
   private async createImgAndCanvas(
@@ -66,7 +68,7 @@ export class UploadComponent implements OnInit {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
+        ctx?.drawImage(img, 0, 0);
         resolve([img, canvas]);
       };
     });

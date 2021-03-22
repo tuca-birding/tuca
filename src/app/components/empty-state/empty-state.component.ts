@@ -6,9 +6,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./empty-state.component.scss']
 })
 export class EmptyStateComponent implements OnInit {
-  @Input() label: string;
-  @Input() header: string;
-  @Input() image: string;
+  @Input() label: string | undefined;
+  @Input() header: string | undefined;
+  @Input() image: string | undefined;
 
   constructor() { }
 

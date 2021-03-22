@@ -15,7 +15,7 @@
   <input
     type="file"
     accept="image/*"
-    (change)="uploadImage($event.target.files[0])"
+    (change)="uploadImage($event.target)"
     #fileInput
   />
 </ng-template>
@@ -24,14 +24,14 @@
   <kor-grid
     spacing="l"
     [columns]="sharedService.screenSize === 's' ? 1 : 2"
-    [ngClass]="sharedService.screenSize === 's' ? 'mobile' : null"
+    [ngClass]="sharedService.screenSize === 's' ? 'mobile' : ''"
   >
     <div class="image">
       <kor-text size="header-1">
         <kor-icon
           button
           icon="arrow_back"
-          (click)="uploadedImage = unset"
+          (click)="uploadedImage = undefined"
         ></kor-icon>
         Image
       </kor-text>

@@ -7,7 +7,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./user-drawer.component.scss']
 })
 export class UserDrawerComponent implements OnInit {
-  visible: boolean;
+  visible: boolean | undefined;
   @Output() close = new EventEmitter();
 
   constructor(public userService: UserService) { }
@@ -16,6 +16,12 @@ export class UserDrawerComponent implements OnInit {
     setTimeout(() => {
       this.visible = true;
     }, 0);
+  }
+
+  drawerVisibleChanged(tar: any): void {
+    if (!tar.visible) {
+      this.closeDrawer();
+    }
   }
 
   closeDrawer(): void {

@@ -8,13 +8,13 @@ import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
   providedIn: 'root'
 })
 export class UserService {
-  signInModalVisible: boolean;
-  userDrawerVisible: boolean;
-  user: User;
+  signInModalVisible: boolean | undefined;
+  userDrawerVisible: boolean | undefined;
+  user: User | undefined;
 
   constructor(public auth: AngularFireAuth, public firestore: AngularFirestore) {
     // listen to auth state change and update user
-    this.auth.onAuthStateChanged((authUser: firebase.User) => {
+    this.auth.onAuthStateChanged((authUser: firebase.User | null) => {
       this.getUser(authUser?.uid)
         .then((res: DocumentSnapshot<User>) => {
           // if user exists, subscribe to it, if not, set a new user
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   // search user database for authUser uid
-  getUser(userId: string): Promise<any> {
+  getUser(userId: string | undefined): Promise<any> {
     return this.firestore
       .collection<User>('users')
       .doc(userId)
@@ -37,13 +37,13 @@ export class UserService {
   }
 
   // set a new user
-  setUser(authUser: firebase.User) {
+  setUser(authUser: firebase.User | null) {
     if (authUser) {
       const userData: User = {
-        name: authUser.displayName,
-        image: authUser.photoURL,
-        email: authUser.email,
-        uid: authUser.uid
+        name: authUser.displayName!,
+        image: authUser.photoURL!,
+        email: authUser.email!,
+        uid: authUser.uid!
       };
       this.firestore
         .collection<User>('users')
@@ -52,7 +52,7 @@ export class UserService {
           this.subscribeToUser(userData);
         });
     } else {
-      this.user = null;
+      this.user = undefined;
     }
   }
 
@@ -62,7 +62,7 @@ export class UserService {
       .collection<User>('users')
       .doc(user.uid)
       .valueChanges()
-      .subscribe((res: User) => {
+      .subscribe((res: any) => {
         this.user = res;
       });
   }

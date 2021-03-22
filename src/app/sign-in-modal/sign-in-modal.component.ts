@@ -10,7 +10,7 @@ import { SharedService } from '../services/shared.service';
   styleUrls: ['./sign-in-modal.component.scss'],
 })
 export class SignInModalComponent implements OnInit {
-  visible: boolean;
+  visible: boolean | undefined;
   @Output() close = new EventEmitter();
 
   constructor(public userService: UserService, public sharedService: SharedService, public auth: AngularFireAuth) { }
@@ -22,6 +22,12 @@ export class SignInModalComponent implements OnInit {
     }, 0);
   }
 
+  modalVisibleChanged(tar: any): void {
+    if (!tar.visible) {
+      this.closeModal();
+    }
+  }
+
   closeModal(): void {
     this.visible = false;
     // wait for animation and remove component
@@ -30,14 +36,12 @@ export class SignInModalComponent implements OnInit {
 
   // triggers firebase auth
   signIn(provider: string): void {
+    const providers: { [key: string]: any; } = {
+      google: new firebase.auth.GoogleAuthProvider(),
+      facebook: new firebase.auth.FacebookAuthProvider()
+    };
     this.auth
-      .signInWithPopup(
-        provider === 'google'
-          ? new firebase.auth.GoogleAuthProvider()
-          : provider === 'facebook'
-            ? new firebase.auth.FacebookAuthProvider()
-            : undefined
-      )
+      .signInWithPopup(providers[provider])
       .then(() => {
         this.closeModal();
       });

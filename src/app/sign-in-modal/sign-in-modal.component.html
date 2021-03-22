@@ -1,7 +1,7 @@
 <kor-modal
   label="Sign In"
   [visible]="visible"
-  (visible-changed)="!$event.target.visible ? closeModal() : ''"
+  (visible-changed)="modalVisibleChanged($event.target)"
   [height]="sharedService.screenSize === 's' ? '100%' : '560px'"
 >
   <!-- illustration -->

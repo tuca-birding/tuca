@@ -1,6 +1,6 @@
 <kor-drawer
   [visible]="visible"
-  (visible-changed)="!$event.target.visible ? closeDrawer() : ''"
+  (visible-changed)="drawerVisibleChanged($event.target)"
   position="right"
 >
   <kor-avatar
