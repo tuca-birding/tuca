@@ -1,31 +1,33 @@
 :host {
-  display: flex;
   margin: 24px 0;
-  align-items: center;
-  // general rules
-  .image {
-    border-radius: 50%;
-    background: rgba(var(--neutral-1), .05);
+  .flex {
     display: flex;
     align-items: center;
-    justify-content: center;
-    kor-icon {
-      line-height: 48px;
-      font-size: 48px;
-      height: 48px;
-      width: 48px;
+    // general rules
+    .image {
+      border-radius: 50%;
+      background: rgba(var(--neutral-1), .05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      kor-icon {
+        line-height: 48px;
+        font-size: 48px;
+        height: 48px;
+        width: 48px;
+      }
     }
-  }
-  .text {
-    display: flex;
-    flex-direction: column;
-    kor-text[size="header-1"] {
-      font-size: 20px;
-      line-height: 1.5;
+    .text {
+      display: flex;
+      flex-direction: column;
+      kor-text[size="header-1"] {
+        font-size: 20px;
+        line-height: 1.5;
+      }
     }
   }
   // small screen size
-  &.mobile {
+  &.mobile .flex {
     flex-direction: column;
     text-align: center;
     > * + * {
@@ -37,7 +39,7 @@
     }
   }
   // large screen size
-  &:not(.mobile) {
+  &:not(.mobile) .flex {
     > * + * {
       margin-left: 16px;
     }

@@ -5,17 +5,13 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  kor-card.info {
+  kor-divider {
+    display: flex;
+  }
+  .info {
     color: var(--text-2);
     line-height: 1.5;
     text-align: left;
-    &.mobile {
-      width: 100%;
-      margin-top: 24px;
-    }
-    &:not(.mobile) {
-      max-width: fit-content;
-      margin-left: 24px;
-    }
+    width: 100%;
   }
 }
