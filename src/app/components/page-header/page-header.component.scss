@@ -1,6 +1,6 @@
 :host {
   display: flex;
-  margin: 16px 0;
+  margin: 24px 0;
   align-items: center;
   // general rules
   .image {
@@ -32,8 +32,8 @@
       margin-top: 16px;
     }
     .image {
-      width: 160px;
-      height: 160px;
+      width: 136px;
+      height: 136px;
     }
   }
   // large screen size
@@ -42,8 +42,8 @@
       margin-left: 16px;
     }
     .image {
-      width: 96px;
-      height: 96px;
+      width: 104px;
+      height: 104px;
     }
     .text {
       flex: 1;

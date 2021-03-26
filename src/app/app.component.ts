@@ -1,4 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 import { SharedService } from './services/shared.service';
 import { UserService } from './services/user.service';
 
@@ -14,7 +16,12 @@ export class AppComponent {
     this.sharedService.setScreenSize();
   }
 
-  constructor(public sharedService: SharedService, public userService: UserService) {
+  constructor(
+    public sharedService: SharedService,
+    public userService: UserService,
+    public router: Router,
+    public location: Location
+  ) {
     // when initializing, set screen size
     this.sharedService.setScreenSize();
   }

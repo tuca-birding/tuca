@@ -4,12 +4,16 @@
   [label]="taxon?.scientificName"
   [ngClass]="{'mobile': sharedService.screenSize === 's'}"
 >
-  <div
+  <kor-card
     class="info"
-    [style.margin]="sharedService.screenSize === 's' ? '32px 0 0 0' : '0 0 0 32px'"
+    [ngClass]="{'mobile': sharedService.screenSize === 's'}"
   >
-    <div class="label">Family: </div>{{taxon?.commonFamilyName}} ({{taxon?.scientificFamilyName}})
-    <br>
-    <div class="label">Order: </div>{{taxon?.order}}
-  </div>
+    <kor-text color="var(--text-2)">
+      Category: {{taxon?.category?.charAt(0)?.toUpperCase()}}{{taxon?.category?.slice(1)}}
+      <br>
+      Family: {{taxon?.commonFamilyName}} ({{taxon?.scientificFamilyName}})
+      <br>
+      Order: {{taxon?.order}}
+    </kor-text>
+  </kor-card>
 </app-page-header>

@@ -11,11 +11,20 @@
     [label]="sharedService.appLabel"
   >
     <img
+      *ngIf="router.url === '/upload'"
       height="24"
       src="../favicon.ico"
       slot="left"
       alt=""
     />
+    <!-- back icon -->
+    <kor-icon
+      *ngIf="router.url !== '/upload'"
+      slot="left"
+      icon="arrow_back"
+      button
+      (click)="location.back()"
+    ></kor-icon>
     <!-- user identifier -->
     <kor-avatar
       [slot]="sharedService.screenSize === 's' ? 'right' : 'functions'"

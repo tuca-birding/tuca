@@ -17,7 +17,9 @@ export class TaxonComponent implements OnInit {
     private route: ActivatedRoute,
     public sharedService: SharedService,
     private firestore: AngularFirestore
-  ) { }
+  ) {
+    this.sharedService.appLabel = 'Taxon';
+  }
 
   ngOnInit(): void {
     this.subscribeToRoute();
