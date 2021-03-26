@@ -1,0 +1,6 @@
+<app-page-header
+  [image]="taxon?.thumbnail"
+  [header]="taxon?.commonName?.en"
+  [label]="taxon?.scientificName"
+  [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+></app-page-header>

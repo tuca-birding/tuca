@@ -12,6 +12,8 @@ import { environment } from 'src/environments/environment';
 import { UserDrawerComponent } from './components/user-drawer/user-drawer.component';
 import { UploadComponent } from './upload/upload.component';
 import { EmptyStateComponent } from './components/empty-state/empty-state.component';
+import { TaxonComponent } from './taxon/taxon.component';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { EmptyStateComponent } from './components/empty-state/empty-state.compon
     SignInModalComponent,
     UserDrawerComponent,
     UploadComponent,
-    EmptyStateComponent
+    EmptyStateComponent,
+    TaxonComponent,
+    PageHeaderComponent
   ],
   imports: [
     BrowserModule,
