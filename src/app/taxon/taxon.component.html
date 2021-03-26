@@ -3,4 +3,13 @@
   [header]="taxon?.commonName?.en"
   [label]="taxon?.scientificName"
   [ngClass]="{'mobile': sharedService.screenSize === 's'}"
-></app-page-header>
+>
+  <div
+    class="info"
+    [style.margin]="sharedService.screenSize === 's' ? '32px 0 0 0' : '0 0 0 32px'"
+  >
+    <div class="label">Family: </div>{{taxon?.commonFamilyName}} ({{taxon?.scientificFamilyName}})
+    <br>
+    <div class="label">Order: </div>{{taxon?.order}}
+  </div>
+</app-page-header>
