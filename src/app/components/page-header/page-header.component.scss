@@ -1,6 +1,28 @@
 :host {
   display: flex;
   margin: 16px 0;
+  // general rules
+  .image {
+    border-radius: 50%;
+    background: rgba(var(--neutral-1), .05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    kor-icon {
+      line-height: 48px;
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+    }
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    kor-text[size="header-1"] {
+      font-size: 20px;
+      line-height: 1.5;
+    }
+  }
   // small screen size
   &.mobile {
     flex-direction: column;
@@ -27,23 +49,5 @@
       flex: 1;
       justify-content: center;
     }
-  }
-  // general rules
-  .image {
-    border-radius: 50%;
-    background: rgba(var(--neutral-1), .05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    kor-icon {
-      line-height: 48px;
-      font-size: 48px;
-      height: 48px;
-      width: 48px;
-    }
-  }
-  .text {
-    display: flex;
-    flex-direction: column;
   }
 }

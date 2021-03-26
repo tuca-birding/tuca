@@ -39,8 +39,6 @@ export class TaxonComponent implements OnInit {
       .toPromise()
       .then((taxon: firebase.firestore.DocumentSnapshot<Taxon>) => {
         this.taxon = taxon.data();
-        console.log(taxon.data());
-        console.log(taxonUid);
       });
   }
 
