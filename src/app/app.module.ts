@@ -17,6 +17,7 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
 import { MediaCardComponent } from './components/media-card/media-card.component';
 import { TaxonListComponent } from './taxon-list/taxon-list.component';
 import { AppBarComponent } from './components/app-bar/app-bar.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AppBarComponent } from './components/app-bar/app-bar.component';
     PageHeaderComponent,
     MediaCardComponent,
     TaxonListComponent,
-    AppBarComponent
+    AppBarComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

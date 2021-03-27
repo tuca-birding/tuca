@@ -1,3 +1,6 @@
-kor-avatar {
-  cursor: pointer;
+:host {
+  z-index: 3;
+  kor-avatar {
+    cursor: pointer;
+  }
 }

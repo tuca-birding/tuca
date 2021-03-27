@@ -1,0 +1,11 @@
+<kor-card [size]="false">
+  <kor-tabs>
+    <kor-tab-item
+      *ngFor="let tab of tabList"
+      [icon]="tab.icon"
+      [disabled]="tab.disabled"
+      [active]="router.url === tab.route"
+      (click)="router.navigateByUrl(tab.route)"
+    ></kor-tab-item>
+  </kor-tabs>
+</kor-card>

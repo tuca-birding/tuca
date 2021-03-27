@@ -5,6 +5,8 @@
 >
   <!-- app bar -->
   <app-app-bar slot="top"></app-app-bar>
+  <!-- nav bar -->
+  <app-nav-bar [slot]="sharedService.screenSize == 's' ? 'bottom' : 'left'"></app-nav-bar>
   <!-- body -->
   <router-outlet></router-outlet>
 </kor-page>
