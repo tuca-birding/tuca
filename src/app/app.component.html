@@ -8,7 +8,7 @@
     [mobile]="sharedService.screenSize === 's'"
     slot="top"
     logo="../favicon.ico"
-    [label]="sharedService.appLabel"
+    [label]="sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca'"
   >
     <img
       *ngIf="router.url === '/upload'"
