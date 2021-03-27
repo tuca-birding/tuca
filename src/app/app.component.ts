@@ -21,4 +21,11 @@ export class AppComponent {
     // when initializing, set screen size
     this.sharedService.setScreenSize();
   }
+
+  handlePageScroll(e: Event): void {
+    const tar = e.target as Element;
+    if (tar.scrollTop + tar.clientHeight + 200 >= tar.scrollHeight) {
+      this.sharedService.scrollBottomSubject.next();
+    }
+  }
 }

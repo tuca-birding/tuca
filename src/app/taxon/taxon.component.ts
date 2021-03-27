@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Media, Taxon, User } from '../interfaces';
 import firebase from 'firebase/app';
@@ -33,7 +33,7 @@ export class TaxonComponent implements OnInit {
       const taxonUid = params.get('taxonUid');
       if (taxonUid) {
         this.getTaxon(taxonUid);
-        this.getMediaList(taxonUid);
+        // this.getMediaList(taxonUid);
       }
     });
   }
@@ -52,7 +52,7 @@ export class TaxonComponent implements OnInit {
   private getMediaList(taxonUid: string) {
     // get all media matching taxon uid
     this.firestore
-      .collection<Media>('media', (ref) => ref.where('taxonUid', '==', taxonUid))
+      .collection<Media>('media', (ref: CollectionReference) => ref.where('taxonUid', '==', taxonUid))
       .get()
       .toPromise()
       .then((mediaResults: firebase.firestore.QuerySnapshot<Media>) => {

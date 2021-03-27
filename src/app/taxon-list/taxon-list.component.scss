@@ -1,0 +1,43 @@
+:host {
+  width: 100%;
+  height: fit-content;
+  max-width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  > kor-text[size="header-1"] {
+    font-size: 20px;
+    margin: 24px 0;
+  }
+  kor-table {
+    kor-icon {
+      display: flex;
+      background-size: cover;
+      overflow: hidden;
+      border-radius: 50%;
+      background-color: rgba(var(--neutral-1), .2);
+      padding: 8px;
+    }
+    kor-table-cell {
+      display: unset;
+      margin: auto 0;
+    }
+    .text {
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      display: grid;
+      kor-text {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    // mobile table
+    &.mobile {
+      .text {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

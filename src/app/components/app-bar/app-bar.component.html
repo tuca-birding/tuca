@@ -21,6 +21,7 @@
   ></kor-icon>
   <!-- user identifier -->
   <kor-avatar
+    [condensed]="sharedService.screenSize === 's'"
     [slot]="sharedService.screenSize === 's' ? 'right' : 'functions'"
     [image]="userService.user?.image"
     (click)="!userService.user ? userService.signInModalVisible = true : userService.userDrawerVisible = true"

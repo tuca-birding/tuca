@@ -1,19 +1,14 @@
 :host {
   display: flex;
   &[slot='left'] {
-    kor-card {
-      padding: 16px 0;
-    }
     kor-tabs {
+      margin: 8px 0;
       flex-direction: column;
     }
   }
   &[slot='bottom'] {
-    kor-card {
-      padding: 0 16px;
-      kor-tabs {
-        justify-content: center;
-      }
+    kor-tabs {
+      justify-content: center;
     }
   }
   kor-card {

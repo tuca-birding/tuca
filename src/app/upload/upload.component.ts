@@ -10,7 +10,9 @@ export class UploadComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   uploadedImage: string | undefined;
 
-  constructor(public sharedService: SharedService) { }
+  constructor(public sharedService: SharedService) {
+    sharedService.appLabel = 'Tuca';
+  }
 
   ngOnInit(): void {
   }
