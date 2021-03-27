@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../interfaces';
-import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,12 @@ export class UserService {
     // listen to auth state change and update user
     this.auth.onAuthStateChanged((authUser: firebase.User | null) => {
       this.getUser(authUser?.uid)
-        .then((res: DocumentSnapshot<User>) => {
-          // if user exists, subscribe to it, if not, set a new user
-          if (res.exists) {
-            this.subscribeToUser(res.data());
+        .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
+          if (userDocSnapshot.exists) {
+            // if user exists, assign it
+            this.subscribeToUser(userDocSnapshot.data()!.uid);
           } else {
+            // if not, set a new user
             this.setUser(authUser);
           }
         });
@@ -28,10 +29,10 @@ export class UserService {
   }
 
   // search user database for authUser uid
-  getUser(userId: string | undefined): Promise<any> {
+  getUser(userUid: string | undefined): Promise<firebase.firestore.DocumentSnapshot<User>> {
     return this.firestore
       .collection<User>('users')
-      .doc(userId)
+      .doc(userUid)
       .get()
       .toPromise();
   }
@@ -49,7 +50,7 @@ export class UserService {
         .collection<User>('users')
         .doc(authUser.uid)
         .set(userData).then(() => {
-          this.subscribeToUser(userData);
+          this.subscribeToUser(userData.uid);
         });
     } else {
       this.user = undefined;
@@ -57,13 +58,13 @@ export class UserService {
   }
 
   // subscribe to user document
-  subscribeToUser(user: User): void {
+  subscribeToUser(userUid: string): void {
     this.firestore
       .collection<User>('users')
-      .doc(user.uid)
+      .doc(userUid)
       .valueChanges()
-      .subscribe((res: any) => {
-        this.user = res;
+      .subscribe((user: User | undefined) => {
+        this.user = user;
       });
   }
 

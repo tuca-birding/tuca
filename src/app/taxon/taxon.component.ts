@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Media, Taxon, User } from '../interfaces';
 import firebase from 'firebase/app';
 import { SharedService } from '../services/shared.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-taxon',
@@ -17,7 +18,8 @@ export class TaxonComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public sharedService: SharedService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private userService: UserService
   ) {
     this.sharedService.appLabel = 'Taxon';
   }
@@ -58,7 +60,7 @@ export class TaxonComponent implements OnInit {
         mediaResults.forEach((media: firebase.firestore.QueryDocumentSnapshot<Media>) => {
           let mediaData: Media = media.data();
           // get user doc promise
-          this.getUserDoc(media.data().ownerUid)
+          this.userService.getUser(media.data().ownerUid)
             .then((userDoc: firebase.firestore.DocumentSnapshot<User>) => {
               // assign taxon doc to media doc
               mediaData.ownerDoc = userDoc.data();
@@ -68,13 +70,5 @@ export class TaxonComponent implements OnInit {
         });
       });
   };
-
-  public getUserDoc(userUid: string): Promise<firebase.firestore.DocumentSnapshot<User>> {
-    return this.firestore
-      .collection<User>('users')
-      .doc(userUid)
-      .get()
-      .toPromise();
-  }
 
 }

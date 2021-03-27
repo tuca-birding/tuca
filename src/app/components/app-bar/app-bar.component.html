@@ -1,0 +1,38 @@
+<kor-app-bar
+  [mobile]="sharedService.screenSize === 's'"
+  logo="../favicon.ico"
+  [label]="sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca'"
+>
+  <img
+    *ngIf="router.url === '/upload'"
+    height="24"
+    src="../favicon.ico"
+    slot="left"
+    alt=""
+  />
+  <!-- back icon -->
+  <kor-icon
+    *ngIf="router.url !== '/upload'"
+    slot="left"
+    icon="arrow_back"
+    button
+    (click)="location.back()"
+  ></kor-icon>
+  <!-- user identifier -->
+  <kor-avatar
+    [slot]="sharedService.screenSize === 's' ? 'right' : 'functions'"
+    [image]="userService.user?.image"
+    (click)="!userService.user ? userService.signInModalVisible = true : userService.userDrawerVisible = true"
+  ></kor-avatar>
+</kor-app-bar>
+
+<!-- sign in modal -->
+<app-sign-in-modal
+  *ngIf="userService.signInModalVisible"
+  (close)="userService.signInModalVisible = false"
+></app-sign-in-modal>
+<!-- user drawer -->
+<app-user-drawer
+  *ngIf="userService.userDrawerVisible"
+  (close)="userService.userDrawerVisible = false"
+></app-user-drawer>
