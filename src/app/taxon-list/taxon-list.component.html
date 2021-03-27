@@ -2,6 +2,19 @@
   size="header-1"
   *ngIf="sharedService.screenSize !== 's'"
 >Taxon List</kor-text>
+<!-- search -->
+<kor-input
+  (keydown.enter)="handleSearch($event.target)"
+  label="Search for name..."
+  no-clear
+>
+  <kor-icon
+    icon="search"
+    slot="functions"
+    (click)="handleSearch($event.target)"
+  ></kor-icon>
+</kor-input>
+<!-- table -->
 <kor-table
   columns="auto 1fr"
   [ngClass]="{'mobile': sharedService.screenSize === 's'}"

@@ -33,13 +33,14 @@ export class TaxonListComponent implements OnInit {
     });
   }
 
-  private getTaxonList(): void {
+  private getTaxonList(searchTerm?: string | null): void {
     // set fetching
     this.fetching = true;
     // query taxon collection
     this.firestore
       .collection<Taxon>('genus', (ref: CollectionReference) => ref
         .orderBy('commonName.en')
+        .where('commonName.en', '>=', searchTerm ? searchTerm : '')
         .limit(20)
         .startAfter(this.lastTaxonRef ? this.lastTaxonRef : 0))
       .get()
@@ -53,6 +54,28 @@ export class TaxonListComponent implements OnInit {
         // reset fetching
         this.fetching = false;
       });
+  }
+
+  private capitalizeString(string: string | null): string | undefined {
+    const wordArray = string?.split(' ');
+    if (wordArray) {
+      for (let i = 0; i < wordArray?.length; i++) {
+        if (wordArray[i]) {
+          wordArray[i] = `${wordArray[i][0]?.toUpperCase()}${wordArray[i].substr(1)}`;
+        }
+      }
+    }
+    return wordArray?.join(' ');
+  }
+
+  handleSearch(tar: any): void {
+    // find input node to get search term
+    const searchTerm: string = tar.closest('kor-input').getAttribute('value');
+    // reset prior queries
+    this.taxonList = [];
+    this.lastTaxonRef = undefined;
+    // get new query based on capitalized search term
+    this.getTaxonList(this.capitalizeString(searchTerm));
   }
 
 }
