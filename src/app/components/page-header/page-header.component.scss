@@ -8,7 +8,7 @@
     // general rules
     .image {
       border-radius: 50%;
-      background: rgba(var(--neutral-1), .05);
+      background: rgba(var(--accent-1), .2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -17,6 +17,7 @@
         font-size: 48px;
         height: 48px;
         width: 48px;
+        color: rgb(var(--accent-1));
       }
     }
     .text {
