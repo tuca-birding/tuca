@@ -6,7 +6,6 @@
   [ngClass]="{'mobile': sharedService.screenSize === 's'}"
 >
   <!-- information -->
-  <kor-divider spacing="l"></kor-divider>
   <div class="info">
     <kor-text color="var(--text-2)">Category:</kor-text>
     <kor-text>{{taxon?.category?.charAt(0)?.toUpperCase()}}{{taxon?.category?.slice(1)}}</kor-text>
@@ -17,7 +16,6 @@
     <kor-text color="var(--text-2)">Order:</kor-text>
     <kor-text>{{taxon?.order}}</kor-text>
   </div>
-  <kor-divider spacing="l"></kor-divider>
 </app-page-header>
 <!-- media grid -->
 <kor-grid

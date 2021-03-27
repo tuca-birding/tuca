@@ -1,5 +1,7 @@
 :host {
   margin: 24px 0;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(var(--neutral-1), .2);
   display: flex;
   flex-direction: column;
   .flex {
@@ -7,8 +9,9 @@
     align-items: center;
     // general rules
     .image {
+      overflow: hidden;
       border-radius: 50%;
-      background: rgba(var(--accent-1), .2);
+      background: rgba(var(--accent-1), .1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -18,6 +21,11 @@
         height: 48px;
         width: 48px;
         color: rgb(var(--accent-1));
+      }
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
       }
     }
     .text {
