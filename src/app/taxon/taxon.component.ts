@@ -33,7 +33,7 @@ export class TaxonComponent implements OnInit {
       const taxonUid = params.get('taxonUid');
       if (taxonUid) {
         this.getTaxon(taxonUid);
-        // this.getMediaList(taxonUid);
+        this.getMediaList(taxonUid);
       }
     });
   }
