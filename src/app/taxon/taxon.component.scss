@@ -9,9 +9,9 @@
     display: flex;
   }
   .info {
-    color: var(--text-2);
-    line-height: 1.5;
-    text-align: left;
     width: 100%;
+    kor-text:not([color]) {
+      font-weight: bold;
+    }
   }
 }

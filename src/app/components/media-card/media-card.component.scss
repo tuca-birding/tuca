@@ -1,0 +1,28 @@
+:host {
+  overflow: hidden;
+  > * + * {
+    margin-top: 8px;
+  }
+  .image {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+    }
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    kor-text {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}

@@ -14,6 +14,7 @@ import { UploadComponent } from './upload/upload.component';
 import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 import { TaxonComponent } from './taxon/taxon.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { MediaCardComponent } from './components/media-card/media-card.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     UploadComponent,
     EmptyStateComponent,
     TaxonComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
+    MediaCardComponent
   ],
   imports: [
     BrowserModule,

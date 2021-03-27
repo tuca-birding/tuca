@@ -4,7 +4,9 @@ export interface User {
   email: string,
   image: string,
 }
+
 export interface Taxon {
+  uid: string,
   category: string,
   commonFamilyName: string,
   commonName: {
@@ -16,5 +18,17 @@ export interface Taxon {
   scientificFamilyName: string,
   scientificName: string,
   thumbnail: string,
-  uid: string,
+}
+
+export interface Media {
+  uid: string;
+  type: string;
+  imageUrl: string;
+  thumbnailUrl: string;
+  date: Date;
+  uploadDate: Date;
+  ownerUid: string;
+  ownerDoc?: User;
+  taxonUid: string;
+  taxonDoc?: Taxon;
 }

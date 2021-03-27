@@ -1,0 +1,16 @@
+<!-- image -->
+<div class="image">
+  <img
+    *ngIf="image"
+    [src]="image"
+    alt="A bird photo or audio"
+  />
+</div>
+<!-- text -->
+<div class="text">
+  <kor-text
+    *ngIf="header"
+    size="header-1"
+  >{{header}}</kor-text>
+  <kor-text *ngIf="label">{{label}}</kor-text>
+</div>

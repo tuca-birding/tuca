@@ -1,5 +1,7 @@
 :host {
   margin: 24px 0;
+  display: flex;
+  flex-direction: column;
   .flex {
     display: flex;
     align-items: center;
