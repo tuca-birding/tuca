@@ -5,9 +5,6 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  kor-divider {
-    display: flex;
-  }
   .info {
     width: 100%;
     kor-text:not([color]) {
