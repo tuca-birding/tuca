@@ -4,7 +4,7 @@
 >
   <!-- mobile logo -->
   <img
-    *ngIf="router.url === '/upload'"
+    *ngIf="sharedService.screenSize !== 's' || router.url === '/upload'"
     height="24"
     src="../favicon.ico"
     [slot]="sharedService.screenSize === 's' ? 'left' : ''"
