@@ -25,7 +25,7 @@ export class TaxonListComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTaxonList();
-    // subscribe to 
+    // subscribe to scroll bottom event and set list if not already fetching
     this.sharedService.scrollBottomSubject.subscribe(() => {
       if (!this.fetching) {
         this.setTaxonList();

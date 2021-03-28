@@ -22,7 +22,7 @@ export class UploadComponent implements OnInit {
   }
 
   uploadImage(tar: EventTarget | null): void {
-    const files = (<HTMLInputElement>tar).files;
+    const files = (tar as HTMLInputElement).files;
     if (files) {
       this.resizeImage(files[0]).then((res: string) => {
         this.uploadedImage = res;

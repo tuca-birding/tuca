@@ -8,7 +8,7 @@ export class SharedService {
   screenSize: string | undefined;
   appTheme = 'light';
   appLabel = 'Tuca';
-  scrollBottomSubject: Subject<any> = new Subject();;
+  scrollBottomSubject: Subject<any> = new Subject();
 
   constructor() { }
 

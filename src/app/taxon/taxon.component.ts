@@ -59,7 +59,7 @@ export class TaxonComponent implements OnInit {
       .then((mediaResults: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
         mediaResults.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
-          let mediaData: Media = mediaDocSnapshot.data();
+          const mediaData: Media = mediaDocSnapshot.data();
           // get user doc promise
           this.userService.getUser(mediaDocSnapshot.data().ownerUid)
             .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
@@ -70,6 +70,6 @@ export class TaxonComponent implements OnInit {
           this.mediaList.push(mediaData);
         });
       });
-  };
+  }
 
 }

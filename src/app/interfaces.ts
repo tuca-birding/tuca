@@ -1,23 +1,23 @@
 export interface User {
-  uid: string,
-  name: string,
-  email: string,
-  image: string,
+  uid: string;
+  name: string;
+  email: string;
+  image: string;
 }
 
 export interface Taxon {
-  uid: string,
-  category: string,
-  commonFamilyName: string,
+  uid: string;
+  category: string;
+  commonFamilyName: string;
   commonName: {
     en: string;
-  },
-  description: string,
-  externalId: string,
-  order: string,
-  scientificFamilyName: string,
-  scientificName: string,
-  thumbnail: string,
+  };
+  description: string;
+  externalId: string;
+  order: string;
+  scientificFamilyName: string;
+  scientificName: string;
+  thumbnail: string;
 }
 
 export interface Media {
