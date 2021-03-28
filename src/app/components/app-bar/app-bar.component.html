@@ -1,16 +1,20 @@
 <kor-app-bar
   [mobile]="sharedService.screenSize === 's'"
-  logo="../favicon.ico"
-  [label]="sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca'"
+  [label]="sharedService.screenSize === 's' ? sharedService.appLabel : ''"
 >
   <!-- mobile logo -->
   <img
     *ngIf="router.url === '/upload'"
     height="24"
     src="../favicon.ico"
-    slot="left"
+    [slot]="sharedService.screenSize === 's' ? 'left' : ''"
     alt=""
   />
+  <!-- desktop label -->
+  <kor-text
+    *ngIf="sharedService.screenSize !== 's'"
+    size="header-1"
+  >{{sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca'}}</kor-text>
   <!-- back icon -->
   <kor-icon
     *ngIf="router.url !== '/upload'"
