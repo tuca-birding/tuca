@@ -26,7 +26,8 @@
     *ngFor="let media of mediaList"
     [header]="taxon?.commonName?.en"
     [label]="media.ownerDoc?.name"
-    [image]="media.imageUrl"
+    [image]="media.image"
+    (click)="router.navigateByUrl('/media/' + media.uid)"
   >
   </app-media-card>
 </kor-grid>

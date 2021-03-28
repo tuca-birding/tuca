@@ -1,0 +1,7 @@
+<ng-container *ngIf="media">
+  <img
+    [src]="media.image"
+    alt="An image of a bird"
+  />
+  <kor-text size="header-1">{{media.taxonDoc?.commonName?.en}}</kor-text>
+</ng-container>

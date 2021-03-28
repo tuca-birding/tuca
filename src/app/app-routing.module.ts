@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MediaComponent } from './media/media.component';
 import { TaxonListComponent } from './taxon-list/taxon-list.component';
 import { TaxonComponent } from './taxon/taxon.component';
 import { UploadComponent } from './upload/upload.component';
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'taxon/:taxonUid',
     component: TaxonComponent
+  },
+  {
+    path: 'media/:mediaUid',
+    component: MediaComponent
   }
 ];
 

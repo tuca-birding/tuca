@@ -23,12 +23,12 @@ export interface Taxon {
 export interface Media {
   uid: string;
   type: string;
-  imageUrl: string;
-  thumbnailUrl: string;
+  image: string;
+  thumbnail: string;
   date: Date;
   uploadDate: Date;
   ownerUid: string;
-  ownerDoc?: User;
   taxonUid: string;
+  ownerDoc?: User;
   taxonDoc?: Taxon;
 }

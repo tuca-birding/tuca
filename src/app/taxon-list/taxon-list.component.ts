@@ -24,16 +24,16 @@ export class TaxonListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTaxonList();
+    this.setTaxonList();
     // subscribe to 
     this.sharedService.scrollBottomSubject.subscribe(() => {
       if (!this.fetching) {
-        this.getTaxonList();
+        this.setTaxonList();
       }
     });
   }
 
-  private getTaxonList(searchTerm?: string | null): void {
+  private setTaxonList(searchTerm?: string | null): void {
     // set fetching
     this.fetching = true;
     // query taxon collection
@@ -75,7 +75,7 @@ export class TaxonListComponent implements OnInit {
     this.taxonList = [];
     this.lastTaxonRef = undefined;
     // get new query based on capitalized search term
-    this.getTaxonList(this.capitalizeString(searchTerm));
+    this.setTaxonList(this.capitalizeString(searchTerm));
   }
 
 }
