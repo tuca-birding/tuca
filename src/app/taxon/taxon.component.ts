@@ -5,6 +5,7 @@ import { Media, Taxon, User } from '../interfaces';
 import { SharedService } from '../services/shared.service';
 import { UserService } from '../services/user.service';
 import firebase from 'firebase/app';
+import { TaxonService } from '../services/taxon.service';
 
 @Component({
   selector: 'app-taxon',
@@ -20,7 +21,8 @@ export class TaxonComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
-    private userService: UserService
+    private userService: UserService,
+    private taxonService: TaxonService
   ) {
     this.sharedService.appLabel = 'Taxon';
   }
@@ -33,21 +35,13 @@ export class TaxonComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       const taxonUid = params.get('taxonUid');
       if (taxonUid) {
-        this.setTaxon(taxonUid);
+        this.taxonService.getTaxon(taxonUid)
+          .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+            this.taxon = taxonDocSnapshot.data();
+          });
         this.setMediaList(taxonUid);
       }
     });
-  }
-
-  private setTaxon(taxonUid: string): void {
-    this.firestore
-      .collection<Taxon>('genus')
-      .doc(taxonUid)
-      .get()
-      .toPromise()
-      .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-        this.taxon = taxonDocSnapshot.data();
-      });
   }
 
   private setMediaList(taxonUid: string) {
@@ -56,9 +50,9 @@ export class TaxonComponent implements OnInit {
       .collection<Media>('media', (ref: CollectionReference) => ref.where('taxonUid', '==', taxonUid))
       .get()
       .toPromise()
-      .then((mediaResults: firebase.firestore.QuerySnapshot<Media>) => {
+      .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
-        mediaResults.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
+        mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
           const mediaData: Media = mediaDocSnapshot.data();
           // get user doc promise
           this.userService.getUser(mediaDocSnapshot.data().ownerUid)
@@ -66,7 +60,7 @@ export class TaxonComponent implements OnInit {
               // assign taxon doc to media doc
               mediaData.ownerDoc = userDocSnapshot.data();
             });
-          // push media data do media list
+          // push media data to media list
           this.mediaList.push(mediaData);
         });
       });

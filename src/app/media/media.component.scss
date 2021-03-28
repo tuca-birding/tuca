@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  img {
+    margin: -16px -16px 16px -16px;
+    width: calc(100% + 32px);
+    height: calc(100vh - 200px);
+    max-height: 800px;
+    object-fit: scale-down;
+    background: black;
+  }
+}
