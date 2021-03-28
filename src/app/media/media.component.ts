@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Media, Taxon, User } from '../interfaces';
 import firebase from 'firebase/app';
 import { UserService } from '../services/user.service';
@@ -16,7 +16,8 @@ export class MediaComponent implements OnInit {
   media: Media | undefined;
 
   constructor(
-    private sharedService: SharedService,
+    public sharedService: SharedService,
+    public router: Router,
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
     private userService: UserService,

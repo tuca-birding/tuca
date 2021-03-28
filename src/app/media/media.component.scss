@@ -1,12 +1,52 @@
 :host {
-  display: flex;
-  flex-direction: column;
   img {
-    margin: -16px -16px 16px -16px;
+    margin: -16px -16px 0 -16px;
     width: calc(100% + 32px);
     height: calc(100vh - 200px);
     max-height: 800px;
     object-fit: scale-down;
     background: black;
   }
+  .content {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    .header {
+      display: grid;
+      grid-gap: 8px;
+      margin-top: 24px;
+      &:not(.mobile) {
+        grid-template-columns: 1fr auto;
+      }
+      .taxon {
+        kor-text[size="header-1"] {
+          font-size: 20px;
+          line-height: 1.5;
+        }
+      }
+      .details {
+        display: grid;
+        grid-gap: 8px;
+        > div {
+          font: var(--body-1);
+          color: var(--text-2);
+          display: flex;
+          > kor-icon {
+            margin-right: 8px;
+            &[icon^='url'] {
+              border-radius: 50%;
+              overflow: hidden;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+:host, .content, .taxon {
+  display: flex;
+  flex-direction: column;
+}
+.owner, .taxon {
+  cursor: pointer;
 }

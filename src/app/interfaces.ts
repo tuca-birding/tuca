@@ -25,8 +25,8 @@ export interface Media {
   type: string;
   image: string;
   thumbnail: string;
-  date: Date;
-  uploadDate: Date;
+  date: Date | any;
+  uploadDate: Date | any;
   ownerUid: string;
   taxonUid: string;
   ownerDoc?: User;
