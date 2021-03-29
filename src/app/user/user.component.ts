@@ -15,7 +15,7 @@ export class UserComponent implements OnInit {
   user: User | undefined;
 
   constructor(
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     private userService: UserService,
     private route: ActivatedRoute
   ) {

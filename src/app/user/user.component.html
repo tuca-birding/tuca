@@ -1,1 +1,7 @@
-<p>user works!</p>
+<!-- page header -->
+<app-page-header
+  [image]="user?.image"
+  [header]="user?.name"
+  [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+>
+</app-page-header>
