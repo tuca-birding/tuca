@@ -4,8 +4,8 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Media, Taxon, User } from '../interfaces';
 import { SharedService } from '../services/shared.service';
 import { UserService } from '../services/user.service';
-import firebase from 'firebase/app';
 import { TaxonService } from '../services/taxon.service';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-taxon',
@@ -13,8 +13,8 @@ import { TaxonService } from '../services/taxon.service';
   styleUrls: ['./taxon.component.scss']
 })
 export class TaxonComponent implements OnInit {
-  public taxon: Taxon | undefined;
-  public mediaList: Media[] = [];
+  taxon: Taxon | undefined;
+  mediaList: Media[] = [];
 
   constructor(
     public sharedService: SharedService,

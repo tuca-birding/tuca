@@ -9,14 +9,17 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavBarComponent implements OnInit {
   tabList = [
-    { icon: 'file_upload', route: '/upload', disabled: false },
-    { icon: 'assignment', route: '/taxon-list', disabled: false },
-    { icon: 'face', route: `/user/${this.userService.user?.uid}`, disabled: !this.userService.user }
+    { icon: 'file_upload', route: '/upload' },
+    { icon: 'assignment', route: '/taxon-list' }
   ];
 
   constructor(public router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
+  }
+
+  getUserRoute(): string {
+    return this.userService.user ? `/user/${this.userService.user?.uid}` : '';
   }
 
 }

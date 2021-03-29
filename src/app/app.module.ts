@@ -19,6 +19,7 @@ import { TaxonListComponent } from './taxon-list/taxon-list.component';
 import { AppBarComponent } from './components/app-bar/app-bar.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MediaComponent } from './media/media.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MediaComponent } from './media/media.component';
     TaxonListComponent,
     AppBarComponent,
     NavBarComponent,
-    MediaComponent
+    MediaComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

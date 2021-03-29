@@ -4,6 +4,7 @@ import { MediaComponent } from './media/media.component';
 import { TaxonListComponent } from './taxon-list/taxon-list.component';
 import { TaxonComponent } from './taxon/taxon.component';
 import { UploadComponent } from './upload/upload.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'media/:mediaUid',
     component: MediaComponent
+  },
+  {
+    path: 'user/:userUid',
+    component: UserComponent
   }
 ];
 

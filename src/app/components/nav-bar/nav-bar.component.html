@@ -3,9 +3,15 @@
     <kor-tab-item
       *ngFor="let tab of tabList"
       [icon]="tab.icon"
-      [disabled]="tab.disabled"
       [active]="router.url === tab.route"
       (click)="router.navigateByUrl(tab.route)"
+    ></kor-tab-item>
+    <!-- user tab -->
+    <kor-tab-item
+      icon="face"
+      [active]="router.url === getUserRoute()"
+      [disabled]="getUserRoute() === ''"
+      (click)="router.navigateByUrl(getUserRoute())"
     ></kor-tab-item>
   </kor-tabs>
 </kor-card>

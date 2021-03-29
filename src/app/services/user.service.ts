@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from '../interfaces';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { User } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class UserService {
   userDrawerVisible: boolean | undefined;
   user: User | undefined;
 
-  constructor(public auth: AngularFireAuth, public firestore: AngularFirestore) {
+  constructor(private auth: AngularFireAuth, private firestore: AngularFirestore) {
     // listen to auth state change and update user
     this.auth.onAuthStateChanged((authUser: firebase.User | null) => {
       this.getUser(authUser?.uid)
@@ -40,12 +40,14 @@ export class UserService {
   // set a new user
   setUser(authUser: firebase.User | null) {
     if (authUser) {
+      // model authUser
       const userData: User = {
         name: authUser.displayName!,
         image: authUser.photoURL!,
         email: authUser.email!,
         uid: authUser.uid!
       };
+      // then push it to firestore
       this.firestore
         .collection<User>('users')
         .doc(authUser.uid)
@@ -59,11 +61,13 @@ export class UserService {
 
   // subscribe to user document
   subscribeToUser(userUid: string): void {
+    // subscribe to new user
     this.firestore
       .collection<User>('users')
       .doc(userUid)
       .valueChanges()
       .subscribe((user: User | undefined) => {
+        // set user document
         this.user = user;
       });
   }
