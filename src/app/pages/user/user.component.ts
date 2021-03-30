@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { SharedService } from '../services/shared.service';
-import { UserService } from '../services/user.service';
+import { SharedService } from '../../services/shared.service';
+import { UserService } from '../../services/user.service';
 import firebase from 'firebase/app';
-import { Media, Taxon, User } from '../interfaces';
-import { MediaService } from '../services/media.service';
-import { TaxonService } from '../services/taxon.service';
+import { Media, Taxon, User } from '../../interfaces';
+import { MediaService } from '../../services/media.service';
+import { TaxonService } from '../../services/taxon.service';
 
 
 @Component({

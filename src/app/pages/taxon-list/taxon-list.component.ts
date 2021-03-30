@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
-import { Taxon } from '../interfaces';
-import { SharedService } from '../services/shared.service';
+import { Taxon } from '../../interfaces';
+import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
 import { Router } from '@angular/router';
 

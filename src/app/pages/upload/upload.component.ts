@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { SharedService } from '../services/shared.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-upload',

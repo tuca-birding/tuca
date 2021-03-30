@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavBarComponent implements OnInit {
   tabList = [
+    { icon: 'home', route: '/home' },
     { icon: 'file_upload', route: '/upload' },
     { icon: 'assignment', route: '/taxon-list' }
   ];

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Media, Taxon, User } from '../interfaces';
-import { SharedService } from '../services/shared.service';
-import { UserService } from '../services/user.service';
-import { TaxonService } from '../services/taxon.service';
+import { Media, Taxon, User } from '../../interfaces';
+import { SharedService } from '../../services/shared.service';
+import { UserService } from '../../services/user.service';
+import { TaxonService } from '../../services/taxon.service';
 import firebase from 'firebase/app';
-import { MediaService } from '../services/media.service';
+import { MediaService } from '../../services/media.service';
 
 @Component({
   selector: 'app-taxon',

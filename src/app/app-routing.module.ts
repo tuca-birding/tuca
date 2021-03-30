@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MediaComponent } from './media/media.component';
-import { TaxonListComponent } from './taxon-list/taxon-list.component';
-import { TaxonComponent } from './taxon/taxon.component';
-import { UploadComponent } from './upload/upload.component';
-import { UserComponent } from './user/user.component';
+import { HomeComponent } from './pages/home/home.component';
+import { MediaComponent } from './pages/media/media.component';
+import { TaxonListComponent } from './pages/taxon-list/taxon-list.component';
+import { TaxonComponent } from './pages/taxon/taxon.component';
+import { UploadComponent } from './pages/upload/upload.component';
+import { UserComponent } from './pages/user/user.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'upload',
+    redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
   },
   {
     path: 'upload',

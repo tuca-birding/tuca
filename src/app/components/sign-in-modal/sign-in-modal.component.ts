@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { SharedService } from '../services/shared.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-sign-in-modal',

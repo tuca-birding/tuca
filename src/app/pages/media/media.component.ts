@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Media, Taxon, User } from '../interfaces';
+import { Media, Taxon, User } from '../../interfaces';
 import firebase from 'firebase/app';
-import { UserService } from '../services/user.service';
-import { SharedService } from '../services/shared.service';
-import { TaxonService } from '../services/taxon.service';
+import { UserService } from '../../services/user.service';
+import { SharedService } from '../../services/shared.service';
+import { TaxonService } from '../../services/taxon.service';
 
 @Component({
   selector: 'app-media',

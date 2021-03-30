@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, CollectionReference, QuerySnapshot } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import firebase from 'firebase/app';
 import { Media } from '../interfaces';
 
