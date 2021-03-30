@@ -9,12 +9,15 @@
     src="../favicon.ico"
     [slot]="sharedService.screenSize === 's' ? 'left' : ''"
     alt=""
+    (click)="router.navigateByUrl('')"
   />
   <!-- desktop label -->
   <kor-text
     *ngIf="sharedService.screenSize !== 's'"
     size="header-1"
-  >{{sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca'}}</kor-text>
+  >
+    {{sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca'}}
+  </kor-text>
   <!-- back icon -->
   <kor-icon
     *ngIf="router.url !== '/upload'"
@@ -25,7 +28,6 @@
   ></kor-icon>
   <!-- user identifier -->
   <kor-avatar
-    [condensed]="sharedService.screenSize === 's'"
     [slot]="sharedService.screenSize === 's' ? 'right' : 'functions'"
     [image]="userService.user?.image"
     (click)="!userService.user ? userService.signInModalVisible = true : userService.userDrawerVisible = true"

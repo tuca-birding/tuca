@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -6,8 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  carousels = [
+    { label: 'Recent media' },
+    { label: 'Featured species' },
+    { label: 'Featured users' },
+  ];
 
-  constructor() { }
+  constructor(public sharedService: SharedService, public router: Router) { }
 
   ngOnInit(): void {
   }

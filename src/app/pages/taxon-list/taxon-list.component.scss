@@ -13,33 +13,36 @@
     margin-bottom: 24px;
   }
   > kor-table {
-    kor-icon {
-      display: flex;
-      background-size: cover;
-      overflow: hidden;
-      border-radius: 50%;
-      background-color: rgba(var(--neutral-1), .2);
-      padding: 8px;
-    }
-    kor-table-cell {
-      display: unset;
-      margin: auto 0;
-    }
-    .text {
-      grid-template-columns: 1fr 1fr;
-      width: 100%;
-      display: grid;
-      kor-text {
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
     // mobile table
     &.mobile {
       .text {
         grid-template-columns: 1fr;
+      }
+    }
+    * {
+      cursor: pointer;
+    }
+    kor-table-cell {
+      display: unset;
+      margin: auto 0;
+      kor-icon {
+        display: flex;
+        background-size: cover;
+        overflow: hidden;
+        border-radius: 50%;
+        background-color: rgba(var(--neutral-1), .1);
+        padding: 8px;
+      }
+      .text {
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        display: grid;
+        kor-text {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }

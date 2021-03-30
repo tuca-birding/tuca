@@ -1,1 +1,31 @@
-<p>home works!</p>
+<div class="banner">
+  <app-empty-state
+    header="What the bird?"
+    label="Upload a bird picture and we tell you what it is"
+    image="https://ouch-cdn.icons8.com/preview/284/4ee61a37-4228-46e5-b85f-135679e8ab2f.png"
+  >
+    <!-- button -->
+    <kor-button
+      label="Upload"
+      (click)="router.navigateByUrl('/upload')"
+    ></kor-button>
+  </app-empty-state>
+</div>
+<!-- carousel -->
+<div
+  class="carousel"
+  *ngFor="let carousel of carousels"
+>
+  <kor-text size="header-1">{{carousel.label}}</kor-text>
+  <kor-grid
+    fit-content
+    [columns]="sharedService.screenSize === 's' ? '8' : '4'"
+  >
+    <app-media-card
+      *ngFor="let item of [].constructor(8)"
+      header="Lorem Ipsum"
+      label="Lorem Ipsum"
+      image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Teque-teque.jpg/1200px-Teque-teque.jpg"
+    ></app-media-card>
+  </kor-grid>
+</div>

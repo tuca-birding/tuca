@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  max-width: 1024px;
+  margin: 0 auto;
+  .banner {
+    display: flex;
+    height: 480px;
+    max-height: calc(100vh - 320px);
+    background-color: rgba(var(--neutral-1), .05);
+    border-radius: 4px;
+  }
+  .carousel {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(var(--neutral-1), .2);
+  }
+  kor-text[size="header-1"] {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-top: 24px;
+  }
+  kor-grid {
+    margin: 0 -16px;
+    padding: 16px;
+    overflow: auto;
+    // mobile carousel
+    &[columns="8"] {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      app-media-card {
+        min-width: 160px;
+      }
+    }
+  }
+}
