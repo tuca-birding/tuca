@@ -4,7 +4,7 @@
 >
   <!-- mobile logo -->
   <img
-    *ngIf="sharedService.screenSize !== 's' || router.url === '/upload'"
+    *ngIf="sharedService.screenSize !== 's' || router.url === '/home'"
     height="24"
     src="../favicon.ico"
     [slot]="sharedService.screenSize === 's' ? 'left' : ''"
@@ -20,7 +20,7 @@
   </kor-text>
   <!-- back icon -->
   <kor-icon
-    *ngIf="router.url !== '/upload'"
+    *ngIf="router.url !== '/home'"
     slot="left"
     icon="arrow_back"
     button
