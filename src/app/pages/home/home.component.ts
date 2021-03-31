@@ -9,9 +9,9 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class HomeComponent implements OnInit {
   carousels = [
-    { label: 'Recent media' },
-    { label: 'Featured species' },
-    { label: 'Featured users' },
+    { label: 'Recent media', collection: 'media', sortCriteria: 'date' },
+    { label: 'Featured species', collection: 'genus', sortCriteria: 'numMedia' },
+    { label: 'Featured users', collection: 'users', sortCriteria: 'numMedia' },
   ];
 
   constructor(public sharedService: SharedService, public router: Router) { }
