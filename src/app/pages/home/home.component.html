@@ -11,7 +11,7 @@
     ></kor-button>
   </app-empty-state>
 </div>
-<!-- carousel -->
+<!-- recent media carousel -->
 <div class="carousel">
   <kor-text size="header-1">Recent Media</kor-text>
   <kor-grid
@@ -21,9 +21,41 @@
     <app-media-card
       *ngFor="let media of recentMediaList"
       [header]="media.taxonDoc?.commonName?.en"
-      [label]="media.taxonDoc?.scientificName"
+      [label]="media.ownerDoc?.name"
       [image]="media.image"
       (click)="router.navigateByUrl('/media/' + media.uid)"
+    ></app-media-card>
+  </kor-grid>
+</div>
+<!-- featured taxon carousel -->
+<div class="carousel">
+  <kor-text size="header-1">Featured Species</kor-text>
+  <kor-grid
+    fit-content
+    [columns]="sharedService.screenSize === 's' ? '8' : '4'"
+  >
+    <app-media-card
+      *ngFor="let taxon of featuredTaxonList"
+      [header]="taxon.commonName?.en"
+      [label]="taxon.scientificName"
+      [image]="taxon.thumbnail"
+      (click)="router.navigateByUrl('/taxon/' + taxon.uid)"
+    ></app-media-card>
+  </kor-grid>
+</div>
+<!-- featured users carousel -->
+<div class="carousel">
+  <kor-text size="header-1">Featured Users</kor-text>
+  <kor-grid
+    fit-content
+    [columns]="sharedService.screenSize === 's' ? '8' : '4'"
+  >
+    <app-media-card
+      *ngFor="let user of featuredUsersList"
+      [header]="user.name"
+      [label]="user.numMedia + ' media'"
+      [image]="user.image"
+      (click)="router.navigateByUrl('/user/' + user.uid)"
     ></app-media-card>
   </kor-grid>
 </div>

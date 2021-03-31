@@ -14,6 +14,8 @@ import { Media, Taxon, User } from 'src/app/interfaces';
 })
 export class HomeComponent implements OnInit {
   recentMediaList: Media[] = [];
+  featuredTaxonList: Taxon[] = [];
+  featuredUsersList: User[] = [];
 
   constructor(
     public sharedService: SharedService,
@@ -25,6 +27,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRecentMedia();
+    this.getFeaturedTaxon();
+    this.getFeaturedUsers();
   }
 
   getRecentMedia(): void {
@@ -44,6 +48,30 @@ export class HomeComponent implements OnInit {
             });
           // push media data to media list
           this.recentMediaList.push(mediaData);
+        });
+      });
+  }
+
+  getFeaturedTaxon(): void {
+    this.taxonService.getFeaturedTaxonList()
+      .then((taxonQuerySnapshot: firebase.firestore.QuerySnapshot<Taxon>) => {
+        // iterate over each media
+        taxonQuerySnapshot.forEach((taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>) => {
+          const taxonData: Taxon = taxonDocSnapshot.data();
+          // push taxon data to featured taxon list
+          this.featuredTaxonList.push(taxonData);
+        });
+      });
+  }
+
+  getFeaturedUsers(): void {
+    this.userService.getFeaturedUsersList()
+      .then((userQuerySnapshot: firebase.firestore.QuerySnapshot<User>) => {
+        // iterate over each media
+        userQuerySnapshot.forEach((userDocSnapshot: firebase.firestore.QueryDocumentSnapshot<User>) => {
+          const userData: User = userDocSnapshot.data();
+          // push taxon data to featured taxon list
+          this.featuredUsersList.push(userData);
         });
       });
   }

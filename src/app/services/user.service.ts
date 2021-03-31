@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { User } from '../interfaces';
 
 @Injectable({
@@ -75,5 +75,14 @@ export class UserService {
   // sign user out
   signOut(): void {
     this.auth.signOut();
+  }
+
+  getFeaturedUsersList(): Promise<firebase.firestore.QuerySnapshot<User>> {
+    return this.firestore
+      .collection<User>('users', (ref: CollectionReference) =>
+        ref.orderBy('numMedia').limit(8)
+      )
+      .get()
+      .toPromise();
   }
 }
