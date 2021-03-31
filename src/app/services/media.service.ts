@@ -10,7 +10,7 @@ export class MediaService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  public getFilteredMediaList(filterKey: string, filterValue: string): Promise<firebase.firestore.QuerySnapshot<Media>> {
+  getFilteredMediaList(filterKey: string, filterValue: string): Promise<firebase.firestore.QuerySnapshot<Media>> {
     return this.firestore
       .collection<Media>('media', (ref: CollectionReference) =>
         ref.where(filterKey, '==', filterValue)
@@ -18,4 +18,14 @@ export class MediaService {
       .get()
       .toPromise();
   }
+
+  getRecentMediaList(): Promise<firebase.firestore.QuerySnapshot<Media>> {
+    return this.firestore
+      .collection<Media>('media', (ref: CollectionReference) =>
+        ref.orderBy('date').limit(8)
+      )
+      .get()
+      .toPromise();
+  }
+
 }

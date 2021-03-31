@@ -12,20 +12,18 @@
   </app-empty-state>
 </div>
 <!-- carousel -->
-<div
-  class="carousel"
-  *ngFor="let carousel of carousels"
->
-  <kor-text size="header-1">{{carousel.label}}</kor-text>
+<div class="carousel">
+  <kor-text size="header-1">Recent Media</kor-text>
   <kor-grid
     fit-content
     [columns]="sharedService.screenSize === 's' ? '8' : '4'"
   >
     <app-media-card
-      *ngFor="let item of [].constructor(8)"
-      header="Lorem Ipsum"
-      label="Lorem Ipsum"
-      image="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Teque-teque.jpg/1200px-Teque-teque.jpg"
+      *ngFor="let media of recentMediaList"
+      [header]="media.taxonDoc?.commonName?.en"
+      [label]="media.taxonDoc?.scientificName"
+      [image]="media.image"
+      (click)="router.navigateByUrl('/media/' + media.uid)"
     ></app-media-card>
   </kor-grid>
 </div>
