@@ -3,6 +3,7 @@ export interface User {
   name: string;
   email: string;
   image: string;
+  numMedia?: number;
 }
 
 export interface Taxon {
@@ -31,4 +32,5 @@ export interface Media {
   taxonUid: string;
   ownerDoc?: User;
   taxonDoc?: Taxon;
+  numMedia?: number;
 }

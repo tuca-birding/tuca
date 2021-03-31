@@ -7,9 +7,13 @@ exports.onMediaCreate = functions.firestore
   .document('media/{mediaUid}')
   .onCreate((mediaSnap: functions.firestore.QueryDocumentSnapshot) => {
     const taxonUid = mediaSnap.data().taxonUid;
+    const ownerUid = mediaSnap.data().ownerUid;
     // increase numMedia by 1
     if (taxonUid) {
-      setNumMedia(taxonUid, 'increase');
+      setNumMedia('genus', taxonUid, 'increase');
+    }
+    if (ownerUid) {
+      setNumMedia('users', ownerUid, 'increase');
     }
     return null;
   });
@@ -19,27 +23,31 @@ exports.onMediaDelete = functions.firestore
   .document('media/{mediaUid}')
   .onDelete((mediaSnap: functions.firestore.QueryDocumentSnapshot) => {
     const taxonUid = mediaSnap.data().taxonUid;
+    const ownerUid = mediaSnap.data().ownerUid;
     // decrease numMedia by 1
     if (taxonUid) {
-      setNumMedia(taxonUid, 'decrease');
+      setNumMedia('genus', taxonUid, 'decrease');
+    }
+    if (ownerUid) {
+      setNumMedia('users', ownerUid, 'decrease');
     }
     return null;
   });
 
-function setNumMedia(taxonUid: string, direction: string): void {
+function setNumMedia(colUid: string, docUid: string, direction: string): void {
   // first, get the current numMedia
   admin
     .firestore()
-    .collection('genus')
-    .doc(taxonUid)
-    .get().then((taxon: functions.firestore.DocumentSnapshot) => {
-      const oldNumMedia = taxon.data()?.numMedia ? taxon.data()!.numMedia : 0;
+    .collection(colUid)
+    .doc(docUid)
+    .get().then((docSnap: functions.firestore.DocumentSnapshot) => {
+      const oldNumMedia = docSnap.data()?.numMedia ? docSnap.data()!.numMedia : 0;
       const newNumMedia = direction === 'increase' ? oldNumMedia + 1 : oldNumMedia - 1;
       // then set the new numMedia
       admin
         .firestore()
-        .collection('genus')
-        .doc(taxonUid)
+        .collection(colUid)
+        .doc(docUid)
         .set({ numMedia: newNumMedia }, { merge: true });
     });
 }
