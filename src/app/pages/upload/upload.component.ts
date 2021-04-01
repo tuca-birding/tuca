@@ -1,4 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Media } from 'src/app/interfaces';
+import { MediaService } from 'src/app/services/media.service';
+import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
 
 @Component({
@@ -6,19 +9,36 @@ import { SharedService } from '../../services/shared.service';
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   uploadedImage: string | undefined;
+  media: Media | undefined;
 
-  constructor(public sharedService: SharedService) {
-    sharedService.appLabel = 'Tuca';
+  constructor(
+    public sharedService: SharedService,
+    private mediaService: MediaService,
+    private userService: UserService,
+  ) {
+    sharedService.appLabel = 'Upload';
   }
 
-  ngOnInit(): void {
-  }
-
-  triggerUpload(): void {
+  ngAfterViewInit(): void {
+    // open upload dialog after init
     this.fileInput?.nativeElement.click();
+    this.createMediaObject();
+  }
+
+  private createMediaObject(): void {
+    this.media = {
+      uid: this.mediaService.createRandomUid(),
+      type: 'photo',
+      image: undefined,
+      thumbnail: undefined,
+      date: undefined,
+      uploadDate: new Date(),
+      ownerUid: this.userService.user?.uid,
+      taxonUid: undefined
+    };
   }
 
   uploadImage(tar: EventTarget | null): void {
@@ -30,7 +50,7 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  async resizeImage(file: File, max: number = 800): Promise<string> {
+  private async resizeImage(file: File, max: number = 800): Promise<string> {
     // draw img and canvas
     let img: HTMLImageElement;
     let canvas: HTMLCanvasElement;

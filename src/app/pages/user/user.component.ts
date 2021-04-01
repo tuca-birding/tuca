@@ -56,13 +56,15 @@ export class UserComponent implements OnInit {
         mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
           const mediaData: Media = mediaDocSnapshot.data();
           // get user doc promise
-          this.taxonService.getTaxon(mediaData.taxonUid)
-            .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-              // assign taxon doc to media doc
-              mediaData.taxonDoc = taxonDocSnapshot.data();
-            });
-          // push media data to media list
-          this.mediaList.push(mediaData);
+          if (mediaData.taxonUid) {
+            this.taxonService.getTaxon(mediaData.taxonUid)
+              .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+                // assign taxon doc to media doc
+                mediaData.taxonDoc = taxonDocSnapshot.data();
+                // push media data to media list
+                this.mediaList.push(mediaData);
+              });
+          }
         });
       });
   }

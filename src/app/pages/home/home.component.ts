@@ -23,7 +23,9 @@ export class HomeComponent implements OnInit {
     private taxonService: TaxonService,
     private userService: UserService,
     public router: Router
-  ) { }
+  ) {
+    sharedService.appLabel = 'Tuca';
+  }
 
   ngOnInit(): void {
     this.getRecentMedia();
@@ -38,14 +40,18 @@ export class HomeComponent implements OnInit {
         mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
           const mediaData: Media = mediaDocSnapshot.data();
           // get taxon and user doc promises
-          this.taxonService.getTaxon(mediaData.taxonUid)
-            .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-              mediaData.taxonDoc = taxonDocSnapshot.data();
-            });
-          this.userService.getUser(mediaData.ownerUid)
-            .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
-              mediaData.ownerDoc = userDocSnapshot.data();
-            });
+          if (mediaData.taxonUid) {
+            this.taxonService.getTaxon(mediaData.taxonUid)
+              .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+                mediaData.taxonDoc = taxonDocSnapshot.data();
+              });
+          }
+          if (mediaData.ownerUid) {
+            this.userService.getUser(mediaData.ownerUid)
+              .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
+                mediaData.ownerDoc = userDocSnapshot.data();
+              });
+          }
           // push media data to media list
           this.recentMediaList.push(mediaData);
         });

@@ -1,47 +1,32 @@
-<ng-container *ngIf="!uploadedImage; then upload; else result"></ng-container>
 <!-- upload -->
-<ng-template #upload>
-  <app-empty-state
-    header="What the bird?"
-    label="Upload a bird picture and we tell you what it is"
-    image="https://ouch-cdn.icons8.com/preview/284/4ee61a37-4228-46e5-b85f-135679e8ab2f.png"
-  >
-    <!-- button -->
-    <kor-button
-      label="Upload"
-      (click)="triggerUpload()"
-    ></kor-button>
-  </app-empty-state>
-  <input
-    type="file"
-    accept="image/*"
-    (change)="uploadImage($event.target)"
-    #fileInput
-  />
-</ng-template>
-<!-- result -->
-<ng-template #result>
-  <kor-grid
-    spacing="l"
-    [columns]="sharedService.screenSize === 's' ? 1 : 2"
-    [ngClass]="sharedService.screenSize === 's' ? 'mobile' : ''"
-  >
-    <div class="image">
-      <kor-text size="header-1">
-        <kor-icon
-          button
-          icon="arrow_back"
-          (click)="uploadedImage = undefined"
-        ></kor-icon>
-        Image
-      </kor-text>
-      <img
-        [src]="uploadedImage"
-        alt=""
-      />
-    </div>
-    <div class="suggestions">
-      <kor-text size="header-1">Suggested species</kor-text>
-    </div>
-  </kor-grid>
-</ng-template>
+<input
+  type="file"
+  accept="image/*"
+  (change)="uploadImage($event.target)"
+  #fileInput
+/>
+<!-- select species -->
+<kor-grid
+  *ngIf="uploadedImage"
+  spacing="l"
+  [columns]="sharedService.screenSize === 's' ? 1 : 2"
+  [ngClass]="sharedService.screenSize === 's' ? 'mobile' : ''"
+>
+  <div class="image">
+    <kor-text size="header-1">
+      <kor-icon
+        button
+        icon="arrow_back"
+        (click)="uploadedImage = undefined"
+      ></kor-icon>
+      Image
+    </kor-text>
+    <img
+      [src]="uploadedImage"
+      alt=""
+    />
+  </div>
+  <div class="suggestions">
+    <kor-text size="header-1">Suggested species</kor-text>
+  </div>
+</kor-grid>

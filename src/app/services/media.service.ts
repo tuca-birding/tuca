@@ -28,4 +28,8 @@ export class MediaService {
       .toPromise();
   }
 
+  createRandomUid(): string {
+    return this.firestore.createId();
+  }
+
 }

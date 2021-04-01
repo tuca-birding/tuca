@@ -50,15 +50,19 @@ export class MediaComponent implements OnInit {
         if (mediaDocSnapshot.exists) {
           this.media = mediaDocSnapshot.data();
           // get user doc and set userDoc field
-          this.userService.getUser(this.media!.ownerUid)
-            .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
-              this.media!.ownerDoc = userDocSnapshot.data();
-            });
+          if (this.media?.ownerUid) {
+            this.userService.getUser(this.media.ownerUid)
+              .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
+                this.media!.ownerDoc = userDocSnapshot.data();
+              });
+          }
           // get taxon doc and set taxonDoc field
-          this.taxonService.getTaxon(this.media!.taxonUid)
-            .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-              this.media!.taxonDoc = taxonDocSnapshot.data();
-            });
+          if (this.media?.taxonUid) {
+            this.taxonService.getTaxon(this.media.taxonUid)
+              .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+                this.media!.taxonDoc = taxonDocSnapshot.data();
+              });
+          }
         }
       });
   }

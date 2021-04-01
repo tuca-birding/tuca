@@ -19,18 +19,18 @@ export interface Taxon {
   scientificFamilyName: string;
   scientificName: string;
   thumbnail: string;
+  numMedia?: number;
 }
 
 export interface Media {
   uid: string;
   type: string;
-  image: string;
-  thumbnail: string;
+  image: string | undefined;
+  thumbnail: string | undefined;
   date: Date | any;
   uploadDate: Date | any;
-  ownerUid: string;
-  taxonUid: string;
+  ownerUid: string | undefined;
+  taxonUid: string | undefined;
   ownerDoc?: User;
   taxonDoc?: Taxon;
-  numMedia?: number;
 }
