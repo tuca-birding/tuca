@@ -6,35 +6,38 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  > * + * {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(var(--neutral-1), .2);
+  }
+  .image {
+    display: flex;
+    flex-direction: column;
+    > kor-text[size="header-1"] {
+      margin: 24px 0;
+      font-size: 20px;
+      display: flex;
+    }
+    // result
+    img {
+      object-fit: scale-down;
+      background: black;
+      max-height: 480px;
+    }
+  }
+  .taxon-list {
+    display: flex;
+    flex-direction: column;
+    kor-input {
+      margin-bottom: 16px;
+    }
+    > * + * {
+      margin-top: 8px;
+    }
+  }
+  // hidden input
   input[type="file"] {
     display: none;
-  }
-  // result
-  kor-grid {
-    &.mobile {
-      height: fit-content;
-      margin-bottom: auto;
-    }
-    &:not(.mobile) > * img {
-      flex: 1;
-    }
-    > * {
-      display: flex;
-      flex-direction: column;
-      > kor-text {
-        margin-bottom: 16px;
-        font-size: 20px;
-        display: flex;
-        kor-icon {
-          margin-right: 8px;
-        }
-      }
-      img {
-        object-fit: scale-down;
-        background: rgba(var(--neutral-1), .05);
-      }
-    }
   }
 }

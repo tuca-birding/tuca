@@ -11,7 +11,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
-  uploadedImage: string | undefined;
+  tempImage: string | undefined;
   media: Media | undefined;
 
   constructor(
@@ -45,7 +45,7 @@ export class UploadComponent implements AfterViewInit {
     const files = (tar as HTMLInputElement).files;
     if (files) {
       this.resizeImage(files[0]).then((res: string) => {
-        this.uploadedImage = res;
+        this.tempImage = res;
       });
     }
   }

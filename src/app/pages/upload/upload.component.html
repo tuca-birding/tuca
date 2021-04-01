@@ -1,32 +1,39 @@
-<!-- upload -->
+<ng-container *ngIf="!tempImage; then emptyState; else details"></ng-container>
+<!-- 1. select image -->
 <input
   type="file"
   accept="image/*"
   (change)="uploadImage($event.target)"
   #fileInput
 />
-<!-- select species -->
-<kor-grid
-  *ngIf="uploadedImage"
-  spacing="l"
-  [columns]="sharedService.screenSize === 's' ? 1 : 2"
-  [ngClass]="sharedService.screenSize === 's' ? 'mobile' : ''"
->
-  <div class="image">
-    <kor-text size="header-1">
-      <kor-icon
-        button
-        icon="arrow_back"
-        (click)="uploadedImage = undefined"
-      ></kor-icon>
-      Image
-    </kor-text>
-    <img
-      [src]="uploadedImage"
-      alt=""
-    />
-  </div>
-  <div class="suggestions">
-    <kor-text size="header-1">Suggested species</kor-text>
-  </div>
-</kor-grid>
+<ng-template #emptyState>
+  1
+</ng-template>
+<ng-template #details>
+  <ng-container *ngIf="!media?.taxonUid; then selectTaxon; else review"></ng-container>
+  <!-- 2. select taxon -->
+  <ng-template #selectTaxon>
+    <div class="image">
+      <kor-text size="header-1">Select species</kor-text>
+      <img
+        [src]="tempImage"
+        alt=""
+      />
+    </div>
+    <!-- taxon list -->
+    <div class="taxon-list">
+      <kor-input type="search"></kor-input>
+      <!-- taxon card -->
+      <kor-card
+        label="00000"
+        (click)="media!.taxonUid = '00000'"
+      ></kor-card>
+    </div>
+  </ng-template>
+  <!-- 3. review -->
+  <ng-template #review>
+    review
+    {{tempImage}}
+    {{media?.taxonUid}}
+  </ng-template>
+</ng-template>

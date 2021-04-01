@@ -15,7 +15,7 @@
   > kor-table {
     // mobile table
     &.mobile {
-      .text {
+      kor-table-cell .text {
         grid-template-columns: 1fr;
       }
     }
