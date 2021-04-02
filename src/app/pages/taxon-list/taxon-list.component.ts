@@ -4,6 +4,7 @@ import { Taxon } from '../../interfaces';
 import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
 import { Router } from '@angular/router';
+import { TaxonService } from 'src/app/services/taxon.service';
 
 @Component({
   selector: 'app-taxon-list',
@@ -17,6 +18,7 @@ export class TaxonListComponent implements OnInit {
 
   constructor(
     public sharedService: SharedService,
+    private taxonService: TaxonService,
     private firestore: AngularFirestore,
     public router: Router
   ) {
@@ -33,18 +35,11 @@ export class TaxonListComponent implements OnInit {
     });
   }
 
-  private setTaxonList(searchTerm?: string | null): void {
+  private setTaxonList(searchTerm?: string): void {
     // set fetching
     this.fetching = true;
     // query taxon collection
-    this.firestore
-      .collection<Taxon>('genus', (ref: CollectionReference) => ref
-        .orderBy('commonName.en')
-        .where('commonName.en', '>=', searchTerm ? searchTerm : '')
-        .limit(20)
-        .startAfter(this.lastTaxonRef ? this.lastTaxonRef : 0))
-      .get()
-      .toPromise()
+    this.taxonService.searchTaxon('commonName.en', searchTerm, this.lastTaxonRef)
       .then((taxonQuerySnapshot: firebase.firestore.QuerySnapshot<Taxon>) => {
         taxonQuerySnapshot.docs.forEach((taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>) => {
           this.taxonList.push(taxonDocSnapshot.data());
@@ -56,18 +51,6 @@ export class TaxonListComponent implements OnInit {
       });
   }
 
-  private capitalizeString(string: string | null): string | undefined {
-    const wordArray = string?.split(' ');
-    if (wordArray) {
-      for (let i = 0; i < wordArray?.length; i++) {
-        if (wordArray[i]) {
-          wordArray[i] = `${wordArray[i][0]?.toUpperCase()}${wordArray[i].substr(1)}`;
-        }
-      }
-    }
-    return wordArray?.join(' ');
-  }
-
   handleSearch(tar: any): void {
     // find input node to get search term
     const searchTerm: string = tar.closest('kor-input').getAttribute('value');
@@ -75,7 +58,7 @@ export class TaxonListComponent implements OnInit {
     this.taxonList = [];
     this.lastTaxonRef = undefined;
     // get new query based on capitalized search term
-    this.setTaxonList(this.capitalizeString(searchTerm));
+    this.setTaxonList(this.sharedService.capitalizeString(searchTerm));
   }
 
 }

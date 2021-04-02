@@ -102,7 +102,7 @@ export class UploadComponent implements AfterViewInit {
     });
   }
 
-  getSuggestedTaxonList(): void {
+  private getSuggestedTaxonList(): void {
     // TODO: replace hardcoded list with model output
     const suggestedTaxonIds: string[] = ['001pe', '0041e', '006qb', '009j9', '009kd'];
     // get taxon doc for each ID and push to suggested list
@@ -111,8 +111,28 @@ export class UploadComponent implements AfterViewInit {
         .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
           this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
         });
-      console.log(this.suggestedTaxonList);
     });
+    console.log('got suggested taxon list', this.suggestedTaxonList);
+  }
+
+  handleSearch(tar: any): void {
+    // find input node to get search term
+    const searchTerm: string = tar.closest('kor-input').getAttribute('value');
+    // reset prior queries
+    this.searchTaxonList = [];
+    // get new query based on capitalized search term
+    this.setSearchTaxonList(this.sharedService.capitalizeString(searchTerm));
+  }
+
+  private setSearchTaxonList(searchTerm?: string): void {
+    // query taxon collection
+    this.taxonService.searchTaxon('commonName.en', searchTerm)
+      .then((taxonQuerySnapshot: firebase.firestore.QuerySnapshot<Taxon>) => {
+        taxonQuerySnapshot.docs.forEach((taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>) => {
+          this.searchTaxonList.push(taxonDocSnapshot.data());
+        });
+        console.log('got search taxon list', this.searchTaxonList);
+      });
   }
 
 }

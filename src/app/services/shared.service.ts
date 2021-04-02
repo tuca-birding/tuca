@@ -15,4 +15,16 @@ export class SharedService {
   setScreenSize(): void {
     this.screenSize = window.innerWidth <= 768 ? 's' : 'l';
   }
+
+  public capitalizeString(string?: string): string | undefined {
+    const wordArray = string?.split(' ');
+    if (wordArray) {
+      for (let i = 0; i < wordArray?.length; i++) {
+        if (wordArray[i]) {
+          wordArray[i] = `${wordArray[i][0]?.toUpperCase()}${wordArray[i].substr(1)}`;
+        }
+      }
+    }
+    return wordArray?.join(' ');
+  }
 }

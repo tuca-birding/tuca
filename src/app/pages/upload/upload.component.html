@@ -24,8 +24,15 @@
     <div class="taxon-list">
       <kor-input
         type="search"
-        label="Search for other taxon..."
-      ></kor-input>
+        (keydown.enter)="handleSearch($event.target)"
+        label="Search for another taxon..."
+      >
+        <kor-icon
+          icon="search"
+          slot="functions"
+          (click)="handleSearch($event.target)"
+        ></kor-icon>
+      </kor-input>
       <!-- suggested taxon -->
       <ng-container *ngIf="searchTaxonList.length > 0; then searchTaxon; else suggestedTaxon"></ng-container>
       <ng-template #suggestedTaxon>
@@ -41,11 +48,10 @@
       <!-- search taxon -->
       <ng-template #searchTaxon>
         <app-suggestion-card
-          *ngFor="let taxon of suggestedTaxonList"
+          *ngFor="let taxon of searchTaxonList"
           [image]="taxon.thumbnail"
           [header]="taxon.commonName?.en"
           [label]="taxon.scientificName"
-          [confidence]="50"
           (click)="media!.taxonUid = taxon.uid"
         ></app-suggestion-card>
       </ng-template>
