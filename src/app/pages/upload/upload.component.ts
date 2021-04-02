@@ -5,6 +5,7 @@ import { TaxonService } from 'src/app/services/taxon.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
+import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -13,7 +14,7 @@ import firebase from 'firebase/app';
 })
 export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
-  tempImage: string | undefined = 'https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8YmlyZHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80';
+  tempImage: string | undefined;
   tempTaxonDoc: Taxon | undefined;
   media: Media | undefined;
   suggestedTaxonList: Taxon[] = [];
@@ -23,16 +24,41 @@ export class UploadComponent implements AfterViewInit {
     public sharedService: SharedService,
     private mediaService: MediaService,
     private userService: UserService,
-    private taxonService: TaxonService
+    private taxonService: TaxonService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     sharedService.appLabel = 'Upload';
   }
 
   ngAfterViewInit(): void {
-    // open upload dialog after init
-    this.fileInput?.nativeElement.click();
     this.createMediaObject();
     this.getSuggestedTaxonList();
+    this.subscribeToRoute();
+  }
+
+  private subscribeToRoute(): void {
+    this.route.queryParams.subscribe((params: Params) => {
+      const image = params['image'];
+      const taxon = params['taxon'];
+      // if image param exists, set temp image, else trigger upload
+      if (image) {
+        this.tempImage = image;
+      } else {
+        this.fileInput?.nativeElement.click();
+      }
+      // if taxon param exists, get and set taxon doc, else reset taxon
+      if (taxon) {
+        this.taxonService.getTaxon(taxon).then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+          const taxonDoc = taxonDocSnapshot.data();
+          this.tempTaxonDoc = taxonDoc;
+          this.media!.taxonUid = taxonDoc?.uid;
+        });
+      } else {
+        this.tempTaxonDoc = undefined;
+        this.media!.taxonUid = undefined;
+      }
+    });
   }
 
   private createMediaObject(): void {
@@ -52,7 +78,12 @@ export class UploadComponent implements AfterViewInit {
     const files = (tar as HTMLInputElement).files;
     if (files) {
       this.resizeImage(files[0]).then((res: string) => {
-        this.tempImage = res;
+        // set router param
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { image: res },
+          queryParamsHandling: 'merge'
+        });
       });
     }
   }
@@ -143,6 +174,14 @@ export class UploadComponent implements AfterViewInit {
     if (this.media) {
       this.media.date = isoDate ? new Date(isoDate) : undefined;
     }
+  }
+
+  setTaxon(taxonUid: string): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { taxon: taxonUid },
+      queryParamsHandling: 'merge'
+    });
   }
 
 }

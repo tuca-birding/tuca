@@ -40,7 +40,7 @@
           [header]="taxon.commonName?.en"
           [label]="taxon.scientificName"
           [confidence]="50"
-          (click)="media!.taxonUid = taxon.uid; tempTaxonDoc = taxon"
+          (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
         ></app-suggestion-card>
       </ng-template>
       <!-- search taxon -->
@@ -50,7 +50,7 @@
           [image]="taxon.thumbnail"
           [header]="taxon.commonName?.en"
           [label]="taxon.scientificName"
-          (click)="media!.taxonUid = taxon.uid; tempTaxonDoc = taxon"
+          (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
         ></app-suggestion-card>
       </ng-template>
     </div>
@@ -74,6 +74,7 @@
       [header]="tempTaxonDoc?.commonName?.en"
       [label]="tempTaxonDoc?.scientificName"
     ></app-suggestion-card>
+    <!-- cta confirm button -->
     <kor-button
       label="Confirm"
       [ngClass]="{'mobile': sharedService.screenSize === 's'}"
