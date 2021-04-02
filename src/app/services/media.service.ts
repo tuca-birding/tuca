@@ -23,7 +23,7 @@ export class MediaService {
   getRecentMediaList(): Promise<firebase.firestore.QuerySnapshot<Media>> {
     return this.firestore
       .collection<Media>('media', (ref: CollectionReference) =>
-        ref.orderBy('date').limit(8)
+        ref.orderBy('uploadDate', 'desc').limit(8)
       )
       .get()
       .toPromise();
