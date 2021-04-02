@@ -1,8 +1,9 @@
-<img
-  *ngIf="media"
-  [src]="media!.image"
-  alt=""
-/>
+<ng-container *ngIf="media?.image">
+  <img
+    [src]="media?.image"
+    alt=""
+  />
+</ng-container>
 <ng-container *ngIf="!media?.taxonUid; then selectTaxon; else review"></ng-container>
 <!-- 1. select image -->
 <input
@@ -35,7 +36,7 @@
         [image]="taxon.thumbnail"
         [header]="taxon.commonName?.en"
         [label]="taxon.scientificName"
-        [confidence]="50"
+        [confidence]="getTaxonConfidence(taxon.uid)"
         (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
       ></app-suggestion-card>
     </ng-template>

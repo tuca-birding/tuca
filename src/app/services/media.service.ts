@@ -30,12 +30,10 @@ export class MediaService {
   }
 
   uploadFile(path: string, file: File | Blob): Promise<string> {
-    console.log('will upload to path:', path);
     return new Promise((resolve) => {
       const mediaRef = this.fireStorage.storage.ref(path);
       mediaRef.put(file).then(() => {
         mediaRef.getDownloadURL().then((downloadUrl: string) => {
-          console.log('upload done, download url is:', downloadUrl);
           resolve(downloadUrl);
         });
       });

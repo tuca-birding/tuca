@@ -16,6 +16,7 @@ export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   tempTaxonDoc: Taxon | undefined;
   media: Media | undefined;
+  taxonSuggestions: any[] | undefined;
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
 
@@ -32,7 +33,6 @@ export class UploadComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.createMediaObject();
-    this.getSuggestedTaxonList();
     this.subscribeToRoute();
   }
 
@@ -44,6 +44,8 @@ export class UploadComponent implements AfterViewInit {
       if (image) {
         this.media!.image = image;
         this.media!.thumbnail = image;
+        // set suggested taxon
+        this.setSuggestedTaxonList();
       } else {
         this.fileInput?.nativeElement.click();
       }
@@ -141,17 +143,30 @@ export class UploadComponent implements AfterViewInit {
     });
   }
 
-  private getSuggestedTaxonList(): void {
-    // TODO: replace hardcoded list with model output
-    const suggestedTaxonIds: string[] = ['001pe', '0041e', '006qb', '009j9', '009kd'];
-    // get taxon doc for each ID and push to suggested list
-    suggestedTaxonIds.forEach((taxonUid: string) => {
-      this.taxonService.getTaxon(taxonUid)
-        .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-          this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
-        });
+  getTaxonSuggestions(): Promise<any> {
+    return new Promise((resolve) => {
+      resolve([
+        { uid: '001pe', confidence: 82 },
+        { uid: '0041e', confidence: 32 },
+        { uid: '006qb', confidence: 31 },
+        { uid: '009j9', confidence: 15 },
+        { uid: '009kd', confidence: 8 },
+      ]);
     });
-    console.log('got suggested taxon list', this.suggestedTaxonList);
+  }
+
+  private setSuggestedTaxonList(): void {
+    // TODO: replace hardcoded list with model output
+    this.getTaxonSuggestions().then(taxonSuggestions => {
+      this.taxonSuggestions = taxonSuggestions;
+      // get taxon doc for each ID and push to suggested list
+      taxonSuggestions.forEach((taxon: any) => {
+        this.taxonService.getTaxon(taxon.uid)
+          .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+            this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
+          });
+      });
+    });
   }
 
   private setSearchTaxonList(searchTerm?: string): void {
@@ -161,7 +176,6 @@ export class UploadComponent implements AfterViewInit {
         taxonQuerySnapshot.docs.forEach((taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>) => {
           this.searchTaxonList.push(taxonDocSnapshot.data());
         });
-        console.log('got search taxon list', this.searchTaxonList);
       });
   }
 
@@ -200,6 +214,11 @@ export class UploadComponent implements AfterViewInit {
         this.router.navigateByUrl(`media/${this.media?.uid}`);
       });
     }
+  }
+
+  getTaxonConfidence(taxonUid: string): number | undefined {
+    const taxon = this.taxonSuggestions?.find(({ uid }) => uid === taxonUid);
+    return taxon ? parseInt(taxon.confidence) : undefined;
   }
 
 }
