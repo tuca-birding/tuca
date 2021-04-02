@@ -11,7 +11,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
-  tempImage: string | undefined;
+  tempImage: string | undefined = 'https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8YmlyZHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80';
   media: Media | undefined;
 
   constructor(

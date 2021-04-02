@@ -1,0 +1,16 @@
+<img
+  [src]="image"
+  alt="A picture of a bird species"
+/>
+<div class="text">
+  <kor-text
+    size="header-1"
+    *ngIf="header"
+  >{{header}}</kor-text>
+  <kor-text *ngIf="label">{{label}}</kor-text>
+  <kor-tag
+    [ngClass]="{'high': confidence > 50}"
+    *ngIf="confidence"
+    label="{{confidence}}% match"
+  ></kor-tag>
+</div>

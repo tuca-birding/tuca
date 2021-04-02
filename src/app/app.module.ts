@@ -21,6 +21,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MediaComponent } from './pages/media/media.component';
 import { UserComponent } from './pages/user/user.component';
 import { HomeComponent } from './pages/home/home.component';
+import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { HomeComponent } from './pages/home/home.component';
     NavBarComponent,
     MediaComponent,
     UserComponent,
-    HomeComponent
+    HomeComponent,
+    SuggestionCardComponent
   ],
   imports: [
     BrowserModule,
