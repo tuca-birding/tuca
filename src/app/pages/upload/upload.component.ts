@@ -5,7 +5,7 @@ import { TaxonService } from 'src/app/services/taxon.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
-import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -14,7 +14,6 @@ import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 })
 export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
-  tempImage: string | undefined;
   tempTaxonDoc: Taxon | undefined;
   media: Media | undefined;
   suggestedTaxonList: Taxon[] = [];
@@ -22,8 +21,8 @@ export class UploadComponent implements AfterViewInit {
 
   constructor(
     public sharedService: SharedService,
-    private mediaService: MediaService,
-    private userService: UserService,
+    public userService: UserService,
+    public mediaService: MediaService,
     private taxonService: TaxonService,
     private route: ActivatedRoute,
     private router: Router,
@@ -43,7 +42,8 @@ export class UploadComponent implements AfterViewInit {
       const taxon = params['taxon'];
       // if image param exists, set temp image, else trigger upload
       if (image) {
-        this.tempImage = image;
+        this.media!.image = image;
+        this.media!.thumbnail = image;
       } else {
         this.fileInput?.nativeElement.click();
       }
@@ -74,16 +74,23 @@ export class UploadComponent implements AfterViewInit {
     };
   }
 
-  uploadImage(tar: EventTarget | null): void {
+  importImage(tar: EventTarget | null): void {
     const files = (tar as HTMLInputElement).files;
     if (files) {
-      this.resizeImage(files[0]).then((res: string) => {
-        // set router param
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { image: res },
-          queryParamsHandling: 'merge'
-        });
+      this.resizeImage(files[0]).then((imgString: string) => {
+        fetch(imgString)
+          .then((imgBlobPromise) => {
+            imgBlobPromise.blob().then((imgBlob) => {
+              this.mediaService.uploadFile(`media/${this.media?.uid}`, imgBlob).then((downloadUrl: string) => {
+                // set router param
+                this.router.navigate([], {
+                  relativeTo: this.route,
+                  queryParams: { image: downloadUrl },
+                  queryParamsHandling: 'merge'
+                });
+              });
+            });
+          });
       });
     }
   }
@@ -147,17 +154,6 @@ export class UploadComponent implements AfterViewInit {
     console.log('got suggested taxon list', this.suggestedTaxonList);
   }
 
-  handleSearch(tar: any): void {
-    // find input node to get search term
-    const searchTerm: string = tar.closest('kor-input').getAttribute('value');
-    // reset prior queries
-    this.searchTaxonList = [];
-    if (searchTerm) {
-      // get new query based on capitalized search term
-      this.setSearchTaxonList(this.sharedService.capitalizeString(searchTerm));
-    }
-  }
-
   private setSearchTaxonList(searchTerm?: string): void {
     // query taxon collection
     this.taxonService.searchTaxon('commonName.en', searchTerm)
@@ -167,6 +163,17 @@ export class UploadComponent implements AfterViewInit {
         });
         console.log('got search taxon list', this.searchTaxonList);
       });
+  }
+
+  handleSearch(tar: any): void {
+    // find input node to get search term
+    const searchTerm: string = tar.closest('kor-input').getAttribute('value');
+    // reset prior queries
+    this.searchTaxonList = [];
+    if (searchTerm) {
+      // get new query based on capitalized search term
+      this.setSearchTaxonList(this.sharedService.capitalizeString(searchTerm));
+    }
   }
 
   setDate(tar: any): void {
@@ -182,6 +189,17 @@ export class UploadComponent implements AfterViewInit {
       queryParams: { taxon: taxonUid },
       queryParamsHandling: 'merge'
     });
+  }
+
+  handleConfirm(): void {
+    if (!this.userService.user) {
+      this.userService.signInModalVisible = true;
+    } else if (this.media) {
+      this.media.ownerUid = this.userService.user.uid;
+      this.mediaService.createMedia(this.media).then(() => {
+        this.router.navigateByUrl(`media/${this.media?.uid}`);
+      });
+    }
   }
 
 }

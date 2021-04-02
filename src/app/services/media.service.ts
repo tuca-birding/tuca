@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import firebase from 'firebase/app';
 import { Media } from '../interfaces';
 
@@ -8,7 +9,7 @@ import { Media } from '../interfaces';
 })
 export class MediaService {
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private fireStorage: AngularFireStorage) { }
 
   getFilteredMediaList(filterKey: string, filterValue: string): Promise<firebase.firestore.QuerySnapshot<Media>> {
     return this.firestore
@@ -26,6 +27,26 @@ export class MediaService {
       )
       .get()
       .toPromise();
+  }
+
+  uploadFile(path: string, file: File | Blob): Promise<string> {
+    console.log('will upload to path:', path);
+    return new Promise((resolve) => {
+      const mediaRef = this.fireStorage.storage.ref(path);
+      mediaRef.put(file).then(() => {
+        mediaRef.getDownloadURL().then((downloadUrl: string) => {
+          console.log('upload done, download url is:', downloadUrl);
+          resolve(downloadUrl);
+        });
+      });
+    });
+  }
+
+  createMedia(media: Media): Promise<void> {
+    return this.firestore
+      .collection<Media>('media')
+      .doc(media.uid)
+      .set(media);
   }
 
   createRandomUid(): string {
