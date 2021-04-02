@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
-import firebase from 'firebase/app';
 import { MediaService } from 'src/app/services/media.service';
 import { TaxonService } from 'src/app/services/taxon.service';
 import { UserService } from 'src/app/services/user.service';
 import { Media, Taxon, User } from 'src/app/interfaces';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-home',

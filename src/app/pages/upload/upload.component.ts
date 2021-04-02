@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Media } from 'src/app/interfaces';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Media, Taxon } from 'src/app/interfaces';
 import { MediaService } from 'src/app/services/media.service';
+import { TaxonService } from 'src/app/services/taxon.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-upload',
@@ -13,11 +15,14 @@ export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   tempImage: string | undefined = 'https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8YmlyZHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80';
   media: Media | undefined;
+  suggestedTaxonList: Taxon[] = [];
+  searchTerm: string | undefined;
 
   constructor(
     public sharedService: SharedService,
     private mediaService: MediaService,
     private userService: UserService,
+    private taxonService: TaxonService
   ) {
     sharedService.appLabel = 'Upload';
   }
@@ -26,6 +31,7 @@ export class UploadComponent implements AfterViewInit {
     // open upload dialog after init
     this.fileInput?.nativeElement.click();
     this.createMediaObject();
+    this.getSuggestedTaxonList();
   }
 
   private createMediaObject(): void {
@@ -93,6 +99,19 @@ export class UploadComponent implements AfterViewInit {
         ctx?.drawImage(img, 0, 0);
         resolve([img, canvas]);
       };
+    });
+  }
+
+  getSuggestedTaxonList(): void {
+    // TODO: replace hardcoded list with model output
+    const suggestedTaxonIds: string[] = ['001pe', '0041e', '006qb', '009j9', '009kd'];
+    // get taxon doc for each ID and push to suggested list
+    suggestedTaxonIds.forEach((taxonUid: string) => {
+      this.taxonService.getTaxon(taxonUid)
+        .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+          this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
+        });
+      console.log(this.suggestedTaxonList);
     });
   }
 
