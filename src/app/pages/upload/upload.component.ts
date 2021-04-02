@@ -139,8 +139,9 @@ export class UploadComponent implements AfterViewInit {
   }
 
   setDate(tar: any): void {
+    const isoDate = tar.value;
     if (this.media) {
-      this.media.date = new Date(tar.value);
+      this.media.date = isoDate ? new Date(isoDate) : undefined;
     }
   }
 

@@ -63,10 +63,11 @@
       alt=""
     />
     <kor-input
+      no-clear
       label="Date of capture"
       type="date"
       [value]="media?.date | date:'yyyy-MM-dd'"
-      (change)="setDate($event.target)"
+      (value-changed)="setDate($event.target)"
     ></kor-input>
     {{media?.date}}
     {{media?.taxonUid}}
