@@ -26,17 +26,29 @@
         type="search"
         label="Search for other taxon..."
       ></kor-input>
-      <!-- taxon cards -->
-      <ng-container *ngIf="!searchTerm">
+      <!-- suggested taxon -->
+      <ng-container *ngIf="searchTaxonList.length > 0; then searchTaxon; else suggestedTaxon"></ng-container>
+      <ng-template #suggestedTaxon>
         <app-suggestion-card
           *ngFor="let taxon of suggestedTaxonList"
           [image]="taxon.thumbnail"
           [header]="taxon.commonName?.en"
           [label]="taxon.scientificName"
           [confidence]="50"
-          (click)="media!.taxonUid = '00000'"
+          (click)="media!.taxonUid = taxon.uid"
         ></app-suggestion-card>
-      </ng-container>
+      </ng-template>
+      <!-- search taxon -->
+      <ng-template #searchTaxon>
+        <app-suggestion-card
+          *ngFor="let taxon of suggestedTaxonList"
+          [image]="taxon.thumbnail"
+          [header]="taxon.commonName?.en"
+          [label]="taxon.scientificName"
+          [confidence]="50"
+          (click)="media!.taxonUid = taxon.uid"
+        ></app-suggestion-card>
+      </ng-template>
     </div>
   </ng-template>
   <!-- 3. review -->

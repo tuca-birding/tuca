@@ -1,7 +1,14 @@
 <img
+  *ngIf="image"
   [src]="image"
   alt="A picture of a bird species"
 />
+<div
+  class="icon"
+  *ngIf="!image"
+>
+  <kor-icon icon="assignment"></kor-icon>
+</div>
 <div class="text">
   <kor-text
     size="header-1"
