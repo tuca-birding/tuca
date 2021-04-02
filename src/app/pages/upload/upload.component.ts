@@ -14,6 +14,7 @@ import firebase from 'firebase/app';
 export class UploadComponent implements AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   tempImage: string | undefined = 'https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8YmlyZHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80';
+  tempTaxonDoc: Taxon | undefined;
   media: Media | undefined;
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
@@ -40,7 +41,7 @@ export class UploadComponent implements AfterViewInit {
       type: 'photo',
       image: undefined,
       thumbnail: undefined,
-      date: undefined,
+      date: new Date(),
       uploadDate: new Date(),
       ownerUid: this.userService.user?.uid,
       taxonUid: undefined
@@ -120,8 +121,10 @@ export class UploadComponent implements AfterViewInit {
     const searchTerm: string = tar.closest('kor-input').getAttribute('value');
     // reset prior queries
     this.searchTaxonList = [];
-    // get new query based on capitalized search term
-    this.setSearchTaxonList(this.sharedService.capitalizeString(searchTerm));
+    if (searchTerm) {
+      // get new query based on capitalized search term
+      this.setSearchTaxonList(this.sharedService.capitalizeString(searchTerm));
+    }
   }
 
   private setSearchTaxonList(searchTerm?: string): void {
@@ -133,6 +136,12 @@ export class UploadComponent implements AfterViewInit {
         });
         console.log('got search taxon list', this.searchTaxonList);
       });
+  }
+
+  setDate(tar: any): void {
+    if (this.media) {
+      this.media.date = new Date(tar.value);
+    }
   }
 
 }

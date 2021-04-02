@@ -6,21 +6,17 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  .image {
+  > kor-text[size="header-1"] {
+    margin: 24px 0;
+    font-size: 20px;
     display: flex;
-    flex-direction: column;
+  }
+  // result
+  img {
     margin-bottom: 24px;
-    > kor-text[size="header-1"] {
-      margin: 24px 0;
-      font-size: 20px;
-      display: flex;
-    }
-    // result
-    img {
-      object-fit: scale-down;
-      background: black;
-      max-height: 480px;
-    }
+    object-fit: scale-down;
+    background: black;
+    max-height: 480px;
   }
   .taxon-list {
     display: flex;

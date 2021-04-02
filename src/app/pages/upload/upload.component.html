@@ -13,13 +13,11 @@
   <ng-container *ngIf="!media?.taxonUid; then selectTaxon; else review"></ng-container>
   <!-- 2. select taxon -->
   <ng-template #selectTaxon>
-    <div class="image">
-      <kor-text size="header-1">Select taxon</kor-text>
-      <img
-        [src]="tempImage"
-        alt=""
-      />
-    </div>
+    <kor-text size="header-1">Select taxon</kor-text>
+    <img
+      [src]="tempImage"
+      alt=""
+    />
     <!-- taxon list -->
     <div class="taxon-list">
       <kor-input
@@ -42,7 +40,7 @@
           [header]="taxon.commonName?.en"
           [label]="taxon.scientificName"
           [confidence]="50"
-          (click)="media!.taxonUid = taxon.uid"
+          (click)="media!.taxonUid = taxon.uid; tempTaxonDoc = taxon"
         ></app-suggestion-card>
       </ng-template>
       <!-- search taxon -->
@@ -52,15 +50,25 @@
           [image]="taxon.thumbnail"
           [header]="taxon.commonName?.en"
           [label]="taxon.scientificName"
-          (click)="media!.taxonUid = taxon.uid"
+          (click)="media!.taxonUid = taxon.uid; tempTaxonDoc = taxon"
         ></app-suggestion-card>
       </ng-template>
     </div>
   </ng-template>
   <!-- 3. review -->
   <ng-template #review>
-    review
-    {{tempImage}}
+    <kor-text size="header-1">Confirm details</kor-text>
+    <img
+      [src]="tempImage"
+      alt=""
+    />
+    <kor-input
+      label="Date of capture"
+      type="date"
+      [value]="media?.date | date:'yyyy-MM-dd'"
+      (change)="setDate($event.target)"
+    ></kor-input>
+    {{media?.date}}
     {{media?.taxonUid}}
   </ng-template>
 </ng-template>

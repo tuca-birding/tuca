@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { Taxon } from '../../interfaces';
 import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
@@ -19,7 +18,6 @@ export class TaxonListComponent implements OnInit {
   constructor(
     public sharedService: SharedService,
     private taxonService: TaxonService,
-    private firestore: AngularFirestore,
     public router: Router
   ) {
     sharedService.appLabel = 'Taxon List';
