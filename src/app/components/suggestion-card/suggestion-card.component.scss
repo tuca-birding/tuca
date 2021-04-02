@@ -1,8 +1,9 @@
 :host {
   display: flex;
+  cursor: pointer;
   border: 1px solid rgba(var(--neutral-1), .2);
   border-radius: 4px;
-  cursor: pointer;
+  overflow: hidden;
   &:hover img {
     filter: brightness(0.75);
   }

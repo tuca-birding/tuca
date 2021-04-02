@@ -63,13 +63,20 @@
       alt=""
     />
     <kor-input
-      no-clear
       label="Date of capture"
+      no-clear
       type="date"
       [value]="media?.date | date:'yyyy-MM-dd'"
       (value-changed)="setDate($event.target)"
     ></kor-input>
-    {{media?.date}}
-    {{media?.taxonUid}}
+    <app-suggestion-card
+      [image]="tempTaxonDoc?.thumbnail"
+      [header]="tempTaxonDoc?.commonName?.en"
+      [label]="tempTaxonDoc?.scientificName"
+    ></app-suggestion-card>
+    <kor-button
+      label="Confirm"
+      [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+    ></kor-button>
   </ng-template>
 </ng-template>
