@@ -6,6 +6,7 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "description": "Upload bird media, identify species and share with the community.",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
@@ -54,6 +55,14 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Upload media",
+      "short_name": "Upload",
+      "description": "Upload a media file for identification",
+      "url": "/upload"
     }
   ]
 }
