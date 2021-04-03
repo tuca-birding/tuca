@@ -4,6 +4,7 @@ export interface User {
   email: string;
   image: string;
   numMedia?: number;
+  taxonList?: string[];
 }
 
 export interface Taxon {

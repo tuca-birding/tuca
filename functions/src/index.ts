@@ -15,6 +15,10 @@ exports.onMediaCreate = functions.firestore
     if (ownerUid) {
       setNumMedia('users', ownerUid, 'increase');
     }
+    // add taxonUid to ownerUid doc array
+    if (taxonUid && ownerUid) {
+      updateUserTaxonList(ownerUid, taxonUid, 'union');
+    }
     return null;
   });
 
@@ -31,8 +35,26 @@ exports.onMediaDelete = functions.firestore
     if (ownerUid) {
       setNumMedia('users', ownerUid, 'decrease');
     }
+    if (taxonUid && ownerUid) {
+      updateUserTaxonList(ownerUid, taxonUid, 'remove');
+    }
     return null;
   });
+
+function updateUserTaxonList(userUid: string, taxonUid: string, operation: string) {
+  // defined the user doc ref
+  const userDocRef = admin.firestore().collection('users').doc(userUid);
+  // then either add or remove item from array, depending on operation
+  if (operation === 'union') {
+    userDocRef.update({
+      taxonList: admin.firestore.FieldValue.arrayUnion(taxonUid)
+    });
+  } else if (operation === 'remove') {
+    userDocRef.update({
+      taxonList: admin.firestore.FieldValue.arrayRemove(taxonUid)
+    });
+  }
+}
 
 function setNumMedia(colUid: string, docUid: string, direction: string): void {
   // first, get the current numMedia
