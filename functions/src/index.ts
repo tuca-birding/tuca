@@ -50,9 +50,21 @@ function updateUserTaxonList(userUid: string, taxonUid: string, operation: strin
       taxonList: admin.firestore.FieldValue.arrayUnion(taxonUid)
     });
   } else if (operation === 'remove') {
-    userDocRef.update({
-      taxonList: admin.firestore.FieldValue.arrayRemove(taxonUid)
-    });
+    // before deleting, check if user has another media from same taxon
+    admin
+      .firestore()
+      .collection('media')
+      .where('ownerUid', '==', userUid)
+      .where('taxonUid', '==', taxonUid)
+      .get()
+      .then((media: any) => {
+        // if no other media from the same taxon & user, remove string from array
+        if (media.size === 0) {
+          userDocRef.update({
+            taxonList: admin.firestore.FieldValue.arrayRemove(taxonUid)
+          });
+        }
+      });
   }
 }
 
