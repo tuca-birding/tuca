@@ -27,7 +27,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              ".well-known/assetlinks.json"
+              "src/.well-known/assetlinks.json"
             ],
             "styles": [
               "src/styles.scss",
