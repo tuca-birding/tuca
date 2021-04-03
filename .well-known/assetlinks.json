@@ -1,0 +1,14 @@
+[
+      {
+            "relation": [
+                  "delegate_permission/common.handle_all_urls"
+            ],
+            "target": {
+                  "namespace": "android_app",
+                  "package_name": "app.tuca.twa",
+                  "sha256_cert_fingerprints": [
+                        "6E:79:4A:BE:72:CF:6D:43:DE:FB:39:B7:A2:68:BC:D5:2D:67:D5:98:DB:F3:27:83:CD:49:0A:92:74:E6:D3:31"
+                  ]
+            }
+      }
+]
