@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Taxon } from '../../interfaces';
 import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
@@ -18,7 +18,8 @@ export class TaxonListComponent implements OnInit {
   constructor(
     public sharedService: SharedService,
     private taxonService: TaxonService,
-    public router: Router
+    public router: Router,
+    private elRef: ElementRef
   ) {
     sharedService.appLabel = 'Taxon List';
   }
@@ -31,6 +32,7 @@ export class TaxonListComponent implements OnInit {
         this.setTaxonList();
       }
     });
+    this.sharedService.animateTransition(this.elRef);
   }
 
   private setTaxonList(searchTerm?: string): void {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Media, Taxon } from 'src/app/interfaces';
 import { MediaService } from 'src/app/services/media.service';
 import { TaxonService } from 'src/app/services/taxon.service';
@@ -12,7 +12,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent implements AfterViewInit {
+export class UploadComponent implements OnInit, AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   tempTaxonDoc: Taxon | undefined;
   media: Media | undefined;
@@ -27,12 +27,17 @@ export class UploadComponent implements AfterViewInit {
     private taxonService: TaxonService,
     private route: ActivatedRoute,
     private router: Router,
+    private elRef: ElementRef
   ) {
     sharedService.appLabel = 'Upload';
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.createMediaObject();
+    this.sharedService.animateTransition(this.elRef);
+  }
+
+  ngAfterViewInit(): void {
     this.subscribeToRoute();
   }
 

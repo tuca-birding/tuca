@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Media, Taxon, User } from '../../interfaces';
@@ -21,13 +21,15 @@ export class MediaComponent implements OnInit {
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
     private userService: UserService,
-    private taxonService: TaxonService
+    private taxonService: TaxonService,
+    private elRef: ElementRef
   ) {
     this.sharedService.appLabel = 'Media';
   }
 
   ngOnInit(): void {
     this.subscribeToRoute();
+    this.sharedService.animateTransition(this.elRef);
   }
 
   private subscribeToRoute(): void {

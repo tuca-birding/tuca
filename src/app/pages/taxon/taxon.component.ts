@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Media, Taxon, User } from '../../interfaces';
 import { SharedService } from '../../services/shared.service';
@@ -22,13 +22,15 @@ export class TaxonComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private taxonService: TaxonService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private elRef: ElementRef
   ) {
     this.sharedService.appLabel = 'Taxon';
   }
 
   ngOnInit(): void {
     this.subscribeToRoute();
+    this.sharedService.animateTransition(this.elRef);
   }
 
   private subscribeToRoute(): void {

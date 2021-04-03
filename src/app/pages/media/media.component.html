@@ -1,7 +1,7 @@
-<ng-container *ngIf="media">
+<ng-container>
   <!-- image -->
   <img
-    [src]="media.image"
+    [src]="media?.image"
     alt="An image of a bird"
   />
   <!-- content -->
@@ -14,23 +14,23 @@
       <!-- header summary -->
       <div
         class="taxon"
-        (click)="router.navigateByUrl('/taxon/' + media.taxonUid)"
+        (click)="router.navigateByUrl('/taxon/' + media?.taxonUid)"
       >
-        <kor-text size="header-1">{{media.taxonDoc?.commonName?.en}}</kor-text>
-        <kor-text>{{media.taxonDoc?.scientificName}}</kor-text>
+        <kor-text size="header-1">{{media?.taxonDoc?.commonName?.en}}</kor-text>
+        <kor-text>{{media?.taxonDoc?.scientificName}}</kor-text>
       </div>
       <!-- further details -->
       <div class="details">
         <div
           class="owner"
-          (click)="router.navigateByUrl('/user/' + media.ownerDoc?.uid)"
+          (click)="router.navigateByUrl('/user/' + media?.ownerDoc?.uid)"
         >
-          <kor-icon [icon]="media.ownerDoc?.image ? 'url(' + media.ownerDoc?.image + ')' : 'face'"></kor-icon>
-          {{media.ownerDoc?.name}}
+          <kor-icon [icon]="media?.ownerDoc?.image ? 'url(' + media?.ownerDoc?.image + ')' : 'face'"></kor-icon>
+          {{media?.ownerDoc?.name}}
         </div>
         <div>
           <kor-icon icon="event"></kor-icon>
-          {{media.date.toDate() | date}}
+          {{media?.date.toDate() | date}}
         </div>
       </div>
     </div>

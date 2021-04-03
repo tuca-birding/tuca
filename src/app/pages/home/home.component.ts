@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { MediaService } from 'src/app/services/media.service';
@@ -22,7 +22,8 @@ export class HomeComponent implements OnInit {
     private mediaService: MediaService,
     private taxonService: TaxonService,
     private userService: UserService,
-    public router: Router
+    public router: Router,
+    private elRef: ElementRef
   ) {
     sharedService.appLabel = 'Tuca';
   }
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
     this.getRecentMedia();
     this.getFeaturedTaxon();
     this.getFeaturedUsers();
+    this.sharedService.animateTransition(this.elRef);
   }
 
   getRecentMedia(): void {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -26,5 +26,10 @@ export class SharedService {
       }
     }
     return wordArray?.join(' ');
+  }
+
+  animateTransition(elRef: ElementRef) {
+    elRef.nativeElement.classList.add('transition');
+    setTimeout(() => elRef.nativeElement.classList.remove('transition'), 0);
   }
 }

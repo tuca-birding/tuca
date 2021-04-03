@@ -16,10 +16,22 @@ body,
   font: var(--body-1) !important;
   color: var(--text-1);
 }
-
 kor-nav-bar kor-tab-item {
   border: unset;
   &[active] {
     color: rgb(var(--accent-1));
+  }
+}
+// page transitions
+app-home,
+app-taxon,
+app-taxon-list,
+app-user,
+app-media,
+app-upload {
+  transition: .4s all ease-out;
+  &.transition {
+    opacity: 0;
+    transform: translateY(24px);
   }
 }

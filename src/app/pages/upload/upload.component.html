@@ -3,8 +3,70 @@
     [src]="media?.image"
     alt=""
   />
+  <ng-container *ngIf="!media?.taxonUid; then selectTaxon; else review"></ng-container>
+  <!-- 2. select taxon -->
+  <ng-template #selectTaxon>
+    <kor-text size="header-1">Select taxon</kor-text>
+    <!-- taxon list -->
+    <div class="taxon-list">
+      <kor-input
+        type="search"
+        (keydown.enter)="handleSearch($event.target)"
+        label="Search for another taxon..."
+      >
+        <kor-icon
+          icon="search"
+          slot="functions"
+          (click)="handleSearch($event.target)"
+        ></kor-icon>
+      </kor-input>
+      <!-- suggested taxon -->
+      <ng-container *ngIf="searchTaxonList.length > 0; then searchTaxon; else suggestedTaxon"></ng-container>
+      <ng-template #suggestedTaxon>
+        <app-suggestion-card
+          *ngFor="let taxon of suggestedTaxonList"
+          [image]="taxon.thumbnail"
+          [header]="taxon.commonName?.en"
+          [label]="taxon.scientificName"
+          [confidence]="getTaxonConfidence(taxon.uid)"
+          (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
+        ></app-suggestion-card>
+      </ng-template>
+      <!-- search taxon -->
+      <ng-template #searchTaxon>
+        <app-suggestion-card
+          *ngFor="let taxon of searchTaxonList"
+          [image]="taxon.thumbnail"
+          [header]="taxon.commonName?.en"
+          [label]="taxon.scientificName"
+          (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
+        ></app-suggestion-card>
+      </ng-template>
+    </div>
+  </ng-template>
+  <!-- 3. review -->
+  <ng-template #review>
+    <kor-text size="header-1">Confirm details</kor-text>
+    <kor-input
+      label="Date of capture"
+      no-clear
+      type="date"
+      [value]="media?.date | date:'yyyy-MM-dd'"
+      (value-changed)="setDate($event.target)"
+    ></kor-input>
+    <app-suggestion-card
+      [image]="tempTaxonDoc?.thumbnail"
+      [header]="tempTaxonDoc?.commonName?.en"
+      [label]="tempTaxonDoc?.scientificName"
+    ></app-suggestion-card>
+    <!-- cta confirm button -->
+    <kor-button
+      label="Confirm"
+      [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+      (click)="handleConfirm()"
+    ></kor-button>
+  </ng-template>
 </ng-container>
-<ng-container *ngIf="!media?.taxonUid; then selectTaxon; else review"></ng-container>
 <!-- 1. select image -->
 <input
   type="file"
@@ -12,65 +74,3 @@
   (change)="importImage($event.target)"
   #fileInput
 />
-<!-- 2. select taxon -->
-<ng-template #selectTaxon>
-  <kor-text size="header-1">Select taxon</kor-text>
-  <!-- taxon list -->
-  <div class="taxon-list">
-    <kor-input
-      type="search"
-      (keydown.enter)="handleSearch($event.target)"
-      label="Search for another taxon..."
-    >
-      <kor-icon
-        icon="search"
-        slot="functions"
-        (click)="handleSearch($event.target)"
-      ></kor-icon>
-    </kor-input>
-    <!-- suggested taxon -->
-    <ng-container *ngIf="searchTaxonList.length > 0; then searchTaxon; else suggestedTaxon"></ng-container>
-    <ng-template #suggestedTaxon>
-      <app-suggestion-card
-        *ngFor="let taxon of suggestedTaxonList"
-        [image]="taxon.thumbnail"
-        [header]="taxon.commonName?.en"
-        [label]="taxon.scientificName"
-        [confidence]="getTaxonConfidence(taxon.uid)"
-        (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
-      ></app-suggestion-card>
-    </ng-template>
-    <!-- search taxon -->
-    <ng-template #searchTaxon>
-      <app-suggestion-card
-        *ngFor="let taxon of searchTaxonList"
-        [image]="taxon.thumbnail"
-        [header]="taxon.commonName?.en"
-        [label]="taxon.scientificName"
-        (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
-      ></app-suggestion-card>
-    </ng-template>
-  </div>
-</ng-template>
-<!-- 3. review -->
-<ng-template #review>
-  <kor-text size="header-1">Confirm details</kor-text>
-  <kor-input
-    label="Date of capture"
-    no-clear
-    type="date"
-    [value]="media?.date | date:'yyyy-MM-dd'"
-    (value-changed)="setDate($event.target)"
-  ></kor-input>
-  <app-suggestion-card
-    [image]="tempTaxonDoc?.thumbnail"
-    [header]="tempTaxonDoc?.commonName?.en"
-    [label]="tempTaxonDoc?.scientificName"
-  ></app-suggestion-card>
-  <!-- cta confirm button -->
-  <kor-button
-    label="Confirm"
-    [ngClass]="{'mobile': sharedService.screenSize === 's'}"
-    (click)="handleConfirm()"
-  ></kor-button>
-</ng-template>
