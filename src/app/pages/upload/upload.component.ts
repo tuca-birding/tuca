@@ -74,9 +74,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
       type: 'photo',
       image: undefined,
       thumbnail: undefined,
-      description: undefined,
-      date: new Date(),
-      uploadDate: new Date(),
+      date: firebase.firestore.Timestamp.fromDate(new Date()),
+      uploadDate: firebase.firestore.Timestamp.fromDate(new Date()),
       ownerUid: this.userService.user?.uid,
       taxonUid: undefined
     };
@@ -199,7 +198,9 @@ export class UploadComponent implements OnInit, AfterViewInit {
   setDate(tar: any): void {
     const isoDate = tar.value;
     if (this.media) {
-      this.media.date = isoDate ? new Date(isoDate) : undefined;
+      this.media.date = isoDate ?
+        firebase.firestore.Timestamp.fromDate(new Date(isoDate))
+        : undefined;
     }
   }
 

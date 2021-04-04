@@ -47,6 +47,20 @@ export class MediaService {
       .set(media);
   }
 
+  updateMedia(media: Media): Promise<void> {
+    return this.firestore
+      .collection<Media>('media')
+      .doc(media.uid)
+      .update(media);
+  }
+
+  deleteMedia(mediaUid: string): Promise<void> {
+    return this.firestore
+      .collection<Media>('media')
+      .doc(mediaUid)
+      .delete();
+  }
+
   createRandomUid(): string {
     return this.firestore.createId();
   }

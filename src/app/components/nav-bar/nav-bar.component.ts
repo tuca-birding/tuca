@@ -11,7 +11,7 @@ export class NavBarComponent implements OnInit {
   tabList = [
     { icon: 'home', route: '/home' },
     { icon: 'file_upload', route: '/upload' },
-    { icon: 'assignment', route: '/taxon-list' }
+    { icon: 'search', route: '/taxon-list' }
   ];
 
   constructor(public router: Router, private userService: UserService) { }

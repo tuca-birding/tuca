@@ -22,8 +22,15 @@ kor-nav-bar kor-tab-item {
     color: rgb(var(--accent-1));
   }
 }
-kor-button[color="primary"] {
-  background-color: rgb(var(--accent-2));
+kor-button {
+  &.mobile {
+    box-sizing: border-box;
+    padding: 8px 12px;
+    max-width: unset;
+  }
+  &[color="primary"] {
+    background-color: rgb(var(--accent-2));
+  }
 }
 // page transitions
 app-home,

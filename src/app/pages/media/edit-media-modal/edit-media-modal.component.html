@@ -1,0 +1,41 @@
+<kor-modal
+  [visible]="visible"
+  sticky
+  label="Edit Media"
+  [height]="sharedService.screenSize == 's' ? '100%' : '400px'"
+>
+  <kor-icon
+    slot="functions"
+    button
+    icon="delete"
+    (click)="handleDelete()"
+  ></kor-icon>
+  <kor-input
+    label="Date of capture"
+    no-clear
+    type="date"
+    [value]="media?.date?.toDate() | date:'yyyy-MM-dd'"
+    (input)="setDate($event.target)"
+  ></kor-input>
+  <kor-textarea
+    rows="5"
+    label="Description"
+    [value]="media?.description"
+    (value-changed)="setDescription($event.target)"
+  ></kor-textarea>
+  <!-- TODO: add species selection UI -->
+  <!-- cta confirm button -->
+  <kor-button
+    slot="footer"
+    label="Cancel"
+    color="secondary"
+    [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+    (click)="closeModal()"
+  ></kor-button>
+  <kor-button
+    slot="footer"
+    label="Confirm"
+    [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+    (click)="handleConfirm()"
+  ></kor-button>
+</kor-modal>

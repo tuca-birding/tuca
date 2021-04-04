@@ -14,13 +14,14 @@ import { TaxonService } from '../../services/taxon.service';
 })
 export class MediaComponent implements OnInit {
   media: Media | undefined;
+  editMediaModalVisible = false;
 
   constructor(
     public sharedService: SharedService,
+    public userService: UserService,
     public router: Router,
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
-    private userService: UserService,
     private taxonService: TaxonService,
     private elRef: ElementRef
   ) {

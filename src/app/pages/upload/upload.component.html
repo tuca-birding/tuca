@@ -51,14 +51,14 @@
       label="Date of capture"
       no-clear
       type="date"
-      [value]="media?.date | date:'yyyy-MM-dd'"
-      (value-changed)="setDate($event.target)"
+      [value]="media?.date.toDate() | date:'yyyy-MM-dd'"
+      (input)="setDate($event.target)"
     ></kor-input>
     <kor-textarea
       rows="5"
       label="Description"
       [value]="media?.description"
-      (value-changed)="setDescription($event.target)"
+      (input)="setDescription($event.target)"
     ></kor-textarea>
     <!-- cta confirm button -->
     <kor-button

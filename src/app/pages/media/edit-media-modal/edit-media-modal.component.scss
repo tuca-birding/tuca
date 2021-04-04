@@ -1,0 +1,7 @@
+kor-button.mobile {
+  flex: 1;
+  margin: unset;
+  + * {
+    margin-left: 12px;
+  }
+}

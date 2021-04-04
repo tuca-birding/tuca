@@ -23,6 +23,7 @@ import { UserComponent } from './pages/user/user.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { EditMediaModalComponent } from './pages/media/edit-media-modal/edit-media-modal.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MediaComponent,
     UserComponent,
     HomeComponent,
-    SuggestionCardComponent
+    SuggestionCardComponent,
+    EditMediaModalComponent
   ],
   imports: [
     BrowserModule,

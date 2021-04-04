@@ -26,7 +26,7 @@ export interface Taxon {
 export interface Media {
   uid: string;
   type: string;
-  description: string | undefined;
+  description?: string;
   image: string | undefined;
   thumbnail: string | undefined;
   date: Date | any;

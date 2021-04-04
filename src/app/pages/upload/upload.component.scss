@@ -39,11 +39,8 @@
     position: fixed;
     right: 16px;
     &.mobile {
-      box-sizing: border-box;
-      max-width: unset;
       width: calc(100vw - 32px);
       bottom: 72px;
-      padding: 8px 12px;
     }
     &:not(.mobile) {
       bottom: 16px;
