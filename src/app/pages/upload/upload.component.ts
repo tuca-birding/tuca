@@ -74,6 +74,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
       type: 'photo',
       image: undefined,
       thumbnail: undefined,
+      description: undefined,
       date: new Date(),
       uploadDate: new Date(),
       ownerUid: this.userService.user?.uid,
@@ -199,6 +200,13 @@ export class UploadComponent implements OnInit, AfterViewInit {
     const isoDate = tar.value;
     if (this.media) {
       this.media.date = isoDate ? new Date(isoDate) : undefined;
+    }
+  }
+
+  setDescription(tar: any): void {
+    const description = tar.value;
+    if (this.media) {
+      this.media.description = description;
     }
   }
 

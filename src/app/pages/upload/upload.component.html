@@ -54,11 +54,12 @@
       [value]="media?.date | date:'yyyy-MM-dd'"
       (value-changed)="setDate($event.target)"
     ></kor-input>
-    <app-suggestion-card
-      [image]="tempTaxonDoc?.thumbnail"
-      [header]="tempTaxonDoc?.commonName?.en"
-      [label]="tempTaxonDoc?.scientificName"
-    ></app-suggestion-card>
+    <kor-textarea
+      rows="5"
+      label="Description"
+      [value]="media?.description"
+      (value-changed)="setDescription($event.target)"
+    ></kor-textarea>
     <!-- cta confirm button -->
     <kor-button
       label="Confirm"

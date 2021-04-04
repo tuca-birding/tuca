@@ -22,6 +22,7 @@
     object-fit: scale-down;
     background: black;
     max-height: 480px;
+    border-radius: var(--border-radius);
   }
   .taxon-list {
     display: flex;
