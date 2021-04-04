@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   recentMediaList: Media[] = [];
   featuredTaxonList: Taxon[] = [];
   featuredUsersList: User[] = [];
+  illustrationUrl: string | undefined;
 
   constructor(
     public sharedService: SharedService,
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     this.getFeaturedTaxon();
     this.getFeaturedUsers();
     this.sharedService.animateTransition(this.elRef);
+    this.setRandomIllustration();
   }
 
   getRecentMedia(): void {
@@ -82,6 +84,10 @@ export class HomeComponent implements OnInit {
           this.featuredUsersList.push(userData);
         });
       });
+  }
+
+  setRandomIllustration(): void {
+    this.illustrationUrl = `/assets/illustrations/bird_${Math.floor(Math.random() * 2)}.png`;
   }
 
 }
