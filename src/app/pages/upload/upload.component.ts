@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { PlacesService } from 'src/app/services/places.service';
 
 @Component({
   selector: 'app-upload',
@@ -15,6 +16,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class UploadComponent implements OnInit, AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   tempTaxonDoc: Taxon | undefined;
+  tempPlaceName: string | undefined;
   media: Media | undefined;
   taxonSuggestions: any[] | undefined;
   suggestedTaxonList: Taxon[] = [];
@@ -25,6 +27,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
     public sharedService: SharedService,
     public userService: UserService,
     public mediaService: MediaService,
+    private placesService: PlacesService,
     private taxonService: TaxonService,
     private route: ActivatedRoute,
     private router: Router
@@ -46,7 +49,12 @@ export class UploadComponent implements OnInit, AfterViewInit {
       const taxon = params['taxon'];
       const place = params['place'];
       // if place exists, set it
-      this.media!.placeUid = place;
+      if (place) {
+        this.media!.placeUid = place;
+        this.placesService.getPlaceName(place).then((name: string) => {
+          this.tempPlaceName = name;
+        });
+      }
       // if image param exists, set temp image, else trigger upload
       if (image) {
         this.media!.image = image;
@@ -223,13 +231,11 @@ export class UploadComponent implements OnInit, AfterViewInit {
   }
 
   setPlace(placeUid: string | undefined): void {
-    if (placeUid) {
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { place: placeUid },
-        queryParamsHandling: 'merge'
-      });
-    }
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { place: placeUid },
+      queryParamsHandling: 'merge'
+    });
   }
 
   handleConfirm(): void {

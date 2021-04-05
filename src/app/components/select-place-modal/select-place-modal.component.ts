@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { google } from 'google-maps';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { PlacesService } from 'src/app/services/places.service';
+
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -13,32 +14,27 @@ export class SelectPlaceModalComponent implements OnInit {
   @Output() select = new EventEmitter<string | undefined>();
   @Output() close = new EventEmitter<null>();
   searchTerm: string | undefined;
-
   suggestedPlaces: google.maps.places.PlaceResult[] = [];
 
-  constructor(public sharedService: SharedService) { }
+  constructor(
+    public sharedService: SharedService,
+    private placesService: PlacesService
+  ) { }
 
   ngOnInit(): void {
     // start animation
     setTimeout(() => {
       this.visible = true;
     }, 0);
+    this.findPlace('');
   }
 
-  findPlace(tar: EventTarget | any) {
-    const searchTerm = tar.value;
-    const self = this;
+  findPlace(input: EventTarget | any) {
+    const term = typeof input === 'string' ? input : input.value;
+    // reset array, trigger search and then assign result
     this.suggestedPlaces = [];
-    const map = new google.maps.Map(document.getElementById('map') as Element);
-    var request: google.maps.places.TextSearchRequest = {
-      query: searchTerm,
-      type: 'locality'
-    };
-    var service = new google.maps.places.PlacesService(map);
-    service.textSearch(request, (result: google.maps.places.PlaceResult[], status: google.maps.places.PlacesServiceStatus) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        self.suggestedPlaces = result;
-      }
+    this.placesService.textSearch(term).then((result: google.maps.places.PlaceResult[]) => {
+      this.suggestedPlaces = result;
     });
   }
 
