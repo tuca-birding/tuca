@@ -35,9 +35,9 @@ export class SelectPlaceModalComponent implements OnInit {
       type: 'locality'
     };
     var service = new google.maps.places.PlacesService(map);
-    service.textSearch(request, (results, status) => {
+    service.textSearch(request, (result: google.maps.places.PlaceResult[], status: google.maps.places.PlacesServiceStatus) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        self.suggestedPlaces = results;
+        self.suggestedPlaces = result;
       }
     });
   }
