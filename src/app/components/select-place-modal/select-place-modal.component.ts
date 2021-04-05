@@ -1,7 +1,8 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { PlacesService } from 'src/app/services/places.service';
-
 import { SharedService } from 'src/app/services/shared.service';
+import { google } from 'google-maps';
+declare const google;
 
 @Component({
   selector: 'app-select-place-modal',
@@ -29,7 +30,7 @@ export class SelectPlaceModalComponent implements OnInit {
     this.findPlace('');
   }
 
-  findPlace(input: EventTarget | any) {
+  findPlace(input: EventTarget | any): void {
     const term = typeof input === 'string' ? input : input.value;
     // reset array, trigger search and then assign result
     this.suggestedPlaces = [];

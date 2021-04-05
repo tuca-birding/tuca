@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { google } from 'google-maps';
+declare const google;
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class PlacesService {
           placeId: placeUid,
           fields: ['name']
         };
-        this.service.getDetails(request, (result) => {
+        this.service.getDetails(request, (result: google.maps.places.PlaceResult) => {
           resolve(result.name);
         });
       }

@@ -49,7 +49,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  private setMediaList(userUid: string) {
+  private setMediaList(userUid: string): void {
     // get all media matching taxon uid
     this.mediaService
       .getFilteredMediaList('ownerUid', userUid)

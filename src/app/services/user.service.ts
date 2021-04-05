@@ -38,7 +38,7 @@ export class UserService {
   }
 
   // set a new user
-  setUser(authUser: firebase.User | null) {
+  setUser(authUser: firebase.User | null): void {
     if (authUser) {
       // model authUser
       const userData: User = {

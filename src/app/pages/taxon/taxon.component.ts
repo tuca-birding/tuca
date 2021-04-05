@@ -48,7 +48,7 @@ export class TaxonComponent implements OnInit {
     });
   }
 
-  private setMediaList(taxonUid: string) {
+  private setMediaList(taxonUid: string): void {
     // get all media matching taxon uid
     this.mediaService
       .getFilteredMediaList('taxonUid', taxonUid)

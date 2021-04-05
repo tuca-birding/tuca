@@ -16,8 +16,8 @@ export class SharedService {
     this.screenSize = window.innerWidth <= 768 ? 's' : 'l';
   }
 
-  public capitalizeString(string?: string): string | undefined {
-    const wordArray = string?.split(' ');
+  public capitalizeString(rawString?: string): string | undefined {
+    const wordArray = rawString?.split(' ');
     if (wordArray) {
       for (let i = 0; i < wordArray?.length; i++) {
         if (wordArray[i]) {
@@ -28,7 +28,7 @@ export class SharedService {
     return wordArray?.join(' ');
   }
 
-  animateTransition(elRef: ElementRef) {
+  animateTransition(elRef: ElementRef): void {
     elRef.nativeElement.classList.add('transition');
     setTimeout(() => elRef.nativeElement.classList.remove('transition'), 0);
   }

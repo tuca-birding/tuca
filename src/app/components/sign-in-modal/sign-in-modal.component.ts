@@ -11,7 +11,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class SignInModalComponent implements OnInit {
   visible: boolean | undefined;
-  @Output() close = new EventEmitter();
+  @Output() close = new EventEmitter<null>();
 
   constructor(public userService: UserService, public sharedService: SharedService, public auth: AngularFireAuth) { }
 

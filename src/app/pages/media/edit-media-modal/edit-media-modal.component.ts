@@ -16,7 +16,7 @@ export class EditMediaModalComponent implements OnInit {
   tempPlaceName: string | undefined;
   selectPlaceModalVisible = false;
   @Input() media: Media | undefined;
-  @Output() close = new EventEmitter;
+  @Output() close = new EventEmitter();
 
   constructor(
     public sharedService: SharedService,

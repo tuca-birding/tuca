@@ -47,9 +47,9 @@ export class UploadComponent implements OnInit, AfterViewInit {
 
   private subscribeToRoute(): void {
     this.route.queryParams.subscribe((params: Params) => {
-      const image = params['image'];
-      const taxon = params['taxon'];
-      const place = params['place'];
+      const image = params.image;
+      const taxon = params.taxon;
+      const place = params.place;
       // if place exists, set it
       if (place) {
         this.media!.placeUid = place;

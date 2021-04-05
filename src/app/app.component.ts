@@ -10,7 +10,7 @@ import { UserService } from './services/user.service';
 export class AppComponent {
   // when resizing, update screen size
   @HostListener('window:resize', ['$event'])
-  handleResize() {
+  handleResize(): void {
     this.sharedService.setScreenSize();
   }
 

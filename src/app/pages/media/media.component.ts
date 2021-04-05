@@ -53,7 +53,7 @@ export class MediaComponent implements OnInit {
     });
   }
 
-  setMedia(mediaUid: string) {
+  setMedia(mediaUid: string): void {
     this.firestore
       .collection<Media>('media')
       .doc(mediaUid)
