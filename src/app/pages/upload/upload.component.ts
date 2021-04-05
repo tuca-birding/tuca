@@ -254,4 +254,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
     return taxon ? parseInt(taxon.confidence) : undefined;
   }
 
+  blur(tar: any): void {
+    tar.blur();
+  }
+
 }

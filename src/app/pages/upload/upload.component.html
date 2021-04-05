@@ -50,7 +50,7 @@
     <kor-input
       label="Place"
       [value]="tempPlaceName"
-      (click)="selectPlaceModalVisible = true"
+      (click)="selectPlaceModalVisible = true; blur($event.target)"
     ></kor-input>
     <kor-input
       label="Date of capture"
