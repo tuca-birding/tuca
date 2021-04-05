@@ -55,15 +55,8 @@ export class TaxonComponent implements OnInit {
       .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
         mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
-          const mediaData: Media = mediaDocSnapshot.data();
-          // get user doc promise
-          this.userService.getUser(mediaData.ownerUid)
-            .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
-              // assign owner doc to media doc
-              mediaData.ownerDoc = userDocSnapshot.data();
-            });
           // push media data to media list
-          this.mediaList.push(mediaData);
+          this.mediaList.push(mediaDocSnapshot.data());
         });
       });
   }

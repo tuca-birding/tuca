@@ -1,4 +1,5 @@
 <kor-modal
+  sticky
   label="Select place"
   [visible]="visible"
   [height]="sharedService.screenSize === 's' ? '100%' : '480px'"
@@ -18,8 +19,8 @@
   ></kor-input>
   <kor-menu-item
     *ngFor="let place of suggestedPlaces"
-    icon="url({{place.icon}})"
-    [label]="place.name"
+    icon="place"
+    [label]="place.formatted_address"
     (click)="handleSelect(place.place_id)"
   ></kor-menu-item>
 </kor-modal>

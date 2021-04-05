@@ -17,8 +17,8 @@
           class="taxon"
           (click)="router.navigateByUrl('/taxon/' + media?.taxonUid)"
         >
-          <kor-text size="header-1">{{media?.taxonDoc?.commonName?.en}}</kor-text>
-          <kor-text>{{media?.taxonDoc?.scientificName}}</kor-text>
+          <kor-text size="header-1">{{mediaInfo.taxonDoc?.commonName?.en}}</kor-text>
+          <kor-text>{{mediaInfo.taxonDoc?.scientificName}}</kor-text>
         </div>
         <!-- edit button -->
         <kor-button
@@ -32,14 +32,18 @@
       <div class="details">
         <div
           class="owner"
-          (click)="router.navigateByUrl('/user/' + media?.ownerDoc?.uid)"
+          (click)="router.navigateByUrl('/user/' + mediaInfo.ownerDoc?.uid)"
         >
-          <kor-icon [icon]="media?.ownerDoc?.image ? 'url(' + media?.ownerDoc?.image + ')' : 'face'"></kor-icon>
-          {{media?.ownerDoc?.name}}
+          <kor-icon [icon]="mediaInfo.ownerDoc?.image ? 'url(' + mediaInfo.ownerDoc?.image + ')' : 'face'"></kor-icon>
+          {{mediaInfo.ownerDoc?.name}}
         </div>
         <div>
           <kor-icon icon="event"></kor-icon>
           {{media?.date.toDate() | date}}
+        </div>
+        <div>
+          <kor-icon icon="place"></kor-icon>
+          {{mediaInfo.placeName ? mediaInfo.placeName : 'Unknown location'}}
         </div>
       </div>
       <!-- description -->
@@ -52,5 +56,5 @@
 <app-edit-media-modal
   *ngIf="editMediaModalVisible"
   [media]="media"
-  (close)="editMediaModalVisible = false"
+  (close)="editMediaModalVisible = false; setMedia(media!.uid)"
 ></app-edit-media-modal>

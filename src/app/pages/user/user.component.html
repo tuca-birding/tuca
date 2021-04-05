@@ -12,9 +12,7 @@
 >
   <app-media-card
     *ngFor="let media of mediaList"
-    [header]="media.taxonDoc?.commonName?.en"
-    [label]="user?.name"
-    [image]="media.image"
+    [media]="media"
     (click)="router.navigateByUrl('/media/' + media.uid)"
   >
   </app-media-card>

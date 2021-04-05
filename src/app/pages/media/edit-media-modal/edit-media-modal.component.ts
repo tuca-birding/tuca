@@ -4,6 +4,7 @@ import { Media } from 'src/app/interfaces';
 import { SharedService } from 'src/app/services/shared.service';
 import { MediaService } from 'src/app/services/media.service';
 import firebase from 'firebase/app';
+import { PlacesService } from 'src/app/services/places.service';
 
 @Component({
   selector: 'app-edit-media-modal',
@@ -12,12 +13,15 @@ import firebase from 'firebase/app';
 })
 export class EditMediaModalComponent implements OnInit {
   visible = false;
+  tempPlaceName: string | undefined;
+  selectPlaceModalVisible = false;
   @Input() media: Media | undefined;
   @Output() close = new EventEmitter;
 
   constructor(
     public sharedService: SharedService,
     private mediaService: MediaService,
+    private placesService: PlacesService,
     private location: Location
   ) { }
 
@@ -25,6 +29,9 @@ export class EditMediaModalComponent implements OnInit {
     setTimeout(() => {
       this.visible = true;
     }, 0);
+    this.placesService.getPlaceName(this.media!.placeUid).then((placeName: string) => {
+      this.tempPlaceName = placeName;
+    });
   }
 
   handleConfirm(): void {
@@ -65,6 +72,19 @@ export class EditMediaModalComponent implements OnInit {
     if (this.media) {
       this.media.description = description;
     }
+  }
+
+  setPlace(placeUid: string | undefined): void {
+    if (this.media) {
+      this.media.placeUid = placeUid;
+      this.placesService.getPlaceName(placeUid).then((placeName: string) => {
+        this.tempPlaceName = placeName;
+      });
+    }
+  }
+
+  blur(tar: any): void {
+    tar.blur();
   }
 
 }

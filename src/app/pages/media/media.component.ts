@@ -2,10 +2,11 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Media, Taxon, User } from '../../interfaces';
-import firebase from 'firebase/app';
 import { UserService } from '../../services/user.service';
 import { SharedService } from '../../services/shared.service';
 import { TaxonService } from '../../services/taxon.service';
+import firebase from 'firebase/app';
+import { PlacesService } from 'src/app/services/places.service';
 
 @Component({
   selector: 'app-media',
@@ -15,6 +16,15 @@ import { TaxonService } from '../../services/taxon.service';
 export class MediaComponent implements OnInit {
   media: Media | undefined;
   editMediaModalVisible = false;
+  mediaInfo: {
+    placeName: string | undefined;
+    taxonDoc: Taxon | undefined;
+    ownerDoc: User | undefined;
+  } = {
+      placeName: undefined,
+      taxonDoc: undefined,
+      ownerDoc: undefined
+    };
 
   constructor(
     public sharedService: SharedService,
@@ -23,6 +33,7 @@ export class MediaComponent implements OnInit {
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
     private taxonService: TaxonService,
+    private placesService: PlacesService,
     private elRef: ElementRef
   ) {
     this.sharedService.appLabel = 'Media';
@@ -42,7 +53,7 @@ export class MediaComponent implements OnInit {
     });
   }
 
-  private setMedia(mediaUid: string) {
+  setMedia(mediaUid: string) {
     this.firestore
       .collection<Media>('media')
       .doc(mediaUid)
@@ -56,14 +67,21 @@ export class MediaComponent implements OnInit {
           if (this.media?.ownerUid) {
             this.userService.getUser(this.media.ownerUid)
               .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
-                this.media!.ownerDoc = userDocSnapshot.data();
+                this.mediaInfo.ownerDoc = userDocSnapshot.data();
               });
           }
           // get taxon doc and set taxonDoc field
           if (this.media?.taxonUid) {
             this.taxonService.getTaxon(this.media.taxonUid)
               .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-                this.media!.taxonDoc = taxonDocSnapshot.data();
+                this.mediaInfo.taxonDoc = taxonDocSnapshot.data();
+              });
+          }
+          // get place name and set field
+          if (this.media?.placeUid) {
+            this.placesService.getPlaceName(this.media?.placeUid)
+              .then((placeName: string) => {
+                this.mediaInfo.placeName = placeName;
               });
           }
         }

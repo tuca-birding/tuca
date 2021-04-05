@@ -22,7 +22,7 @@ export class UserComponent implements OnInit {
     public sharedService: SharedService,
     private userService: UserService,
     private mediaService: MediaService,
-    private taxonService: TaxonService,
+    public taxonService: TaxonService,
     private route: ActivatedRoute,
     private elRef: ElementRef
   ) {
@@ -59,13 +59,7 @@ export class UserComponent implements OnInit {
           const mediaData: Media = mediaDocSnapshot.data();
           // get user doc promise
           if (mediaData.taxonUid) {
-            this.taxonService.getTaxon(mediaData.taxonUid)
-              .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-                // assign taxon doc to media doc
-                mediaData.taxonDoc = taxonDocSnapshot.data();
-                // push media data to media list
-                this.mediaList.push(mediaData);
-              });
+            this.mediaList.push(mediaData);
           }
         });
       });

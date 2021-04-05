@@ -10,6 +10,12 @@
     icon="delete"
     (click)="handleDelete()"
   ></kor-icon>
+  <!-- inputs -->
+  <kor-input
+    label="Place"
+    [value]="tempPlaceName"
+    (click)="selectPlaceModalVisible = true; blur($event.target)"
+  ></kor-input>
   <kor-input
     label="Date of capture"
     no-clear
@@ -39,3 +45,9 @@
     (click)="handleConfirm()"
   ></kor-button>
 </kor-modal>
+<!-- select place modal -->
+<app-select-place-modal
+  *ngIf="selectPlaceModalVisible"
+  (select)="setPlace($event)"
+  (close)="selectPlaceModalVisible = false"
+></app-select-place-modal>

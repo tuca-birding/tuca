@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Media, Taxon } from 'src/app/interfaces';
 import { MediaService } from 'src/app/services/media.service';
 import { TaxonService } from 'src/app/services/taxon.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
-import firebase from 'firebase/app';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PlacesService } from 'src/app/services/places.service';
 import { ImageService } from 'src/app/services/image.service';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-upload',

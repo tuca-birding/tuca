@@ -56,7 +56,7 @@ export class ImageService {
 
   getBlobFromImgString(imgString: string): Promise<Blob> {
     return new Promise((resolve) => {
-      fetch('https://i.pinimg.com/originals/dc/eb/48/dceb4804f7e771fee63d861f2eb5ee9e.jpg')
+      fetch(imgString)
         .then((response: Response) => {
           response.blob().then((imgBlob) => {
             resolve(imgBlob);
