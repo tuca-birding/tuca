@@ -7,6 +7,7 @@ import { SharedService } from '../../services/shared.service';
 import firebase from 'firebase/app';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PlacesService } from 'src/app/services/places.service';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-upload',
@@ -27,6 +28,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
     public sharedService: SharedService,
     public userService: UserService,
     public mediaService: MediaService,
+    private imageService: ImageService,
     private placesService: PlacesService,
     private taxonService: TaxonService,
     private route: ActivatedRoute,
@@ -95,11 +97,15 @@ export class UploadComponent implements OnInit, AfterViewInit {
   importImage(tar: EventTarget | null): void {
     const files = (tar as HTMLInputElement).files;
     if (files) {
-      this.resizeImage(files[0]).then((imgString: string) => {
-        fetch(imgString)
-          .then((imgBlobPromise) => {
-            imgBlobPromise.blob().then((imgBlob) => {
-              this.mediaService.uploadFile(`media/${this.media?.uid}`, imgBlob).then((downloadUrl: string) => {
+      // resize and get string
+      this.imageService.getResizedImgString(files[0]).then((imgString: string) => {
+        // then get blob from string
+        this.imageService.getBlobFromImgString(imgString)
+          .then((imgBlob: Blob) => {
+            // then upload blob
+            this.mediaService
+              .uploadFile(`media/${this.media?.uid}`, imgBlob)
+              .then((downloadUrl: string) => {
                 // set router param
                 this.router.navigate([], {
                   relativeTo: this.route,
@@ -107,59 +113,12 @@ export class UploadComponent implements OnInit, AfterViewInit {
                   queryParamsHandling: 'merge'
                 });
               });
-            });
           });
       });
     }
   }
 
-  private async resizeImage(file: File, max: number = 800): Promise<string> {
-    // draw img and canvas
-    let img: HTMLImageElement;
-    let canvas: HTMLCanvasElement;
-    await this.createImgAndCanvas(file).then((res) => {
-      img = res[0];
-      canvas = res[1];
-    });
-    // handle images bigger than max width/height
-    let width = img!.naturalWidth;
-    let height = img!.naturalHeight;
-    if (width >= height && width > max) {
-      height *= max / width;
-      width = max;
-    } else if (height > width && height > max) {
-      width *= max / height;
-      height = max;
-    }
-    canvas!.width = width;
-    canvas!.height = height;
-    const ctx = canvas!.getContext('2d');
-    ctx!.drawImage(img!, 0, 0, width, height);
-    // generate data url from drawn canvas
-    return canvas!.toDataURL('image/png', 0.95);
-  }
-
-  private async createImgAndCanvas(
-    src: File
-  ): Promise<[HTMLImageElement, HTMLCanvasElement]> {
-    // generate a placeholder img element
-    const img = document.createElement('img');
-    img.src = await new Promise<any>((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => resolve(e.target.result);
-      reader.readAsDataURL(src);
-    });
-    return new Promise((resolve) => {
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        ctx?.drawImage(img, 0, 0);
-        resolve([img, canvas]);
-      };
-    });
-  }
-
-  getTaxonSuggestions(): Promise<any> {
+  private getTaxonSuggestions(): Promise<any> {
     return new Promise((resolve) => {
       resolve([
         { uid: '001pe', confidence: 82 },
