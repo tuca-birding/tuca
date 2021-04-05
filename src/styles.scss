@@ -37,8 +37,7 @@ app-home,
 app-taxon,
 app-taxon-list,
 app-user,
-app-media,
-app-upload {
+app-media {
   transition: .4s all ease-out;
   &.transition {
     opacity: 0;

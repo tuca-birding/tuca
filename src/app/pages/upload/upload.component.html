@@ -48,6 +48,11 @@
   <ng-template #review>
     <kor-text size="header-1">Confirm details</kor-text>
     <kor-input
+      label="Place"
+      [value]="media?.placeUid"
+      (click)="selectPlaceModalVisible = true"
+    ></kor-input>
+    <kor-input
       label="Date of capture"
       no-clear
       type="date"
@@ -55,7 +60,7 @@
       (input)="setDate($event.target)"
     ></kor-input>
     <kor-textarea
-      rows="5"
+      rows="3"
       label="Description"
       [value]="media?.description"
       (input)="setDescription($event.target)"
@@ -75,3 +80,9 @@
   (change)="importImage($event.target)"
   #fileInput
 />
+<!-- select place modal -->
+<app-select-place-modal
+  *ngIf="selectPlaceModalVisible"
+  (select)="setPlace($event)"
+  (close)="selectPlaceModalVisible = false"
+></app-select-place-modal>

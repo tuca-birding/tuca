@@ -1,0 +1,25 @@
+<kor-modal
+  label="Select place"
+  [visible]="visible"
+  [height]="sharedService.screenSize === 's' ? '100%' : '480px'"
+>
+  <kor-icon
+    icon="close"
+    button
+    slot="functions"
+    (click)="close.emit()"
+  ></kor-icon>
+  <kor-input
+    label="Search for place..."
+    type="search"
+    (input)="findPlace($event.target)"
+    #searchEl
+  ></kor-input>
+  <kor-menu-item
+    *ngFor="let place of suggestedPlaces"
+    icon="url({{place.icon}})"
+    [label]="place.name"
+    (click)="handleSelect(place.place_id)"
+  ></kor-menu-item>
+  <div id="map"></div>
+</kor-modal>

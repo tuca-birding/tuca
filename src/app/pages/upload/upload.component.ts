@@ -19,6 +19,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
   taxonSuggestions: any[] | undefined;
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
+  selectPlaceModalVisible = false;
 
   constructor(
     public sharedService: SharedService,
@@ -26,15 +27,13 @@ export class UploadComponent implements OnInit, AfterViewInit {
     public mediaService: MediaService,
     private taxonService: TaxonService,
     private route: ActivatedRoute,
-    private router: Router,
-    private elRef: ElementRef
+    private router: Router
   ) {
     sharedService.appLabel = 'Upload';
   }
 
   ngOnInit(): void {
     this.createMediaObject();
-    this.sharedService.animateTransition(this.elRef);
   }
 
   ngAfterViewInit(): void {
@@ -45,6 +44,9 @@ export class UploadComponent implements OnInit, AfterViewInit {
     this.route.queryParams.subscribe((params: Params) => {
       const image = params['image'];
       const taxon = params['taxon'];
+      const place = params['place'];
+      // if place exists, set it
+      this.media!.placeUid = place;
       // if image param exists, set temp image, else trigger upload
       if (image) {
         this.media!.image = image;
@@ -77,7 +79,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
       date: firebase.firestore.Timestamp.fromDate(new Date()),
       uploadDate: firebase.firestore.Timestamp.fromDate(new Date()),
       ownerUid: this.userService.user?.uid,
-      taxonUid: undefined
+      taxonUid: undefined,
+      placeUid: undefined
     };
   }
 
@@ -217,6 +220,16 @@ export class UploadComponent implements OnInit, AfterViewInit {
       queryParams: { taxon: taxonUid },
       queryParamsHandling: 'merge'
     });
+  }
+
+  setPlace(placeUid: string | undefined): void {
+    if (placeUid) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { place: placeUid },
+        queryParamsHandling: 'merge'
+      });
+    }
   }
 
   handleConfirm(): void {

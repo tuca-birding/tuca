@@ -24,6 +24,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EditMediaModalComponent } from './pages/media/edit-media-modal/edit-media-modal.component';
+import { SelectPlaceModalComponent } from './components/select-place-modal/select-place-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { EditMediaModalComponent } from './pages/media/edit-media-modal/edit-med
     UserComponent,
     HomeComponent,
     SuggestionCardComponent,
-    EditMediaModalComponent
+    EditMediaModalComponent,
+    SelectPlaceModalComponent
   ],
   imports: [
     BrowserModule,

@@ -33,6 +33,7 @@ export interface Media {
   uploadDate: Date | any;
   ownerUid: string | undefined;
   taxonUid: string | undefined;
+  placeUid: string | undefined;
   ownerDoc?: User;
   taxonDoc?: Taxon;
 }
