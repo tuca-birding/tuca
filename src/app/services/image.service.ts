@@ -26,10 +26,11 @@ export class ImageService {
             width *= max / height;
             height = max;
           }
-          canvas!.width = width;
-          canvas!.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx!.drawImage(img!, 0, 0, width, height);
+          canvas.width = width;
+          canvas.height = height;
+          canvas
+            .getContext('2d')!
+            .drawImage(img, 0, 0, width, height);
           // generate data url from drawn canvas
           resolve(canvas.toDataURL('image/png', 0.95));
         });
@@ -55,7 +56,7 @@ export class ImageService {
 
   getBlobFromImgString(imgString: string): Promise<Blob> {
     return new Promise((resolve) => {
-      fetch(imgString)
+      fetch('https://i.pinimg.com/originals/dc/eb/48/dceb4804f7e771fee63d861f2eb5ee9e.jpg')
         .then((response: Response) => {
           response.blob().then((imgBlob) => {
             resolve(imgBlob);
