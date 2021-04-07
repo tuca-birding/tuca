@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { MediaComponent } from './pages/media/media.component';
+import { PlaceComponent } from './pages/place/place.component';
 import { TaxonListComponent } from './pages/taxon-list/taxon-list.component';
 import { TaxonComponent } from './pages/taxon/taxon.component';
 import { UploadComponent } from './pages/upload/upload.component';
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'user/:userUid',
     component: UserComponent
+  },
+  {
+    path: 'place/:placeUid',
+    component: PlaceComponent
   }
 ];
 

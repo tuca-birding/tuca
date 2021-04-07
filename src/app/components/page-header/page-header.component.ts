@@ -9,6 +9,7 @@ export class PageHeaderComponent implements OnInit {
   @Input() label: string | undefined;
   @Input() header: string | undefined;
   @Input() image: string | undefined;
+  @Input() icon: string | undefined;
 
   constructor() { }
 

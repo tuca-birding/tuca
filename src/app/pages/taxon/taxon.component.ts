@@ -1,11 +1,10 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Media, Taxon, User } from '../../interfaces';
+import { Media, Taxon } from '../../interfaces';
 import { SharedService } from '../../services/shared.service';
-import { UserService } from '../../services/user.service';
 import { TaxonService } from '../../services/taxon.service';
-import firebase from 'firebase/app';
 import { MediaService } from '../../services/media.service';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-taxon',
@@ -20,7 +19,6 @@ export class TaxonComponent implements OnInit {
     public router: Router,
     public sharedService: SharedService,
     private route: ActivatedRoute,
-    private userService: UserService,
     private taxonService: TaxonService,
     private mediaService: MediaService,
     private elRef: ElementRef

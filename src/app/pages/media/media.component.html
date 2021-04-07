@@ -31,19 +31,22 @@
       <!-- further details -->
       <div class="details">
         <div
-          class="owner"
+          class="link"
           (click)="router.navigateByUrl('/user/' + mediaInfo.ownerDoc?.uid)"
         >
           <kor-icon [icon]="mediaInfo.ownerDoc?.image ? 'url(' + mediaInfo.ownerDoc?.image + ')' : 'face'"></kor-icon>
           {{mediaInfo.ownerDoc?.name}}
         </div>
+        <div
+          class="link"
+          (click)="media?.placeUid ? router.navigateByUrl('/place/' + media?.placeUid) : null"
+        >
+          <kor-icon icon="place"></kor-icon>
+          {{mediaInfo.placeName ? mediaInfo.placeName : 'Unknown location'}}
+        </div>
         <div>
           <kor-icon icon="event"></kor-icon>
           {{media?.date.toDate() | date}}
-        </div>
-        <div>
-          <kor-icon icon="place"></kor-icon>
-          {{mediaInfo.placeName ? mediaInfo.placeName : 'Unknown location'}}
         </div>
       </div>
       <!-- description -->
