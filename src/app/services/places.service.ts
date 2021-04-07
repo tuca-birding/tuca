@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { google } from 'google-maps';
-declare const google: any;
 
 @Injectable({
   providedIn: 'root'
