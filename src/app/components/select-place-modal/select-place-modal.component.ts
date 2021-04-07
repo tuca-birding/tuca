@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { PlacesService } from 'src/app/services/places.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { google } from 'google-maps';
-declare const google;
+declare const google: any;
 
 @Component({
   selector: 'app-select-place-modal',
