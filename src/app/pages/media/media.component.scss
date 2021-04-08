@@ -19,9 +19,24 @@
         justify-content: space-between;
         .taxon {
           justify-content: center;
+          kor-text {
+            transition: none;
+          }
           kor-text[size="header-1"] {
             font-size: 20px;
             line-height: 1.5;
+            &.skeleton {
+              height: 22px;
+              width: 320px;
+              margin: 4px 0;
+            }
+          }
+          kor-text[size="body-1"] {
+            &.skeleton {
+              height: 16px;
+              width: 240px;
+              margin: 4px 0;
+            }
           }
         }
       }

@@ -1,5 +1,8 @@
 <!-- image -->
-<div class="image">
+<div
+  class="image"
+  [ngClass]="{'skeleton': !image}"
+>
   <img
     *ngIf="image"
     [src]="image"
@@ -9,8 +12,8 @@
 <!-- text -->
 <div class="text">
   <kor-text
-    *ngIf="header"
     size="header-1"
+    [ngClass]="{'skeleton': !header}"
   >{{header}}</kor-text>
-  <kor-text *ngIf="label">{{label}}</kor-text>
+  <kor-text [ngClass]="{'skeleton': !label}">{{label}}</kor-text>
 </div>

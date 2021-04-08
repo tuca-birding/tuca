@@ -18,11 +18,13 @@
     fit-content
     [columns]="sharedService.screenSize === 's' ? '8' : '4'"
   >
-    <app-media-card
-      *ngFor="let media of recentMediaList"
-      [media]="media"
-      (click)="router.navigateByUrl('/media/' + media.uid)"
-    ></app-media-card>
+    <ng-container *ngIf="featuredTaxonList.length > 0; else skeleton">
+      <app-media-card
+        *ngFor="let media of recentMediaList"
+        [media]="media"
+        (click)="router.navigateByUrl('/media/' + media.uid)"
+      ></app-media-card>
+    </ng-container>
   </kor-grid>
 </div>
 <!-- featured taxon carousel -->
@@ -32,13 +34,15 @@
     fit-content
     [columns]="sharedService.screenSize === 's' ? '8' : '4'"
   >
-    <app-media-card
-      *ngFor="let taxon of featuredTaxonList"
-      [header]="taxon.commonName?.en"
-      [label]="taxon.scientificName"
-      [image]="taxon.thumbnail"
-      (click)="router.navigateByUrl('/taxon/' + taxon.uid)"
-    ></app-media-card>
+    <ng-container *ngIf="featuredTaxonList.length > 0; else skeleton">
+      <app-media-card
+        *ngFor="let taxon of featuredTaxonList"
+        [header]="taxon.commonName?.en"
+        [label]="taxon.scientificName"
+        [image]="taxon.thumbnail"
+        (click)="router.navigateByUrl('/taxon/' + taxon.uid)"
+      ></app-media-card>
+    </ng-container>
   </kor-grid>
 </div>
 <!-- featured users carousel -->
@@ -48,12 +52,18 @@
     fit-content
     [columns]="sharedService.screenSize === 's' ? '8' : '4'"
   >
-    <app-media-card
-      *ngFor="let user of featuredUsersList"
-      [header]="user.name"
-      [label]="user.numMedia + ' media'"
-      [image]="user.image"
-      (click)="router.navigateByUrl('/user/' + user.uid)"
-    ></app-media-card>
+    <ng-container *ngIf="featuredUsersList.length > 0; else skeleton">
+      <app-media-card
+        *ngFor="let user of featuredUsersList"
+        [header]="user.name"
+        [label]="user.numMedia + ' media'"
+        [image]="user.image"
+        (click)="router.navigateByUrl('/user/' + user.uid)"
+      ></app-media-card>
+    </ng-container>
   </kor-grid>
 </div>
+<!-- skeleton -->
+<ng-template #skeleton>
+  <app-media-card *ngFor="let item of [].constructor(8)"></app-media-card>
+</ng-template>

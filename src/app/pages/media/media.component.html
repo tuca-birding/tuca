@@ -18,8 +18,12 @@
           class="taxon"
           (click)="router.navigateByUrl('/taxon/' + media?.taxonUid)"
         >
-          <kor-text size="header-1">{{mediaInfo.taxonDoc?.commonName?.en}}</kor-text>
-          <kor-text>{{mediaInfo.taxonDoc?.scientificName}}</kor-text>
+          <kor-text
+            size="header-1"
+            [ngClass]="{'skeleton': !mediaInfo.taxonDoc?.commonName?.en}"
+          >{{mediaInfo.taxonDoc?.commonName?.en}}</kor-text>
+          <kor-text [ngClass]="{'skeleton': !mediaInfo.taxonDoc?.scientificName}">{{mediaInfo.taxonDoc?.scientificName}}
+          </kor-text>
         </div>
         <!-- edit button -->
         <kor-button
