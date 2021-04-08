@@ -1,7 +1,3 @@
-kor-button.mobile {
-  flex: 1;
-  margin: unset;
-  + * {
-    margin-left: 12px;
-  }
+kor-button[label="Delete"] {
+  margin: 0 auto 0 0;
 }

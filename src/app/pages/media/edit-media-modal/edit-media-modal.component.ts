@@ -85,8 +85,4 @@ export class EditMediaModalComponent implements OnInit {
     }
   }
 
-  blur(tar: any): void {
-    tar.blur();
-  }
-
 }

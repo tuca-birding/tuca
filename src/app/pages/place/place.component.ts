@@ -58,7 +58,6 @@ export class PlaceComponent implements OnInit {
     this.mediaService
       .getFilteredMediaList('placeUid', placeUid)
       .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
-        console.log(mediaQuerySnapshot.docs);
         // iterate over each media
         mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
           // push media data to media list
