@@ -21,15 +21,15 @@ export class PlacesService {
     });
   }
 
-  getPlaceName(placeUid: string | undefined): Promise<string> {
+  getPlaceDetails(placeUid: string | undefined): Promise<google.maps.places.PlaceResult> {
     return new Promise((resolve) => {
       if (placeUid) {
-        const request = {
+        const request: google.maps.places.PlaceDetailsRequest = {
           placeId: placeUid,
-          fields: ['name']
+          fields: ['name', 'photos']
         };
         this.service.getDetails(request, (result: google.maps.places.PlaceResult) => {
-          resolve(result.name);
+          resolve(result);
         });
       }
     });

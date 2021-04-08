@@ -1,4 +1,18 @@
 <app-page-header
-  [header]="placeName"
+  [header]="place?.name"
+  [image]="place?.photoUrl"
   icon="place"
+  [ngClass]="{'mobile': sharedService.screenSize === 's'}"
 ></app-page-header>
+<!-- media grid -->
+<kor-grid
+  fit-content
+  [columns]="sharedService.screenSize === 's' ? '2' : '4'"
+>
+  <app-media-card
+    *ngFor="let media of mediaList"
+    [media]="media"
+    (click)="router.navigateByUrl('/media/' + media.uid)"
+  >
+  </app-media-card>
+</kor-grid>

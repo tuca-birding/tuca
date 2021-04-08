@@ -79,9 +79,9 @@ export class MediaComponent implements OnInit {
           }
           // get place name and set field
           if (this.media?.placeUid) {
-            this.placesService.getPlaceName(this.media?.placeUid)
-              .then((placeName: string) => {
-                this.mediaInfo.placeName = placeName;
+            this.placesService.getPlaceDetails(this.media?.placeUid)
+              .then((placeDetails: google.maps.places.PlaceResult) => {
+                this.mediaInfo.placeName = placeDetails.name;
               });
           }
         }

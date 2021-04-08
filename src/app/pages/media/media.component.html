@@ -1,6 +1,7 @@
 <ng-container>
   <!-- image -->
   <img
+    [attr.height]="media?.image ? 'auto' : '800'"
     [src]="media?.image"
     alt="An image of a bird"
   />

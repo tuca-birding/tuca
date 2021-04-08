@@ -29,9 +29,10 @@ export class EditMediaModalComponent implements OnInit {
     setTimeout(() => {
       this.visible = true;
     }, 0);
-    this.placesService.getPlaceName(this.media!.placeUid).then((placeName: string) => {
-      this.tempPlaceName = placeName;
-    });
+    this.placesService.getPlaceDetails(this.media!.placeUid)
+      .then((placeDetails: google.maps.places.PlaceResult) => {
+        this.tempPlaceName = placeDetails.name;
+      });
   }
 
   handleConfirm(): void {
@@ -77,9 +78,10 @@ export class EditMediaModalComponent implements OnInit {
   setPlace(placeUid: string | undefined): void {
     if (this.media) {
       this.media.placeUid = placeUid;
-      this.placesService.getPlaceName(placeUid).then((placeName: string) => {
-        this.tempPlaceName = placeName;
-      });
+      this.placesService.getPlaceDetails(placeUid)
+        .then((placeDetails: google.maps.places.PlaceResult) => {
+          this.tempPlaceName = placeDetails.name;
+        });
     }
   }
 

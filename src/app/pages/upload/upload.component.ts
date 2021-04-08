@@ -53,9 +53,10 @@ export class UploadComponent implements OnInit, AfterViewInit {
       // if place exists, set it
       if (place) {
         this.media!.placeUid = place;
-        this.placesService.getPlaceName(place).then((name: string) => {
-          this.tempPlaceName = name;
-        });
+        this.placesService.getPlaceDetails(place)
+          .then((placeDetails: google.maps.places.PlaceResult) => {
+            this.tempPlaceName = placeDetails.name;
+          });
       }
       // if image param exists, set temp image, else trigger upload
       if (image) {
