@@ -125,7 +125,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
             .getBlobFromImgString(imgString)
             .then((imgBlob: Blob) => {
               this.mediaService
-                .uploadFile(`media/${this.media?.uid}`, imgBlob)
+                .uploadFile(`media/${this.media?.uid}_thumb`, imgBlob)
                 .then((downloadUrl: string) => {
                   this.thumbnailUrl = downloadUrl;
                 });
