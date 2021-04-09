@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Media, Taxon } from 'src/app/interfaces';
 import { MediaService } from 'src/app/services/media.service';
@@ -8,6 +14,7 @@ import { SharedService } from '../../services/shared.service';
 import { PlacesService } from 'src/app/services/places.service';
 import { ImageService } from 'src/app/services/image.service';
 import firebase from 'firebase/app';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload',
@@ -19,10 +26,13 @@ export class UploadComponent implements OnInit, AfterViewInit {
   tempTaxonDoc: Taxon | undefined;
   tempPlaceName: string | undefined;
   media: Media | undefined;
-  taxonSuggestions: any[] | undefined;
+  taxonSuggestions: Array<{ uid: string; confidence: string }> = [];
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
   selectPlaceModalVisible = false;
+  base64Image: string | undefined;
+  readonly apiEndpoint =
+    'https://us-central1-tuca-app.cloudfunctions.net/tucaModelPredict';
 
   constructor(
     public sharedService: SharedService,
@@ -32,7 +42,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
     private placesService: PlacesService,
     private taxonService: TaxonService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     sharedService.appLabel = 'Upload';
   }
@@ -53,7 +64,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
       // if place exists, set it
       if (place) {
         this.media!.placeUid = place;
-        this.placesService.getPlaceDetails(place)
+        this.placesService
+          .getPlaceDetails(place)
           .then((placeDetails: google.maps.places.PlaceResult) => {
             this.tempPlaceName = placeDetails.name;
           });
@@ -69,11 +81,15 @@ export class UploadComponent implements OnInit, AfterViewInit {
       }
       // if taxon param exists, get and set taxon doc, else reset taxon
       if (taxon) {
-        this.taxonService.getTaxon(taxon).then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-          const taxonDoc = taxonDocSnapshot.data();
-          this.tempTaxonDoc = taxonDoc;
-          this.media!.taxonUid = taxonDoc?.uid;
-        });
+        this.taxonService
+          .getTaxon(taxon)
+          .then(
+            (taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+              const taxonDoc = taxonDocSnapshot.data();
+              this.tempTaxonDoc = taxonDoc;
+              this.media!.taxonUid = taxonDoc?.uid;
+            }
+          );
       } else {
         this.tempTaxonDoc = undefined;
         this.media!.taxonUid = undefined;
@@ -99,59 +115,86 @@ export class UploadComponent implements OnInit, AfterViewInit {
     const files = (tar as HTMLInputElement).files;
     if (files) {
       // resize and get string
-      this.imageService.getResizedImgString(files[0]).then((imgString: string) => {
-        // then get blob from string
-        this.imageService.getBlobFromImgString(imgString)
-          .then((imgBlob: Blob) => {
-            // then upload blob
-            this.mediaService
-              .uploadFile(`media/${this.media?.uid}`, imgBlob)
-              .then((downloadUrl: string) => {
-                // set router param
-                this.router.navigate([], {
-                  relativeTo: this.route,
-                  queryParams: { image: downloadUrl },
-                  queryParamsHandling: 'merge'
+      this.imageService
+        .getResizedImgString(files[0])
+        .then((imgString: string) => {
+          // then get blob from string
+          this.imageService
+            .getBlobFromImgString(imgString)
+            .then((imgBlob: Blob) => {
+              // then upload blob
+              this.mediaService
+                .uploadFile(`media/${this.media?.uid}`, imgBlob)
+                .then((downloadUrl: string) => {
+                  // set router param
+                  this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams: { image: downloadUrl },
+                    queryParamsHandling: 'merge'
+                  });
                 });
-              });
-          });
-      });
+            });
+        });
+
+      // crop and upload the thumbnail
+      this.imageService
+        .resizeAndCropImage(files[0], [300, 300])
+        .then((imgString: string) => {
+          this.base64Image = imgString.split('base64,')[1];
+          this.imageService
+            .getBlobFromImgString(imgString)
+            .then((imgBlob: Blob) => {
+              this.mediaService.uploadFile(`media/${this.media?.uid}`, imgBlob);
+            });
+        });
     }
   }
 
   private getTaxonSuggestions(): Promise<any> {
-    return new Promise((resolve) => {
-      resolve([
-        { uid: '001pe', confidence: 82 },
-        { uid: '0041e', confidence: 32 },
-        { uid: '006qb', confidence: 31 },
-        { uid: '009j9', confidence: 15 },
-        { uid: '009kd', confidence: 8 },
-      ]);
-    });
+    const request = { base64Image: this.base64Image };
+    return this.http.post(this.apiEndpoint, request).toPromise();
   }
 
   private setSuggestedTaxonList(): void {
-    // TODO: replace hardcoded list with model output
-    this.getTaxonSuggestions().then(taxonSuggestions => {
-      this.taxonSuggestions = taxonSuggestions;
-      // get taxon doc for each ID and push to suggested list
-      taxonSuggestions.forEach((taxon: any) => {
-        this.taxonService.getTaxon(taxon.uid)
-          .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-            this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
-          });
+    if (this.base64Image) {
+      this.getTaxonSuggestions().then((taxonSuggestions) => {
+        this.taxonSuggestions = [];
+        for (let key in taxonSuggestions) {
+          let entry = { uid: key, confidence: taxonSuggestions[key] };
+          this.taxonSuggestions.push(entry);
+        }
+        this.taxonSuggestions.sort((a, b) => {
+          return parseFloat(a.confidence) > parseFloat(b.confidence) ? -1 : 1;
+        });
+
+        // get taxon doc for each ID and push to suggested list
+        this.taxonSuggestions.forEach((taxon: any) => {
+          this.taxonService
+            .getTaxon(taxon.uid)
+            .then(
+              (
+                taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>
+              ) => {
+                this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
+              }
+            );
+        });
       });
-    });
+    }
   }
 
   private setSearchTaxonList(searchTerm?: string): void {
     // query taxon collection
-    this.taxonService.searchTaxon('commonName.en', searchTerm)
+    this.taxonService
+      .searchTaxon('commonName.en', searchTerm)
       .then((taxonQuerySnapshot: firebase.firestore.QuerySnapshot<Taxon>) => {
-        taxonQuerySnapshot.docs.forEach((taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>) => {
-          this.searchTaxonList.push(taxonDocSnapshot.data());
-        });
+        taxonQuerySnapshot.docs.forEach(
+          (
+            taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>
+          ) => {
+            this.searchTaxonList.push(taxonDocSnapshot.data());
+          }
+        );
       });
   }
 
@@ -169,8 +212,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
   setDate(tar: any): void {
     const isoDate = tar.value;
     if (this.media) {
-      this.media.date = isoDate ?
-        firebase.firestore.Timestamp.fromDate(new Date(isoDate))
+      this.media.date = isoDate
+        ? firebase.firestore.Timestamp.fromDate(new Date(isoDate))
         : undefined;
     }
   }
@@ -217,5 +260,4 @@ export class UploadComponent implements OnInit, AfterViewInit {
   blur(tar: any): void {
     tar.blur();
   }
-
 }

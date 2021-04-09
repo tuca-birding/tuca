@@ -26,6 +26,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { EditMediaModalComponent } from './pages/media/edit-media-modal/edit-media-modal.component';
 import { SelectPlaceModalComponent } from './components/select-place-modal/select-place-modal.component';
 import { PlaceComponent } from './pages/place/place.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -60,9 +61,10 @@ import { PlaceComponent } from './pages/place/place.component';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule {}
