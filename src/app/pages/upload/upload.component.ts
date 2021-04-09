@@ -30,6 +30,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
   selectPlaceModalVisible = false;
+  thumbnailUrl: string | undefined;
   base64Image: string | undefined;
   readonly apiEndpoint =
     'https://us-central1-tuca-app.cloudfunctions.net/tucaModelPredict';
@@ -73,7 +74,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
       // if image param exists, set temp image, else trigger upload
       if (image) {
         this.media!.image = image;
-        this.media!.thumbnail = image;
+
+        this.media!.thumbnail = this.thumbnailUrl;
         // set suggested taxon
         this.setSuggestedTaxonList();
       } else {
@@ -114,6 +116,22 @@ export class UploadComponent implements OnInit, AfterViewInit {
   importImage(tar: EventTarget | null): void {
     const files = (tar as HTMLInputElement).files;
     if (files) {
+      // crop and upload the thumbnail
+      this.imageService
+        .resizeAndCropImage(files[0], [300, 300])
+        .then((imgString: string) => {
+          this.base64Image = imgString.split('base64,')[1];
+          this.imageService
+            .getBlobFromImgString(imgString)
+            .then((imgBlob: Blob) => {
+              this.mediaService
+                .uploadFile(`media/${this.media?.uid}`, imgBlob)
+                .then((downloadUrl: string) => {
+                  this.thumbnailUrl = downloadUrl;
+                });
+            });
+        });
+
       // resize and get string
       this.imageService
         .getResizedImgString(files[0])
@@ -133,18 +151,6 @@ export class UploadComponent implements OnInit, AfterViewInit {
                     queryParamsHandling: 'merge'
                   });
                 });
-            });
-        });
-
-      // crop and upload the thumbnail
-      this.imageService
-        .resizeAndCropImage(files[0], [300, 300])
-        .then((imgString: string) => {
-          this.base64Image = imgString.split('base64,')[1];
-          this.imageService
-            .getBlobFromImgString(imgString)
-            .then((imgBlob: Blob) => {
-              this.mediaService.uploadFile(`media/${this.media?.uid}`, imgBlob);
             });
         });
     }
