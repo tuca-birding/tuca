@@ -1,10 +1,16 @@
 <ng-container>
   <!-- image -->
-  <img
-    [attr.height]="media?.image ? 'auto' : '800'"
-    [src]="media?.image"
-    alt="An image of a bird"
-  />
+  <div
+    class="image"
+    *ngIf="media?.image"
+  >
+    <img
+      [src]="media?.image"
+      height="auto"
+      alt="An image of a bird"
+      (load)="handleLoad()"
+    />
+  </div>
   <!-- content -->
   <div class="content">
     <!-- header -->

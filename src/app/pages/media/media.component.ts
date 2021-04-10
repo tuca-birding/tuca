@@ -41,6 +41,12 @@ export class MediaComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToRoute();
+    // hide page before image is loaded
+    this.elRef.nativeElement.classList.add('transition');
+  }
+
+  handleLoad(): void {
+    // after load, animate the transition
     this.sharedService.animateTransition(this.elRef);
   }
 
