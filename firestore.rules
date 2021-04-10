@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read;
+      allow write: if false;
+    }
+    // users
+    match /users/{userUid} {
+      allow read;
+      allow create, update: if request.auth != null && userUid == request.auth.uid;
+    }
+    // taxon
+    match /genus/{taxonUid} {
+      allow read;
+    }
+    // media
+    match /media/{mediaUid} {
+      allow read;
+      allow create: if request.auth != null;
+      allow update, delete: if resource.data.ownerUid == request.auth.uid;
+    }
+    // predictions
+    match /predictions/{predictionUid} {
+      allow read, create, update: if true;
+    }
+  }
+}
