@@ -15,6 +15,8 @@ import { PlacesService } from 'src/app/services/places.service';
 import { ImageService } from 'src/app/services/image.service';
 import { HttpClient } from '@angular/common/http';
 import firebase from 'firebase/app';
+import { PredictionService } from 'src/app/services/prediction.service';
+import { Prediction } from 'src/app/models/prediction.model';
 
 @Component({
   selector: 'app-upload',
@@ -26,15 +28,14 @@ export class UploadComponent implements OnInit, AfterViewInit {
   tempTaxonDoc: Taxon | undefined;
   tempPlaceName: string | undefined;
   media: Media | undefined;
-  taxonSuggestions: Array<{ uid: string; confidence: string; }> = [];
+  taxonSuggestions: Array<{ uid: string; confidence: string }> = [];
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
   selectPlaceModalVisible = false;
   thumbnailUrl: string | undefined;
+  imageUrl: string | undefined;
   base64Image: string | undefined;
   fetching: boolean | undefined = true;
-  readonly apiEndpoint =
-    'https://us-central1-tuca-app.cloudfunctions.net/tucaModelPredict';
 
   constructor(
     public sharedService: SharedService,
@@ -43,6 +44,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
     private imageService: ImageService,
     private placesService: PlacesService,
     private taxonService: TaxonService,
+    private predictionService: PredictionService,
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient
@@ -60,7 +62,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
 
   private subscribeToRoute(): void {
     this.route.queryParams.subscribe((params: Params) => {
-      const image = params.image;
+      const documentUid = params.image;
       const taxon = params.taxon;
       const place = params.place;
       // if place exists, set it
@@ -73,11 +75,11 @@ export class UploadComponent implements OnInit, AfterViewInit {
           });
       }
       // if image param exists, set temp image, else trigger upload
-      if (image) {
-        this.media!.image = image;
+      if (documentUid) {
+        this.media!.image = this.imageUrl;
         this.media!.thumbnail = this.thumbnailUrl;
         // set suggested taxon
-        this.setSuggestedTaxonList();
+        this.setSuggestedTaxonList(documentUid);
       } else {
         this.fileInput?.nativeElement.click();
       }
@@ -144,10 +146,19 @@ export class UploadComponent implements OnInit, AfterViewInit {
               this.mediaService
                 .uploadFile(`media/${this.media?.uid}`, imgBlob)
                 .then((downloadUrl: string) => {
+                  this.imageUrl = downloadUrl;
+
+                  const predictionUid = this.predictionService.createRandomUid();
+                  let predictionModel = {
+                    imageUrl: downloadUrl,
+                    uid: predictionUid
+                  };
+
+                  this.predictionService.createPrediction(predictionModel);
                   // set router param
                   this.router.navigate([], {
                     relativeTo: this.route,
-                    queryParams: { image: downloadUrl },
+                    queryParams: { image: predictionUid },
                     queryParamsHandling: 'merge'
                   });
                 });
@@ -156,39 +167,58 @@ export class UploadComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private getTaxonSuggestions(): Promise<any> {
-    const request = { base64Image: this.base64Image };
-    return this.http.post(this.apiEndpoint, request).toPromise();
-  }
-
-  private setSuggestedTaxonList(): void {
+  private setSuggestedTaxonList(documentUid: string): void {
+    // if the photo is being uploaded now, send it to the model
     if (this.base64Image) {
       this.fetching = true;
-      this.getTaxonSuggestions().then((taxonSuggestions) => {
-        this.taxonSuggestions = [];
-        this.fetching = false;
-        for (let key in taxonSuggestions) {
-          let entry = { uid: key, confidence: taxonSuggestions[key] };
-          this.taxonSuggestions.push(entry);
-        }
-        this.taxonSuggestions.sort((a, b) => {
-          return parseFloat(a.confidence) > parseFloat(b.confidence) ? -1 : 1;
-        });
+      this.predictionService
+        .getTaxonSuggestions(this.base64Image)
+        .then((modelResult) => {
+          this.taxonSuggestions = modelResult;
+          this.fetching = false;
 
-        // get taxon doc for each ID and push to suggested list
-        this.taxonSuggestions.forEach((taxon: any) => {
-          this.taxonService
-            .getTaxon(taxon.uid)
-            .then(
-              (
-                taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>
-              ) => {
-                this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
-              }
-            );
+          // update prediction on Firestore document
+          const updatedPrediction = {
+            uid: documentUid,
+            predictions: modelResult
+          };
+          this.predictionService.updatePrediction(updatedPrediction);
+
+          this.getTaxonsDocuments();
         });
-      });
     }
+    // if prediction already exists, load it from the document
+    else {
+      this.fetching = false;
+
+      this.predictionService
+        .getPredictionsFrom(documentUid)
+        .then((predictionDoc: any) => {
+          const predictionData = new Prediction().deserialize(
+            predictionDoc.data()
+          );
+
+          if (predictionData.predictions) {
+            this.media!.image = predictionData?.imageUrl;
+            this.taxonSuggestions = predictionData.predictions;
+
+            this.getTaxonsDocuments();
+          }
+        });
+    }
+  }
+
+  private getTaxonsDocuments() {
+    // get taxon doc for each ID and push to suggested list
+    this.taxonSuggestions.forEach((taxon: any) => {
+      this.taxonService
+        .getTaxon(taxon.uid)
+        .then(
+          (taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+            this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
+          }
+        );
+    });
   }
 
   private setSearchTaxonList(searchTerm?: string): void {
