@@ -6,15 +6,19 @@
 <div
   class="icon"
   *ngIf="!image"
+  [ngClass]="{'skeleton': !header}"
 >
-  <kor-icon icon="assignment"></kor-icon>
+  <kor-icon
+    *ngIf="header"
+    icon="assignment"
+  ></kor-icon>
 </div>
 <div class="text">
   <kor-text
     size="header-1"
-    *ngIf="header"
+    [ngClass]="{'skeleton': !header}"
   >{{header}}</kor-text>
-  <kor-text *ngIf="label">{{label}}</kor-text>
+  <kor-text [ngClass]="{'skeleton': !label}">{{label}}</kor-text>
   <kor-tag
     [ngClass]="{'high': confidence > 50}"
     *ngIf="confidence"

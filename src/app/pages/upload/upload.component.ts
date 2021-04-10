@@ -13,8 +13,8 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
 import { PlacesService } from 'src/app/services/places.service';
 import { ImageService } from 'src/app/services/image.service';
-import firebase from 'firebase/app';
 import { HttpClient } from '@angular/common/http';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-upload',
@@ -26,12 +26,13 @@ export class UploadComponent implements OnInit, AfterViewInit {
   tempTaxonDoc: Taxon | undefined;
   tempPlaceName: string | undefined;
   media: Media | undefined;
-  taxonSuggestions: Array<{ uid: string; confidence: string }> = [];
+  taxonSuggestions: Array<{ uid: string; confidence: string; }> = [];
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
   selectPlaceModalVisible = false;
   thumbnailUrl: string | undefined;
   base64Image: string | undefined;
+  fetching: boolean | undefined = true;
   readonly apiEndpoint =
     'https://us-central1-tuca-app.cloudfunctions.net/tucaModelPredict';
 
@@ -74,7 +75,6 @@ export class UploadComponent implements OnInit, AfterViewInit {
       // if image param exists, set temp image, else trigger upload
       if (image) {
         this.media!.image = image;
-
         this.media!.thumbnail = this.thumbnailUrl;
         // set suggested taxon
         this.setSuggestedTaxonList();
@@ -163,8 +163,10 @@ export class UploadComponent implements OnInit, AfterViewInit {
 
   private setSuggestedTaxonList(): void {
     if (this.base64Image) {
+      this.fetching = true;
       this.getTaxonSuggestions().then((taxonSuggestions) => {
         this.taxonSuggestions = [];
+        this.fetching = false;
         for (let key in taxonSuggestions) {
           let entry = { uid: key, confidence: taxonSuggestions[key] };
           this.taxonSuggestions.push(entry);

@@ -20,6 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: unset;
     kor-icon {
       line-height: 48px;
       font-size: 48px;
@@ -45,6 +46,10 @@
       }
       &:not([size="header-1"]) {
         white-space: nowrap;
+      }
+      &.skeleton {
+        height: 16px;
+        margin: 4px 0;
       }
     }
     kor-tag {

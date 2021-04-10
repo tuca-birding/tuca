@@ -3,7 +3,7 @@
     [src]="media?.image"
     alt=""
   />
-  <ng-container *ngIf="!media?.taxonUid; then selectTaxon; else review"></ng-container>
+  <ng-container *ngIf="!media?.taxonUid; then selectTaxon; else details"></ng-container>
   <!-- 2. select taxon -->
   <ng-template #selectTaxon>
     <kor-text size="header-1">Select taxon</kor-text>
@@ -23,14 +23,19 @@
       <!-- suggested taxon -->
       <ng-container *ngIf="searchTaxonList.length > 0; then searchTaxon; else suggestedTaxon"></ng-container>
       <ng-template #suggestedTaxon>
-        <app-suggestion-card
-          *ngFor="let taxon of suggestedTaxonList"
-          [image]="taxon.thumbnail"
-          [header]="taxon.commonName?.en"
-          [label]="taxon.scientificName"
-          [confidence]="getTaxonConfidence(taxon.uid)"
-          (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
-        ></app-suggestion-card>
+        <ng-container *ngIf="!fetching; else skeleton">
+          <app-suggestion-card
+            *ngFor="let taxon of suggestedTaxonList"
+            [image]="taxon.thumbnail"
+            [header]="taxon.commonName?.en"
+            [label]="taxon.scientificName"
+            [confidence]="getTaxonConfidence(taxon.uid)"
+            (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
+          ></app-suggestion-card>
+        </ng-container>
+        <ng-template #skeleton>
+          <app-suggestion-card *ngFor="let item of [].constructor(8)"></app-suggestion-card>
+        </ng-template>
       </ng-template>
       <!-- search taxon -->
       <ng-template #searchTaxon>
@@ -44,14 +49,23 @@
       </ng-template>
     </div>
   </ng-template>
-  <!-- 3. review -->
-  <ng-template #review>
+  <!-- 3. details -->
+  <ng-template #details>
     <kor-text size="header-1">Confirm details</kor-text>
     <kor-input
+      readonly
       label="Place"
       [value]="tempPlaceName"
-      (click)="selectPlaceModalVisible = true; blur($event.target)"
-    ></kor-input>
+      style="pointer-events: all;"
+    >
+      <kor-icon
+        button
+        icon="edit"
+        slot="functions"
+        (click)="selectPlaceModalVisible = true"
+      >
+      </kor-icon>
+    </kor-input>
     <kor-input
       label="Date of capture"
       no-clear
