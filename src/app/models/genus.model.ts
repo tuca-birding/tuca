@@ -1,9 +1,9 @@
 import { Deserializable } from './deserializable.model';
 
-export class Taxon implements Deserializable {
+export class GenusModel implements Deserializable {
   category: string;
   commonFamilyName: string;
-  commonName: { [key: string]: string; };
+  commonName: { [key: string]: string };
   description: string | null;
   externalId: string;
   order: string;

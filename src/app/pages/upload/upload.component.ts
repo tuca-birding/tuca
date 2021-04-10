@@ -13,10 +13,11 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../../services/shared.service';
 import { PlacesService } from 'src/app/services/places.service';
 import { ImageService } from 'src/app/services/image.service';
-import { HttpClient } from '@angular/common/http';
 import firebase from 'firebase/app';
 import { PredictionService } from 'src/app/services/prediction.service';
-import { Prediction } from 'src/app/models/prediction.model';
+import { PredictionModel } from 'src/app/models/prediction.model';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { MediaModel } from 'src/app/models/media.model';
 
 @Component({
   selector: 'app-upload',
@@ -27,8 +28,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   tempTaxonDoc: Taxon | undefined;
   tempPlaceName: string | undefined;
-  media: Media | undefined;
-  taxonSuggestions: Array<{ uid: string; confidence: string }> = [];
+  media: Media | MediaModel | undefined;
+  taxonSuggestions: Array<{ uid: string; confidence: string }> | undefined;
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
   selectPlaceModalVisible = false;
@@ -36,6 +37,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
   imageUrl: string | undefined;
   base64Image: string | undefined;
   fetching: boolean | undefined = true;
+  routeImage: string | undefined;
+  predictionData: PredictionModel | undefined;
 
   constructor(
     public sharedService: SharedService,
@@ -45,15 +48,18 @@ export class UploadComponent implements OnInit, AfterViewInit {
     private placesService: PlacesService,
     private taxonService: TaxonService,
     private predictionService: PredictionService,
+    private firestoreService: FirestoreService,
     private route: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient
+    private router: Router
   ) {
     sharedService.appLabel = 'Upload';
   }
 
   ngOnInit(): void {
-    this.createMediaObject();
+    this.media = new MediaModel().createNew(
+      this.firestoreService.createRandomUid(),
+      this.userService.user?.uid
+    );
   }
 
   ngAfterViewInit(): void {
@@ -62,7 +68,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
 
   private subscribeToRoute(): void {
     this.route.queryParams.subscribe((params: Params) => {
-      const documentUid = params.image;
+      this.routeImage = params.image;
       const taxon = params.taxon;
       const place = params.place;
       // if place exists, set it
@@ -75,11 +81,11 @@ export class UploadComponent implements OnInit, AfterViewInit {
           });
       }
       // if image param exists, set temp image, else trigger upload
-      if (documentUid) {
+      if (this.routeImage) {
         this.media!.image = this.imageUrl;
         this.media!.thumbnail = this.thumbnailUrl;
         // set suggested taxon
-        this.setSuggestedTaxonList(documentUid);
+        this.setSuggestedTaxonList();
       } else {
         this.fileInput?.nativeElement.click();
       }
@@ -99,20 +105,6 @@ export class UploadComponent implements OnInit, AfterViewInit {
         this.media!.taxonUid = undefined;
       }
     });
-  }
-
-  private createMediaObject(): void {
-    this.media = {
-      uid: this.mediaService.createRandomUid(),
-      type: 'photo',
-      image: undefined,
-      thumbnail: undefined,
-      date: firebase.firestore.Timestamp.fromDate(new Date()),
-      uploadDate: firebase.firestore.Timestamp.fromDate(new Date()),
-      ownerUid: this.userService.user?.uid,
-      taxonUid: undefined,
-      placeUid: undefined
-    };
   }
 
   importImage(tar: EventTarget | null): void {
@@ -148,13 +140,14 @@ export class UploadComponent implements OnInit, AfterViewInit {
                 .then((downloadUrl: string) => {
                   this.imageUrl = downloadUrl;
 
-                  const predictionUid = this.predictionService.createRandomUid();
-                  let predictionModel = {
-                    imageUrl: downloadUrl,
-                    uid: predictionUid
-                  };
-
-                  this.predictionService.createPrediction(predictionModel);
+                  const predictionUid = this.firestoreService.createRandomUid();
+                  let predictionModel: PredictionModel = new PredictionModel().deserialize(
+                    {
+                      imageUrl: downloadUrl,
+                      uid: predictionUid
+                    }
+                  );
+                  this.firestoreService.createDocument(predictionModel);
                   // set router param
                   this.router.navigate([], {
                     relativeTo: this.route,
@@ -167,7 +160,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private setSuggestedTaxonList(documentUid: string): void {
+  private setSuggestedTaxonList(): void {
     // if the photo is being uploaded now, send it to the model
     if (this.base64Image) {
       this.fetching = true;
@@ -178,47 +171,47 @@ export class UploadComponent implements OnInit, AfterViewInit {
           this.fetching = false;
 
           // update prediction on Firestore document
-          const updatedPrediction = {
-            uid: documentUid,
+          this.predictionData = new PredictionModel().deserialize({
+            uid: this.routeImage,
             predictions: modelResult
-          };
-          this.predictionService.updatePrediction(updatedPrediction);
+          });
+          this.firestoreService.updateDocument(this.predictionData);
 
           this.getTaxonsDocuments();
         });
     }
     // if prediction already exists, load it from the document
-    else {
+    else if (this.routeImage) {
       this.fetching = false;
 
-      this.predictionService
-        .getPredictionsFrom(documentUid)
+      this.firestoreService
+        .getDocument(this.routeImage, 'predictions')
         .then((predictionDoc: any) => {
-          const predictionData = new Prediction().deserialize(
+          this.predictionData = new PredictionModel().deserialize(
             predictionDoc.data()
           );
 
-          if (predictionData.predictions) {
-            this.media!.image = predictionData?.imageUrl;
-            this.taxonSuggestions = predictionData.predictions;
+          this.taxonSuggestions = this.predictionData.predictions;
+          this.media!.image = this.predictionData?.imageUrl;
 
-            this.getTaxonsDocuments();
-          }
+          this.getTaxonsDocuments();
         });
     }
   }
 
   private getTaxonsDocuments() {
     // get taxon doc for each ID and push to suggested list
-    this.taxonSuggestions.forEach((taxon: any) => {
-      this.taxonService
-        .getTaxon(taxon.uid)
-        .then(
-          (taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-            this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
-          }
-        );
-    });
+    if (this.taxonSuggestions) {
+      this.taxonSuggestions.forEach((taxon: any) => {
+        this.taxonService
+          .getTaxon(taxon.uid)
+          .then(
+            (taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+              this.suggestedTaxonList.push(taxonDocSnapshot.data()!);
+            }
+          );
+      });
+    }
   }
 
   private setSearchTaxonList(searchTerm?: string): void {
@@ -264,6 +257,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
   }
 
   setTaxon(taxonUid: string): void {
+    this.media!.taxonUid = taxonUid;
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { taxon: taxonUid },
@@ -284,7 +278,17 @@ export class UploadComponent implements OnInit, AfterViewInit {
       this.userService.signInModalVisible = true;
     } else if (this.media) {
       this.media.ownerUid = this.userService.user.uid;
-      this.mediaService.createMedia(this.media).then(() => {
+      const predictionConfirmed: PredictionModel = new PredictionModel().deserialize(
+        {
+          uid: this.routeImage,
+          submittedUid: this.media!.taxonUid
+        }
+      );
+      this.firestoreService.updateDocument(predictionConfirmed);
+
+      const media = new MediaModel().deserialize(this.media);
+
+      this.firestoreService.createDocument(media).then(() => {
         this.router.navigateByUrl(`media/${this.media?.uid}`);
       });
     }

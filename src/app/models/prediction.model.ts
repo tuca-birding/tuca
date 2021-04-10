@@ -1,9 +1,10 @@
 import { Deserializable } from './deserializable.model';
 
-export class Prediction implements Deserializable {
+export class PredictionModel implements Deserializable {
   predictions?: Array<{ uid: string; confidence: string }>;
   imageUrl?: string;
   uid!: string;
+  submittedUid?: string;
 
   deserialize(input: any) {
     Object.assign(this, input);
