@@ -56,11 +56,7 @@ export class UserComponent implements OnInit {
       .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
         mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
-          const mediaData: Media = mediaDocSnapshot.data();
-          // get user doc promise
-          if (mediaData.taxonUid) {
-            this.mediaList.push(mediaData);
-          }
+          this.mediaList.push(mediaDocSnapshot.data());
         });
       });
   }

@@ -14,7 +14,9 @@ export class MediaService {
   getFilteredMediaList(filterKey: string, filterValue: string): Promise<firebase.firestore.QuerySnapshot<Media>> {
     return this.firestore
       .collection<Media>('media', (ref: CollectionReference) =>
-        ref.where(filterKey, '==', filterValue)
+        ref
+          .where(filterKey, '==', filterValue)
+          .orderBy('uploadDate', 'desc')
       )
       .get()
       .toPromise();
@@ -23,7 +25,9 @@ export class MediaService {
   getRecentMediaList(): Promise<firebase.firestore.QuerySnapshot<Media>> {
     return this.firestore
       .collection<Media>('media', (ref: CollectionReference) =>
-        ref.orderBy('uploadDate', 'desc').limit(8)
+        ref
+          .orderBy('uploadDate', 'desc')
+          .limit(8)
       )
       .get()
       .toPromise();
@@ -33,9 +37,11 @@ export class MediaService {
     return new Promise((resolve) => {
       const mediaRef = this.fireStorage.storage.ref(path);
       mediaRef.put(file).then(() => {
-        mediaRef.getDownloadURL().then((downloadUrl: string) => {
-          resolve(downloadUrl);
-        });
+        mediaRef
+          .getDownloadURL()
+          .then((downloadUrl: string) => {
+            resolve(downloadUrl);
+          });
       });
     });
   }
