@@ -21,10 +21,10 @@ export class MediaComponent implements OnInit {
     taxonDoc: Taxon | undefined;
     ownerDoc: User | undefined;
   } = {
-      placeName: undefined,
-      taxonDoc: undefined,
-      ownerDoc: undefined
-    };
+    placeName: undefined,
+    taxonDoc: undefined,
+    ownerDoc: undefined
+  };
 
   constructor(
     public sharedService: SharedService,
@@ -71,21 +71,32 @@ export class MediaComponent implements OnInit {
           this.media = mediaDocSnapshot.data();
           // get user doc and set userDoc field
           if (this.media?.ownerUid) {
-            this.userService.getUser(this.media.ownerUid)
-              .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
-                this.mediaInfo.ownerDoc = userDocSnapshot.data();
-              });
+            this.userService
+              .getUser(this.media.ownerUid)
+              .then(
+                (
+                  userDocSnapshot: firebase.firestore.DocumentSnapshot<User>
+                ) => {
+                  this.mediaInfo.ownerDoc = userDocSnapshot.data();
+                }
+              );
           }
           // get taxon doc and set taxonDoc field
           if (this.media?.taxonUid) {
-            this.taxonService.getTaxon(this.media.taxonUid)
-              .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-                this.mediaInfo.taxonDoc = taxonDocSnapshot.data();
-              });
+            this.taxonService
+              .getTaxon(this.media.taxonUid)
+              .then(
+                (
+                  taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>
+                ) => {
+                  this.mediaInfo.taxonDoc = taxonDocSnapshot.data();
+                }
+              );
           }
           // get place name and set field
           if (this.media?.placeUid) {
-            this.placesService.getPlaceDetails(this.media?.placeUid)
+            this.placesService
+              .getPlaceDetails(this.media?.placeUid)
               .then((placeDetails: google.maps.places.PlaceResult) => {
                 this.mediaInfo.placeName = placeDetails.name;
               });
@@ -93,5 +104,4 @@ export class MediaComponent implements OnInit {
         }
       });
   }
-
 }

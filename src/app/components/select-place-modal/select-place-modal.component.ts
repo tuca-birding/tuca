@@ -1,4 +1,11 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { PlacesService } from 'src/app/services/places.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -18,7 +25,7 @@ export class SelectPlaceModalComponent implements OnInit {
   constructor(
     public sharedService: SharedService,
     private placesService: PlacesService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     // start animation
@@ -32,9 +39,11 @@ export class SelectPlaceModalComponent implements OnInit {
     const term = typeof input === 'string' ? input : input.value;
     // reset array, trigger search and then assign result
     this.suggestedPlaces = [];
-    this.placesService.textSearch(term).then((result: google.maps.places.PlaceResult[]) => {
-      this.suggestedPlaces = result;
-    });
+    this.placesService
+      .textSearch(term)
+      .then((result: google.maps.places.PlaceResult[]) => {
+        this.suggestedPlaces = result;
+      });
   }
 
   handleSelect(placeUid: string | undefined): void {

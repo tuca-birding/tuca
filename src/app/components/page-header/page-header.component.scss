@@ -1,7 +1,7 @@
 :host {
   margin: 24px 0;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(var(--neutral-1), .2);
+  border-bottom: 1px solid rgba(var(--neutral-1), 0.2);
   display: flex;
   flex-direction: column;
   .flex {
@@ -11,7 +11,7 @@
     .image {
       overflow: hidden;
       border-radius: 50%;
-      background: rgba(var(--accent-1), .1);
+      background: rgba(var(--accent-1), 0.1);
       display: flex;
       align-items: center;
       justify-content: center;

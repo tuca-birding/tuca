@@ -37,10 +37,13 @@ export class TaxonComponent implements OnInit {
       const taxonUid = params.get('taxonUid');
       if (taxonUid) {
         // if set, query corresponding doc and set property
-        this.taxonService.getTaxon(taxonUid)
-          .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-            this.taxon = taxonDocSnapshot.data();
-          });
+        this.taxonService
+          .getTaxon(taxonUid)
+          .then(
+            (taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
+              this.taxon = taxonDocSnapshot.data();
+            }
+          );
         this.setMediaList(taxonUid);
       }
     });
@@ -52,11 +55,14 @@ export class TaxonComponent implements OnInit {
       .getFilteredMediaList('taxonUid', taxonUid)
       .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
-        mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
-          // push media data to media list
-          this.mediaList.push(mediaDocSnapshot.data());
-        });
+        mediaQuerySnapshot.forEach(
+          (
+            mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>
+          ) => {
+            // push media data to media list
+            this.mediaList.push(mediaDocSnapshot.data());
+          }
+        );
       });
   }
-
 }

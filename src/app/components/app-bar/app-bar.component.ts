@@ -10,15 +10,12 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./app-bar.component.scss']
 })
 export class AppBarComponent implements OnInit {
-
   constructor(
     public sharedService: SharedService,
     public userService: UserService,
     public router: Router,
     public location: Location
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -4,7 +4,7 @@
     width: calc(100% + 32px);
     max-height: calc(100vh - 200px);
     min-height: 240px;
-    background: rgba(var(--neutral-1), .05);
+    background: rgba(var(--neutral-1), 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,7 +62,7 @@
           }
           > kor-icon {
             margin-right: 8px;
-            &[icon^='url'] {
+            &[icon^="url"] {
               border-radius: 50%;
               overflow: hidden;
             }
@@ -72,10 +72,13 @@
     }
   }
 }
-:host, .content, .taxon {
+:host,
+.content,
+.taxon {
   display: flex;
   flex-direction: column;
 }
-.taxon, .link {
+.taxon,
+.link {
   cursor: pointer;
 }

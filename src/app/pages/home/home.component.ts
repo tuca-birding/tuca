@@ -38,43 +38,57 @@ export class HomeComponent implements OnInit {
   }
 
   getRecentMedia(): void {
-    this.mediaService.getRecentMediaList()
+    this.mediaService
+      .getRecentMediaList()
       .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
-        mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
-          const mediaData: Media = mediaDocSnapshot.data();
-          // push media data to media list
-          this.recentMediaList.push(mediaData);
-        });
+        mediaQuerySnapshot.forEach(
+          (
+            mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>
+          ) => {
+            const mediaData: Media = mediaDocSnapshot.data();
+            // push media data to media list
+            this.recentMediaList.push(mediaData);
+          }
+        );
       });
   }
 
   getFeaturedTaxon(): void {
-    this.taxonService.getFeaturedTaxonList()
+    this.taxonService
+      .getFeaturedTaxonList()
       .then((taxonQuerySnapshot: firebase.firestore.QuerySnapshot<Taxon>) => {
         // iterate over each media
-        taxonQuerySnapshot.forEach((taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>) => {
-          const taxonData: Taxon = taxonDocSnapshot.data();
-          // push taxon data to featured taxon list
-          this.featuredTaxonList.push(taxonData);
-        });
+        taxonQuerySnapshot.forEach(
+          (
+            taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>
+          ) => {
+            const taxonData: Taxon = taxonDocSnapshot.data();
+            // push taxon data to featured taxon list
+            this.featuredTaxonList.push(taxonData);
+          }
+        );
       });
   }
 
   getFeaturedUsers(): void {
-    this.userService.getFeaturedUsersList()
+    this.userService
+      .getFeaturedUsersList()
       .then((userQuerySnapshot: firebase.firestore.QuerySnapshot<User>) => {
         // iterate over each media
-        userQuerySnapshot.forEach((userDocSnapshot: firebase.firestore.QueryDocumentSnapshot<User>) => {
-          const userData: User = userDocSnapshot.data();
-          // push taxon data to featured taxon list
-          this.featuredUsersList.push(userData);
-        });
+        userQuerySnapshot.forEach(
+          (userDocSnapshot: firebase.firestore.QueryDocumentSnapshot<User>) => {
+            const userData: User = userDocSnapshot.data();
+            // push taxon data to featured taxon list
+            this.featuredUsersList.push(userData);
+          }
+        );
       });
   }
 
   setRandomIllustration(): void {
-    this.illustrationUrl = `/assets/illustrations/bird_${Math.floor(Math.random() * 2)}.png`;
+    this.illustrationUrl = `/assets/illustrations/bird_${Math.floor(
+      Math.random() * 2
+    )}.png`;
   }
-
 }

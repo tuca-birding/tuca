@@ -39,13 +39,19 @@ export class TaxonListComponent implements OnInit {
     // set fetching
     this.fetching = true;
     // query taxon collection
-    this.taxonService.searchTaxon('commonName.en', searchTerm, this.lastTaxonRef)
+    this.taxonService
+      .searchTaxon('commonName.en', searchTerm, this.lastTaxonRef)
       .then((taxonQuerySnapshot: firebase.firestore.QuerySnapshot<Taxon>) => {
-        taxonQuerySnapshot.docs.forEach((taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>) => {
-          this.taxonList.push(taxonDocSnapshot.data());
-        });
+        taxonQuerySnapshot.docs.forEach(
+          (
+            taxonDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Taxon>
+          ) => {
+            this.taxonList.push(taxonDocSnapshot.data());
+          }
+        );
         // set last taxon ref for pagination
-        this.lastTaxonRef = taxonQuerySnapshot.docs[taxonQuerySnapshot.docs.length - 1];
+        this.lastTaxonRef =
+          taxonQuerySnapshot.docs[taxonQuerySnapshot.docs.length - 1];
         // reset fetching
         this.fetching = false;
       });
@@ -60,5 +66,4 @@ export class TaxonListComponent implements OnInit {
     // get new query based on capitalized search term
     this.setTaxonList(this.sharedService.capitalizeString(searchTerm));
   }
-
 }

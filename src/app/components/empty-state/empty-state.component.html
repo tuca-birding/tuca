@@ -1,17 +1,6 @@
-<img
-  [src]="image"
-  alt=""
-  height="240px"
-  *ngIf="image"
-/>
+<img [src]="image" alt="" height="240px" *ngIf="image" />
 <div class="header">
-  <kor-text
-    size="header-1"
-    *ngIf="header"
-  >{{header}}</kor-text>
-  <kor-text
-    size="body-1"
-    *ngIf="label"
-  >{{label}}</kor-text>
+  <kor-text size="header-1" *ngIf="header">{{ header }}</kor-text>
+  <kor-text size="body-1" *ngIf="label">{{ label }}</kor-text>
 </div>
 <ng-content></ng-content>

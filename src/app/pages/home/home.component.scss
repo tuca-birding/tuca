@@ -8,13 +8,13 @@
   .banner {
     display: flex;
     height: 480px;
-    background-color: rgba(var(--neutral-1), .05);
+    background-color: rgba(var(--neutral-1), 0.05);
     border-radius: var(--border-radius);
   }
   .carousel {
     margin-top: 24px;
     padding-top: 24px;
-    border-top: 1px solid rgba(var(--neutral-1), .2);
+    border-top: 1px solid rgba(var(--neutral-1), 0.2);
   }
   kor-text[size="header-1"] {
     font-size: 20px;

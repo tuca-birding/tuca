@@ -7,7 +7,6 @@ import { Media, Taxon, User } from '../../interfaces';
 import { MediaService } from '../../services/media.service';
 import { TaxonService } from '../../services/taxon.service';
 
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -40,10 +39,13 @@ export class UserComponent implements OnInit {
       const userUid = params.get('userUid');
       if (userUid) {
         // if set, query corresponding doc and set property
-        this.userService.getUser(userUid)
-          .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
-            this.user = userDocSnapshot.data();
-          });
+        this.userService
+          .getUser(userUid)
+          .then(
+            (userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
+              this.user = userDocSnapshot.data();
+            }
+          );
         this.setMediaList(userUid);
       }
     });
@@ -55,10 +57,13 @@ export class UserComponent implements OnInit {
       .getFilteredMediaList('ownerUid', userUid)
       .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
-        mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
-          this.mediaList.push(mediaDocSnapshot.data());
-        });
+        mediaQuerySnapshot.forEach(
+          (
+            mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>
+          ) => {
+            this.mediaList.push(mediaDocSnapshot.data());
+          }
+        );
       });
   }
-
 }

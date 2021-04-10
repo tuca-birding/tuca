@@ -9,7 +9,7 @@
     readonly
     label="Place"
     [value]="tempPlaceName"
-    style="pointer-events: all;"
+    style="pointer-events: all"
   >
     <kor-icon
       button
@@ -23,7 +23,7 @@
     label="Date of capture"
     no-clear
     type="date"
-    [value]="media?.date?.toDate() | date:'yyyy-MM-dd'"
+    [value]="media?.date?.toDate() | date: 'yyyy-MM-dd'"
     (input)="setDate($event.target)"
   ></kor-input>
   <kor-textarea

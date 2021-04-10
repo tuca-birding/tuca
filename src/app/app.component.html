@@ -1,17 +1,16 @@
 <kor-page
-  theme="{{sharedService.appTheme}}"
+  theme="{{ sharedService.appTheme }}"
   flex-direction="column"
   padding="unset"
 >
   <!-- app bar -->
   <app-app-bar slot="top"></app-app-bar>
   <!-- nav bar -->
-  <app-nav-bar [slot]="sharedService.screenSize == 's' ? 'bottom' : 'left'"></app-nav-bar>
+  <app-nav-bar
+    [slot]="sharedService.screenSize == 's' ? 'bottom' : 'left'"
+  ></app-nav-bar>
   <!-- body -->
-  <div
-    class="body"
-    (scroll)="handlePageScroll($event)"
-  >
+  <div class="body" (scroll)="handlePageScroll($event)">
     <router-outlet></router-outlet>
   </div>
 </kor-page>

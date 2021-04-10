@@ -10,7 +10,7 @@ export class SharedService {
   appLabel = 'Tuca';
   scrollBottomSubject: Subject<any> = new Subject();
 
-  constructor() { }
+  constructor() {}
 
   setScreenSize(): void {
     this.screenSize = window.innerWidth <= 768 ? 's' : 'l';
@@ -21,7 +21,9 @@ export class SharedService {
     if (wordArray) {
       for (let i = 0; i < wordArray?.length; i++) {
         if (wordArray[i]) {
-          wordArray[i] = `${wordArray[i][0]?.toUpperCase()}${wordArray[i].substr(1)}`;
+          wordArray[i] = `${wordArray[i][0]?.toUpperCase()}${wordArray[
+            i
+          ].substr(1)}`;
         }
       }
     }
