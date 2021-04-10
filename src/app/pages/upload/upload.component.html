@@ -1,9 +1,8 @@
 <ng-container *ngIf="media?.image">
-  <img
-    [src]="media?.image"
-    alt=""
-  />
-  <ng-container *ngIf="!media?.taxonUid; then selectTaxon; else details"></ng-container>
+  <img [src]="media?.image" alt="" />
+  <ng-container
+    *ngIf="!media?.taxonUid; then selectTaxon; else details"
+  ></ng-container>
   <!-- 2. select taxon -->
   <ng-template #selectTaxon>
     <kor-text size="header-1">Select taxon</kor-text>
@@ -21,7 +20,13 @@
         ></kor-icon>
       </kor-input>
       <!-- suggested taxon -->
-      <ng-container *ngIf="searchTaxonList.length > 0; then searchTaxon; else suggestedTaxon"></ng-container>
+      <ng-container
+        *ngIf="
+          searchTaxonList.length > 0;
+          then searchTaxon;
+          else suggestedTaxon
+        "
+      ></ng-container>
       <ng-template #suggestedTaxon>
         <ng-container *ngIf="!fetching; else skeleton">
           <app-suggestion-card
@@ -30,11 +35,13 @@
             [header]="taxon.commonName?.en"
             [label]="taxon.scientificName"
             [confidence]="getTaxonConfidence(taxon.uid)"
-            (click)="media!.taxonUid = taxon.uid; setTaxon(taxon.uid)"
+            (click)="base64Image ? setTaxon(taxon.uid) : ''"
           ></app-suggestion-card>
         </ng-container>
         <ng-template #skeleton>
-          <app-suggestion-card *ngFor="let item of [].constructor(8)"></app-suggestion-card>
+          <app-suggestion-card
+            *ngFor="let item of [].constructor(8)"
+          ></app-suggestion-card>
         </ng-template>
       </ng-template>
       <!-- search taxon -->
@@ -56,7 +63,7 @@
       readonly
       label="Place"
       [value]="tempPlaceName"
-      style="pointer-events: all;"
+      style="pointer-events: all"
     >
       <kor-icon
         button
@@ -70,7 +77,7 @@
       label="Date of capture"
       no-clear
       type="date"
-      [value]="media?.date.toDate() | date:'yyyy-MM-dd'"
+      [value]="media?.date.toDate() | date: 'yyyy-MM-dd'"
       (input)="setDate($event.target)"
     ></kor-input>
     <kor-textarea
@@ -82,7 +89,7 @@
     <!-- cta confirm button -->
     <kor-button
       label="Confirm"
-      [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+      [ngClass]="{ mobile: sharedService.screenSize === 's' }"
       (click)="handleConfirm()"
     ></kor-button>
   </ng-template>
