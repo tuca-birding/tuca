@@ -10,8 +10,8 @@ body,
   --accent-1b: 245, 75, 20 !important;
   --accent-1c: 225, 55, 0 !important;
   --accent-2: 80, 30, 180 !important;
-  --header-1: normal 16px/24px "Archivo Black" !important;
-  --header-2: normal 14px/24px "Archivo Black" !important;
+  --header-1: normal 16px/24px 'Archivo Black' !important;
+  --header-2: normal 14px/24px 'Archivo Black' !important;
   --border-radius: 8px;
   font: var(--body-1) !important;
   color: var(--text-1);
@@ -28,7 +28,7 @@ kor-button {
     padding: 8px 12px;
     max-width: unset;
   }
-  &[color="primary"] {
+  &[color='primary'] {
     background-color: rgb(var(--accent-2));
   }
 }
@@ -65,7 +65,7 @@ app-media {
       rgba(var(--neutral-1), 0)
     );
     animation: shimmer 2s infinite;
-    content: "";
+    content: '';
   }
 }
 

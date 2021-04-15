@@ -40,12 +40,12 @@
     kor-text {
       overflow: hidden;
       text-overflow: ellipsis;
-      &[size="header-1"] {
+      &[size='header-1'] {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
       }
-      &:not([size="header-1"]) {
+      &:not([size='header-1']) {
         white-space: nowrap;
       }
       &.skeleton {
@@ -56,7 +56,7 @@
     kor-tag {
       margin-top: 8px;
       padding: 0 4px;
-      --body-1: bold 14px/24px "open-sans";
+      --body-1: bold 14px/24px 'open-sans';
       &.high {
         background-color: rgb(var(--accent-2));
         border-color: rgb(var(--accent-2));
