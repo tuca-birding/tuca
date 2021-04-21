@@ -23,7 +23,7 @@ export class EditMediaModalComponent implements OnInit {
     private mediaService: MediaService,
     private placesService: PlacesService,
     private location: Location
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     setTimeout(() => {

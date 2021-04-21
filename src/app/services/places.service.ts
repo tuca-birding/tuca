@@ -11,12 +11,12 @@ export class PlacesService {
     this.map
   );
 
-  constructor() {}
+  constructor() { }
 
   textSearch(term: string | any): Promise<google.maps.places.PlaceResult[]> {
     const request: google.maps.places.TextSearchRequest = {
       query: term,
-      type: 'locality'
+      type: 'locality',
     };
     return new Promise<google.maps.places.PlaceResult[]>((resolve) => {
       this.service.textSearch(

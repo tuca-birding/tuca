@@ -10,13 +10,21 @@
     slot="functions"
     (click)="close.emit()"
   ></kor-icon>
+  <!-- search -->
   <kor-input
     autofocus
+    no-clear
     label="Search for place..."
     type="search"
-    (input)="findPlace($event.target)"
+    (keydown.enter)="findPlace($event.target)"
     #searchEl
-  ></kor-input>
+  >
+    <kor-icon
+      icon="search"
+      slot="functions"
+      (click)="findPlace($event.target)"
+    ></kor-icon>
+  </kor-input>
   <kor-menu-item
     *ngFor="let place of suggestedPlaces"
     icon="place"
