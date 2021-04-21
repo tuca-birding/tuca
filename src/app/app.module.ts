@@ -15,7 +15,7 @@ import { EmptyStateComponent } from './components/empty-state/empty-state.compon
 import { TaxonComponent } from './pages/taxon/taxon.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { MediaCardComponent } from './components/media-card/media-card.component';
-import { TaxonListComponent } from './pages/taxon-list/taxon-list.component';
+import { SearchComponent } from './pages/search/search.component';
 import { AppBarComponent } from './components/app-bar/app-bar.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MediaComponent } from './pages/media/media.component';
@@ -38,7 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     TaxonComponent,
     PageHeaderComponent,
     MediaCardComponent,
-    TaxonListComponent,
+    SearchComponent,
     AppBarComponent,
     NavBarComponent,
     MediaComponent,
@@ -67,4 +67,4 @@ import { HttpClientModule } from '@angular/common/http';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }

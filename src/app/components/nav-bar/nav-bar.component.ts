@@ -11,12 +11,12 @@ export class NavBarComponent implements OnInit {
   tabList = [
     { icon: 'home', route: '/home' },
     { icon: 'file_upload', route: '/upload' },
-    { icon: 'search', route: '/taxon-list' }
+    { icon: 'search', route: '/search' }
   ];
 
-  constructor(public router: Router, private userService: UserService) {}
+  constructor(public router: Router, private userService: UserService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   getUserRoute(): string {
     return this.userService.user ? `/user/${this.userService.user?.uid}` : '';

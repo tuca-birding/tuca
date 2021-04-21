@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { MediaComponent } from './pages/media/media.component';
 import { PlaceComponent } from './pages/place/place.component';
-import { TaxonListComponent } from './pages/taxon-list/taxon-list.component';
+import { SearchComponent } from './pages/search/search.component';
 import { TaxonComponent } from './pages/taxon/taxon.component';
 import { UploadComponent } from './pages/upload/upload.component';
 import { UserComponent } from './pages/user/user.component';
@@ -23,8 +23,8 @@ const routes: Routes = [
     component: UploadComponent
   },
   {
-    path: 'taxon-list',
-    component: TaxonListComponent
+    path: 'search',
+    component: SearchComponent
   },
   {
     path: 'taxon/:taxonUid',
@@ -48,4 +48,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

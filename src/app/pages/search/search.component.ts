@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
 import { TaxonService } from 'src/app/services/taxon.service';
 
 @Component({
-  selector: 'app-taxon-list',
-  templateUrl: './taxon-list.component.html',
-  styleUrls: ['./taxon-list.component.scss']
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss']
 })
-export class TaxonListComponent implements OnInit {
+export class SearchComponent implements OnInit {
   taxonList: Taxon[] = [];
   lastTaxonRef: firebase.firestore.QueryDocumentSnapshot<Taxon> | undefined;
   fetching: boolean | undefined;
