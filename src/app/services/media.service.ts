@@ -8,15 +8,18 @@ import { Media } from '../interfaces';
   providedIn: 'root'
 })
 export class MediaService {
+  constructor(
+    private firestore: AngularFirestore,
+    private fireStorage: AngularFireStorage
+  ) {}
 
-  constructor(private firestore: AngularFirestore, private fireStorage: AngularFireStorage) { }
-
-  getFilteredMediaList(filterKey: string, filterValue: string): Promise<firebase.firestore.QuerySnapshot<Media>> {
+  getFilteredMediaList(
+    filterKey: string,
+    filterValue: string
+  ): Promise<firebase.firestore.QuerySnapshot<Media>> {
     return this.firestore
       .collection<Media>('media', (ref: CollectionReference) =>
-        ref
-          .where(filterKey, '==', filterValue)
-          .orderBy('uploadDate', 'desc')
+        ref.where(filterKey, '==', filterValue).orderBy('uploadDate', 'desc')
       )
       .get()
       .toPromise();
@@ -25,9 +28,7 @@ export class MediaService {
   getRecentMediaList(): Promise<firebase.firestore.QuerySnapshot<Media>> {
     return this.firestore
       .collection<Media>('media', (ref: CollectionReference) =>
-        ref
-          .orderBy('uploadDate', 'desc')
-          .limit(8)
+        ref.orderBy('uploadDate', 'desc').limit(8)
       )
       .get()
       .toPromise();
@@ -37,20 +38,15 @@ export class MediaService {
     return new Promise((resolve) => {
       const mediaRef = this.fireStorage.storage.ref(path);
       mediaRef.put(file).then(() => {
-        mediaRef
-          .getDownloadURL()
-          .then((downloadUrl: string) => {
-            resolve(downloadUrl);
-          });
+        mediaRef.getDownloadURL().then((downloadUrl: string) => {
+          resolve(downloadUrl);
+        });
       });
     });
   }
 
   createMedia(media: Media): Promise<void> {
-    return this.firestore
-      .collection<Media>('media')
-      .doc(media.uid)
-      .set(media);
+    return this.firestore.collection<Media>('media').doc(media.uid).set(media);
   }
 
   updateMedia(media: Media): Promise<void> {
@@ -61,14 +57,10 @@ export class MediaService {
   }
 
   deleteMedia(mediaUid: string): Promise<void> {
-    return this.firestore
-      .collection<Media>('media')
-      .doc(mediaUid)
-      .delete();
+    return this.firestore.collection<Media>('media').doc(mediaUid).delete();
   }
 
   createRandomUid(): string {
     return this.firestore.createId();
   }
-
 }

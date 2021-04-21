@@ -23,13 +23,14 @@ export class EditMediaModalComponent implements OnInit {
     private mediaService: MediaService,
     private placesService: PlacesService,
     private location: Location
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {
       this.visible = true;
     }, 0);
-    this.placesService.getPlaceDetails(this.media!.placeUid)
+    this.placesService
+      .getPlaceDetails(this.media!.placeUid)
       .then((placeDetails: google.maps.places.PlaceResult) => {
         this.tempPlaceName = placeDetails.name;
       });
@@ -62,8 +63,8 @@ export class EditMediaModalComponent implements OnInit {
   setDate(tar: any): void {
     const isoDate = tar.value;
     if (this.media) {
-      this.media.date = isoDate ?
-        firebase.firestore.Timestamp.fromDate(new Date(isoDate))
+      this.media.date = isoDate
+        ? firebase.firestore.Timestamp.fromDate(new Date(isoDate))
         : undefined;
     }
   }
@@ -78,11 +79,11 @@ export class EditMediaModalComponent implements OnInit {
   setPlace(placeUid: string | undefined): void {
     if (this.media) {
       this.media.placeUid = placeUid;
-      this.placesService.getPlaceDetails(placeUid)
+      this.placesService
+        .getPlaceDetails(placeUid)
         .then((placeDetails: google.maps.places.PlaceResult) => {
           this.tempPlaceName = placeDetails.name;
         });
     }
   }
-
 }

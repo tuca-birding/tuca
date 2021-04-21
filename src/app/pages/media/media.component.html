@@ -1,9 +1,6 @@
 <ng-container>
   <!-- image -->
-  <div
-    class="image"
-    *ngIf="media?.image"
-  >
+  <div class="image" *ngIf="media?.image">
     <img
       [src]="media?.image"
       height="auto"
@@ -16,7 +13,7 @@
     <!-- header -->
     <div
       class="header"
-      [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+      [ngClass]="{ mobile: sharedService.screenSize === 's' }"
     >
       <!-- header summary -->
       <div class="title">
@@ -26,9 +23,12 @@
         >
           <kor-text
             size="header-1"
-            [ngClass]="{'skeleton': !mediaInfo.taxonDoc?.commonName?.en}"
-          >{{mediaInfo.taxonDoc?.commonName?.en}}</kor-text>
-          <kor-text [ngClass]="{'skeleton': !mediaInfo.taxonDoc?.scientificName}">{{mediaInfo.taxonDoc?.scientificName}}
+            [ngClass]="{ skeleton: !mediaInfo.taxonDoc?.commonName?.en }"
+            >{{ mediaInfo.taxonDoc?.commonName?.en }}</kor-text
+          >
+          <kor-text
+            [ngClass]="{ skeleton: !mediaInfo.taxonDoc?.scientificName }"
+            >{{ mediaInfo.taxonDoc?.scientificName }}
           </kor-text>
         </div>
         <!-- edit button -->
@@ -45,23 +45,33 @@
           class="link"
           (click)="router.navigateByUrl('/user/' + mediaInfo.ownerDoc?.uid)"
         >
-          <kor-icon [icon]="mediaInfo.ownerDoc?.image ? 'url(' + mediaInfo.ownerDoc?.image + ')' : 'face'"></kor-icon>
-          {{mediaInfo.ownerDoc?.name}}
+          <kor-icon
+            [icon]="
+              mediaInfo.ownerDoc?.image
+                ? 'url(' + mediaInfo.ownerDoc?.image + ')'
+                : 'face'
+            "
+          ></kor-icon>
+          {{ mediaInfo.ownerDoc?.name }}
         </div>
         <div
           class="link"
-          (click)="media?.placeUid ? router.navigateByUrl('/place/' + media?.placeUid) : null"
+          (click)="
+            media?.placeUid
+              ? router.navigateByUrl('/place/' + media?.placeUid)
+              : null
+          "
         >
           <kor-icon icon="place"></kor-icon>
-          {{mediaInfo.placeName ? mediaInfo.placeName : 'Unknown location'}}
+          {{ mediaInfo.placeName ? mediaInfo.placeName : 'Unknown location' }}
         </div>
         <div>
           <kor-icon icon="event"></kor-icon>
-          {{media?.date.toDate() | date}}
+          {{ media?.date.toDate() | date }}
         </div>
       </div>
       <!-- description -->
-      <kor-text>{{media?.description}}</kor-text>
+      <kor-text>{{ media?.description }}</kor-text>
     </div>
   </div>
 </ng-container>

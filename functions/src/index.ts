@@ -41,7 +41,11 @@ exports.onMediaDelete = functions.firestore
     return null;
   });
 
-function updateUserTaxonList(userUid: string, taxonUid: string, operation: string) {
+function updateUserTaxonList(
+  userUid: string,
+  taxonUid: string,
+  operation: string
+) {
   // defined the user doc ref
   const userDocRef = admin.firestore().collection('users').doc(userUid);
   // then either add or remove item from array, depending on operation
@@ -74,9 +78,13 @@ function setNumMedia(colUid: string, docUid: string, direction: string): void {
     .firestore()
     .collection(colUid)
     .doc(docUid)
-    .get().then((docSnap: functions.firestore.DocumentSnapshot) => {
-      const oldNumMedia = docSnap.data()?.numMedia ? docSnap.data()!.numMedia : 0;
-      const newNumMedia = direction === 'increase' ? oldNumMedia + 1 : oldNumMedia - 1;
+    .get()
+    .then((docSnap: functions.firestore.DocumentSnapshot) => {
+      const oldNumMedia = docSnap.data()?.numMedia
+        ? docSnap.data()!.numMedia
+        : 0;
+      const newNumMedia =
+        direction === 'increase' ? oldNumMedia + 1 : oldNumMedia - 1;
       // then set the new numMedia
       admin
         .firestore()

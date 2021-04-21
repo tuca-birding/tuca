@@ -17,8 +17,8 @@ export class MediaCardComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private taxonService: TaxonService,
-  ) { }
+    private taxonService: TaxonService
+  ) {}
 
   ngOnInit(): void {
     if (this.media) {
@@ -29,15 +29,16 @@ export class MediaCardComponent implements OnInit {
   setMedia(): void {
     this.image = this.media?.thumbnail;
     // get taxon name and assign to header
-    this.taxonService.getTaxon(this.media!.taxonUid!)
+    this.taxonService
+      .getTaxon(this.media!.taxonUid!)
       .then((taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
         this.header = taxonDocSnapshot.data()?.commonName?.en;
       });
     // get user name and assign to label
-    this.userService.getUser(this.media!.ownerUid!)
+    this.userService
+      .getUser(this.media!.ownerUid!)
       .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
         this.label = userDocSnapshot.data()?.name;
       });
   }
-
 }

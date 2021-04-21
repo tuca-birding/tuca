@@ -1,17 +1,11 @@
 <div class="flex">
   <div class="image">
-    <kor-icon
-      [icon]="icon"
-      *ngIf="!image"
-    ></kor-icon>
-    <img
-      [src]="image"
-      *ngIf="image"
-    >
+    <kor-icon [icon]="icon" *ngIf="!image"></kor-icon>
+    <img [src]="image" *ngIf="image" />
   </div>
   <div class="text">
-    <kor-text size="header-1">{{header}}</kor-text>
-    <kor-text>{{label}}</kor-text>
+    <kor-text size="header-1">{{ header }}</kor-text>
+    <kor-text>{{ label }}</kor-text>
   </div>
 </div>
 <ng-content></ng-content>

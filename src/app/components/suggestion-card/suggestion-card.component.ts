@@ -11,9 +11,7 @@ export class SuggestionCardComponent implements OnInit {
   @Input() label: string | undefined;
   @Input() confidence: number | undefined;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

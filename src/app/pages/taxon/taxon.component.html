@@ -4,25 +4,29 @@
   [image]="taxon?.thumbnail"
   [header]="taxon?.commonName?.en"
   [label]="taxon?.scientificName"
-  [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+  [ngClass]="{ mobile: sharedService.screenSize === 's' }"
 >
   <!-- information -->
   <div class="info">
     <kor-text color="var(--text-2)">Category:</kor-text>
-    <kor-text>{{taxon?.category?.charAt(0)?.toUpperCase()}}{{taxon?.category?.slice(1)}}</kor-text>
-    <br>
+    <kor-text
+      >{{ taxon?.category?.charAt(0)?.toUpperCase()
+      }}{{ taxon?.category?.slice(1) }}</kor-text
+    >
+    <br />
     <kor-text color="var(--text-2)">Family:</kor-text>
-    <kor-text>{{taxon?.commonFamilyName}} ({{taxon?.scientificFamilyName}})</kor-text>
-    <br>
+    <kor-text
+      >{{ taxon?.commonFamilyName }} ({{
+        taxon?.scientificFamilyName
+      }})</kor-text
+    >
+    <br />
     <kor-text color="var(--text-2)">Order:</kor-text>
-    <kor-text>{{taxon?.order}}</kor-text>
+    <kor-text>{{ taxon?.order }}</kor-text>
   </div>
 </app-page-header>
 <!-- media grid -->
-<kor-grid
-  fit-content
-  [columns]="sharedService.screenSize === 's' ? '2' : '4'"
->
+<kor-grid fit-content [columns]="sharedService.screenSize === 's' ? '2' : '4'">
   <app-media-card
     *ngFor="let media of mediaList"
     [media]="media"

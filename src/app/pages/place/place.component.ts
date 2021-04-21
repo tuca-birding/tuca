@@ -13,12 +13,12 @@ import firebase from 'firebase/app';
 })
 export class PlaceComponent implements OnInit {
   place: {
-    name: string | undefined,
+    name: string | undefined;
     photoUrl: string | undefined;
   } = {
-      name: undefined,
-      photoUrl: undefined
-    };
+    name: undefined,
+    photoUrl: undefined
+  };
   mediaList: Media[] = [];
 
   constructor(
@@ -28,7 +28,7 @@ export class PlaceComponent implements OnInit {
     private placesService: PlacesService,
     private elRef: ElementRef,
     private mediaService: MediaService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.subscribeToRoute();
@@ -45,7 +45,10 @@ export class PlaceComponent implements OnInit {
           .then((placeDetails: google.maps.places.PlaceResult) => {
             this.place.name = placeDetails.name;
             if (placeDetails.photos) {
-              this.place.photoUrl = placeDetails.photos[0]?.getUrl({ maxHeight: 400, maxWidth: 400 });
+              this.place.photoUrl = placeDetails.photos[0]?.getUrl({
+                maxHeight: 400,
+                maxWidth: 400
+              });
             }
           });
         this.setMediaList(placeUid);
@@ -59,11 +62,14 @@ export class PlaceComponent implements OnInit {
       .getFilteredMediaList('placeUid', placeUid)
       .then((mediaQuerySnapshot: firebase.firestore.QuerySnapshot<Media>) => {
         // iterate over each media
-        mediaQuerySnapshot.forEach((mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>) => {
-          // push media data to media list
-          this.mediaList.push(mediaDocSnapshot.data());
-        });
+        mediaQuerySnapshot.forEach(
+          (
+            mediaDocSnapshot: firebase.firestore.QueryDocumentSnapshot<Media>
+          ) => {
+            // push media data to media list
+            this.mediaList.push(mediaDocSnapshot.data());
+          }
+        );
       });
   }
-
 }

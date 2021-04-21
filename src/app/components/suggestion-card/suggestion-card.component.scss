@@ -1,22 +1,23 @@
 :host {
   display: flex;
   cursor: pointer;
-  border: 1px solid rgba(var(--neutral-1), .2);
+  border: 1px solid rgba(var(--neutral-1), 0.2);
   border-radius: var(--border-radius);
   overflow: hidden;
   &:hover img {
     filter: brightness(0.75);
   }
-  img, .icon {
+  img,
+  .icon {
     height: 120px;
     width: 120px;
   }
   img {
-    transition: .1s all ease-out;
+    transition: 0.1s all ease-out;
     object-fit: cover;
   }
   .icon {
-    background: rgba(var(--neutral-1), .1);
+    background: rgba(var(--neutral-1), 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,12 +40,12 @@
     kor-text {
       overflow: hidden;
       text-overflow: ellipsis;
-      &[size="header-1"] {
+      &[size='header-1'] {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
       }
-      &:not([size="header-1"]) {
+      &:not([size='header-1']) {
         white-space: nowrap;
       }
       &.skeleton {
@@ -63,7 +64,7 @@
       }
       &:not(.high) {
         --text-1: rgb(var(--accent-2));
-        border-color: rgb(var( --accent-2));
+        border-color: rgb(var(--accent-2));
       }
     }
   }

@@ -12,11 +12,14 @@ export class UserService {
   userDrawerVisible: boolean | undefined;
   user: User | undefined;
 
-  constructor(private auth: AngularFireAuth, private firestore: AngularFirestore) {
+  constructor(
+    private auth: AngularFireAuth,
+    private firestore: AngularFirestore
+  ) {
     // listen to auth state change and update user
     this.auth.onAuthStateChanged((authUser: firebase.User | null) => {
-      this.getUser(authUser?.uid)
-        .then((userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
+      this.getUser(authUser?.uid).then(
+        (userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
           if (userDocSnapshot.exists) {
             // if user exists, assign it
             this.subscribeToUser(userDocSnapshot.data()!.uid);
@@ -24,12 +27,15 @@ export class UserService {
             // if not, set a new user
             this.setUser(authUser);
           }
-        });
+        }
+      );
     });
   }
 
   // search user database for authUser uid
-  getUser(userUid: string | undefined): Promise<firebase.firestore.DocumentSnapshot<User>> {
+  getUser(
+    userUid: string | undefined
+  ): Promise<firebase.firestore.DocumentSnapshot<User>> {
     return this.firestore
       .collection<User>('users')
       .doc(userUid)
@@ -51,7 +57,8 @@ export class UserService {
       this.firestore
         .collection<User>('users')
         .doc(authUser.uid)
-        .set(userData).then(() => {
+        .set(userData)
+        .then(() => {
           this.subscribeToUser(userData.uid);
         });
     } else {

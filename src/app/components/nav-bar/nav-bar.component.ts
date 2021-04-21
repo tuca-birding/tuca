@@ -14,13 +14,11 @@ export class NavBarComponent implements OnInit {
     { icon: 'search', route: '/taxon-list' }
   ];
 
-  constructor(public router: Router, private userService: UserService) { }
+  constructor(public router: Router, private userService: UserService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getUserRoute(): string {
     return this.userService.user ? `/user/${this.userService.user?.uid}` : '';
   }
-
 }

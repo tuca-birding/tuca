@@ -10,9 +10,7 @@ export class EmptyStateComponent implements OnInit {
   @Input() header: string | undefined;
   @Input() image: string | undefined;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

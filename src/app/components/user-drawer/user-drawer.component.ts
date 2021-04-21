@@ -10,7 +10,7 @@ export class UserDrawerComponent implements OnInit {
   visible: boolean | undefined;
   @Output() close = new EventEmitter();
 
-  constructor(public userService: UserService) { }
+  constructor(public userService: UserService) {}
 
   ngOnInit(): void {
     setTimeout(() => {

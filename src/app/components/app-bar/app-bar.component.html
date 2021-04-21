@@ -12,11 +12,8 @@
     (click)="router.navigateByUrl('')"
   />
   <!-- desktop label -->
-  <kor-text
-    *ngIf="sharedService.screenSize !== 's'"
-    size="header-1"
-  >
-    {{sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca'}}
+  <kor-text *ngIf="sharedService.screenSize !== 's'" size="header-1">
+    {{ sharedService.screenSize === 's' ? sharedService.appLabel : 'Tuca' }}
   </kor-text>
   <!-- back icon -->
   <kor-icon
@@ -30,7 +27,11 @@
   <kor-avatar
     [slot]="sharedService.screenSize === 's' ? 'right' : 'functions'"
     [image]="userService.user?.image"
-    (click)="!userService.user ? userService.signInModalVisible = true : userService.userDrawerVisible = true"
+    (click)="
+      !userService.user
+        ? (userService.signInModalVisible = true)
+        : (userService.userDrawerVisible = true)
+    "
   ></kor-avatar>
 </kor-app-bar>
 

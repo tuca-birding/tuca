@@ -4,7 +4,7 @@
     width: calc(100% + 32px);
     max-height: calc(100vh - 200px);
     min-height: 240px;
-    background: rgba(var(--neutral-1), .05);
+    background: rgba(var(--neutral-1), 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,7 +30,7 @@
           kor-text {
             transition: none;
           }
-          kor-text[size="header-1"] {
+          kor-text[size='header-1'] {
             font-size: 20px;
             line-height: 1.5;
             &.skeleton {
@@ -39,7 +39,7 @@
               margin: 4px 0;
             }
           }
-          kor-text[size="body-1"] {
+          kor-text[size='body-1'] {
             &.skeleton {
               height: 16px;
               width: 240px;
@@ -72,10 +72,13 @@
     }
   }
 }
-:host, .content, .taxon {
+:host,
+.content,
+.taxon {
   display: flex;
   flex-direction: column;
 }
-.taxon, .link {
+.taxon,
+.link {
   cursor: pointer;
 }

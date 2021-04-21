@@ -1,10 +1,10 @@
 kor-menu-item {
-  background: rgba(var(--neutral-1), .05);
+  background: rgba(var(--neutral-1), 0.05);
   padding: 12px 44px 12px 12px;
   margin-left: unset;
   margin-right: unset;
   text-align: center;
   &:hover {
-    background: rgba(var(--neutral-1), .1);
+    background: rgba(var(--neutral-1), 0.1);
   }
 }

@@ -1,7 +1,6 @@
-<kor-text
-  size="header-1"
-  *ngIf="sharedService.screenSize !== 's'"
->Taxon List</kor-text>
+<kor-text size="header-1" *ngIf="sharedService.screenSize !== 's'"
+  >Taxon List</kor-text
+>
 <!-- search -->
 <kor-input
   type="search"
@@ -18,19 +17,21 @@
 <!-- table -->
 <kor-table
   columns="auto 1fr"
-  [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+  [ngClass]="{ mobile: sharedService.screenSize === 's' }"
 >
   <kor-table-row
     *ngFor="let taxon of taxonList"
     (click)="router.navigateByUrl('/taxon/' + taxon.uid)"
   >
     <kor-table-cell>
-      <kor-icon [icon]="taxon.thumbnail ? 'url(' + taxon.thumbnail + ')' : 'assignment'"></kor-icon>
+      <kor-icon
+        [icon]="taxon.thumbnail ? 'url(' + taxon.thumbnail + ')' : 'assignment'"
+      ></kor-icon>
     </kor-table-cell>
     <kor-table-cell>
       <div class="text">
-        <kor-text size="header-1">{{taxon.commonName.en}}</kor-text>
-        <kor-text>{{taxon.scientificName}}</kor-text>
+        <kor-text size="header-1">{{ taxon.commonName.en }}</kor-text>
+        <kor-text>{{ taxon.scientificName }}</kor-text>
       </div>
     </kor-table-cell>
   </kor-table-row>

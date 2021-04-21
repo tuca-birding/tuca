@@ -1,27 +1,15 @@
-<img
-  *ngIf="image"
-  [src]="image"
-  alt="A picture of a bird species"
-/>
-<div
-  class="icon"
-  *ngIf="!image"
-  [ngClass]="{'skeleton': !header}"
->
-  <kor-icon
-    *ngIf="header"
-    icon="assignment"
-  ></kor-icon>
+<img *ngIf="image" [src]="image" alt="A picture of a bird species" />
+<div class="icon" *ngIf="!image" [ngClass]="{ skeleton: !header }">
+  <kor-icon *ngIf="header" icon="assignment"></kor-icon>
 </div>
 <div class="text">
-  <kor-text
-    size="header-1"
-    [ngClass]="{'skeleton': !header}"
-  >{{header}}</kor-text>
-  <kor-text [ngClass]="{'skeleton': !label}">{{label}}</kor-text>
+  <kor-text size="header-1" [ngClass]="{ skeleton: !header }">{{
+    header
+  }}</kor-text>
+  <kor-text [ngClass]="{ skeleton: !label }">{{ label }}</kor-text>
   <kor-tag
-    [ngClass]="{'high': confidence > 50}"
+    [ngClass]="{ high: confidence > 50 }"
     *ngIf="confidence"
-    label="{{confidence}}% match"
+    label="{{ confidence }}% match"
   ></kor-tag>
 </div>

@@ -2,13 +2,10 @@
   [header]="place?.name"
   [image]="place?.photoUrl"
   icon="place"
-  [ngClass]="{'mobile': sharedService.screenSize === 's'}"
+  [ngClass]="{ mobile: sharedService.screenSize === 's' }"
 ></app-page-header>
 <!-- media grid -->
-<kor-grid
-  fit-content
-  [columns]="sharedService.screenSize === 's' ? '2' : '4'"
->
+<kor-grid fit-content [columns]="sharedService.screenSize === 's' ? '2' : '4'">
   <app-media-card
     *ngFor="let media of mediaList"
     [media]="media"
