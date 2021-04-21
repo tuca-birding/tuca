@@ -12,13 +12,14 @@ import firebase from 'firebase/app';
 export class MediaCardComponent implements OnInit {
   @Input() media: Media | undefined;
   @Input() image: string | undefined;
+  @Input() icon: string | undefined;
   @Input() header: string | undefined;
   @Input() label: string | undefined;
 
   constructor(
     private userService: UserService,
     private taxonService: TaxonService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.media) {

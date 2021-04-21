@@ -1,11 +1,25 @@
 <!-- image -->
-<div class="image" [ngClass]="{ skeleton: !image }">
-  <img *ngIf="image" [src]="image" alt="A bird photo or audio" />
+<div
+  class="image"
+  [ngClass]="{ skeleton: !image && !icon }"
+>
+  <img
+    *ngIf="image"
+    [src]="image"
+    alt="A bird photo or audio"
+  />
+  <kor-icon
+    *ngIf="icon && !image"
+    [icon]="icon"
+  ></kor-icon>
 </div>
 <!-- text -->
 <div class="text">
-  <kor-text size="header-1" [ngClass]="{ skeleton: !header }">{{
+  <kor-text
+    size="header-1"
+    [ngClass]="{ skeleton: !header }"
+  >{{
     header
-  }}</kor-text>
+    }}</kor-text>
   <kor-text [ngClass]="{ skeleton: !label }">{{ label }}</kor-text>
 </div>

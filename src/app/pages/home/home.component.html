@@ -40,6 +40,7 @@
         [header]="taxon.commonName?.en"
         [label]="taxon.scientificName"
         [image]="taxon.thumbnail"
+        icon="assignment"
         (click)="router.navigateByUrl('/taxon/' + taxon.uid)"
       ></app-media-card>
     </ng-container>
@@ -58,6 +59,7 @@
         [header]="user.name"
         [label]="user.numMedia + ' media'"
         [image]="user.image"
+        icon="person"
         (click)="router.navigateByUrl('/user/' + user.uid)"
       ></app-media-card>
     </ng-container>

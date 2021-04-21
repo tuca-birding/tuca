@@ -25,14 +25,19 @@
     margin: 0 -16px;
     padding: 16px;
     overflow: auto;
-    // mobile carousel
-    &[columns='8'] {
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      app-media-card {
-        min-width: 160px;
-      }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  kor-grid {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    app-media-card:not([icon="person"]) {
+      min-width: 160px;
+    }
+    app-media-card[icon="person"] {
+      min-width: 120px;
     }
   }
 }
