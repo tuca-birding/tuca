@@ -25,11 +25,11 @@ import { MediaModel } from 'src/app/models/media.model';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit, AfterViewInit {
-  @ViewChild('fileInput') fileInput: ElementRef | undefined;
+  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement> | undefined;
   tempTaxonDoc: Taxon | undefined;
   tempPlaceName: string | undefined;
   media: Media | MediaModel | undefined;
-  taxonSuggestions: Array<{ uid: string; confidence: string }> | undefined;
+  taxonSuggestions: Array<{ uid: string; confidence: string; }> | undefined;
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
   selectPlaceModalVisible = false;
