@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
     "@angular/service-worker": "~11.2.0",
-    "@kor-ui/kor": "^1.6.4",
+    "@kor-ui/kor": "^1.6.5",
     "firebase": "^7.0 || ^8.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

@@ -25,7 +25,7 @@ export class SelectPlaceModalComponent implements OnInit {
   constructor(
     public sharedService: SharedService,
     private placesService: PlacesService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // start animation
@@ -36,7 +36,9 @@ export class SelectPlaceModalComponent implements OnInit {
   }
 
   findPlace(input: EventTarget | any): void {
-    const term = typeof input === 'string' ? input : input.value;
+    const term = typeof input === 'string'
+      ? input
+      : input.closest('kor-input[type="search"]').value;
     // reset array, trigger search and then assign result
     this.suggestedPlaces = [];
     this.placesService
