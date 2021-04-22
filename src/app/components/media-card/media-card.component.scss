@@ -7,6 +7,13 @@
   > * + * {
     margin-top: 8px;
   }
+  // circle card
+  &.circle {
+    text-align: center;
+    .image {
+      border-radius: 50%;
+    }
+  }
   .image {
     width: 100%;
     padding-top: 100%;
@@ -19,6 +26,7 @@
       height: 100%;
       position: absolute;
       top: 0;
+      left: 0;
     }
     img {
       transition: 0.1s all ease-out;

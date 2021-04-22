@@ -15,16 +15,18 @@
     margin-top: 24px;
     padding-top: 24px;
     border-top: 1px solid rgba(var(--neutral-1), 0.2);
-  }
-  kor-text[size='header-1'] {
-    font-size: 20px;
-    line-height: 1.5;
-    margin-top: 24px;
-  }
-  kor-grid {
-    margin: 0 -16px;
-    padding: 16px;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    kor-text[size='header-1'] {
+      font-size: 20px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    kor-grid {
+      margin: 0 -16px;
+      padding: 0 16px;
+      overflow: auto;
+    }
   }
 }
 

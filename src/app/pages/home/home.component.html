@@ -55,6 +55,7 @@
   >
     <ng-container *ngIf="featuredUsersList.length > 0; else skeleton">
       <app-media-card
+        class="circle"
         *ngFor="let user of featuredUsersList"
         [header]="user.name"
         [label]="user.numMedia + ' media'"
