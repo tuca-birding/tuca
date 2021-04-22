@@ -52,3 +52,10 @@
     margin: unset;
   }
 }
+
+@media screen and (max-width: 768px) {
+  :host {
+    margin-bottom: 56px;
+  }
+}
+
