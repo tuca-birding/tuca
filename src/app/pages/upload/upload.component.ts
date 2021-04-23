@@ -53,6 +53,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {
     sharedService.appLabel = 'Upload';
+    sharedService.setTitle('Upload');
   }
 
   ngOnInit(): void {

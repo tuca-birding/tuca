@@ -21,10 +21,10 @@ export class MediaComponent implements OnInit {
     taxonDoc: Taxon | undefined;
     ownerDoc: User | undefined;
   } = {
-    placeName: undefined,
-    taxonDoc: undefined,
-    ownerDoc: undefined
-  };
+      placeName: undefined,
+      taxonDoc: undefined,
+      ownerDoc: undefined
+    };
 
   constructor(
     public sharedService: SharedService,
@@ -77,7 +77,9 @@ export class MediaComponent implements OnInit {
                 (
                   userDocSnapshot: firebase.firestore.DocumentSnapshot<User>
                 ) => {
-                  this.mediaInfo.ownerDoc = userDocSnapshot.data();
+                  const userDoc = userDocSnapshot.data();
+                  this.mediaInfo.ownerDoc = userDoc;
+                  this.sharedService.setTitle(`${userDoc?.name}'s media`);
                 }
               );
           }

@@ -43,7 +43,9 @@ export class UserComponent implements OnInit {
           .getUser(userUid)
           .then(
             (userDocSnapshot: firebase.firestore.DocumentSnapshot<User>) => {
-              this.user = userDocSnapshot.data();
+              const userDoc = userDocSnapshot.data();
+              this.user = userDoc;
+              this.sharedService.setTitle(userDoc?.name);
             }
           );
         this.setMediaList(userUid);
