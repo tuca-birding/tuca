@@ -4,6 +4,7 @@
   [ngClass]="{ skeleton: !image && !icon }"
 >
   <img
+    #img
     *ngIf="image"
     [src]="image"
     alt="A bird photo or audio"
@@ -12,14 +13,23 @@
     *ngIf="icon && !image"
     [icon]="icon"
   ></kor-icon>
+  <!-- likes -->
+  <app-like-button
+    *ngIf="media && media?.numLikes! >= 0"
+    [label]="media?.numLikes"
+    [active]="getLikeActive()"
+    (click)="$event.stopPropagation()"
+    (mouseenter)="setImageFilter('add')"
+    (mouseleave)="setImageFilter('remove')"
+    (click)="setUserLike()"
+  ></app-like-button>
 </div>
 <!-- text -->
 <div class="text">
   <kor-text
     size="header-1"
     [ngClass]="{ skeleton: !header }"
-  >{{
-    header
-    }}</kor-text>
+  >{{ header }}
+  </kor-text>
   <kor-text [ngClass]="{ skeleton: !label }">{{ label }}</kor-text>
 </div>

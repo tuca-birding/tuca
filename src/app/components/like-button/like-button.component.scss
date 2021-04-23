@@ -1,0 +1,17 @@
+:host {
+  background: rgba(0,0,0,.6);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  margin: 8px;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+  transition: .1s all ease-out;
+  > kor-icon {
+    margin-right: 4px;
+  }
+  &:hover {
+    background: rgba(0,0,0,.9);
+  }
+}

@@ -34,4 +34,6 @@ export interface Media {
   ownerUid: string | undefined;
   taxonUid: string | undefined;
   placeUid: string | undefined;
+  likes: string[];
+  numLikes: number;
 }
