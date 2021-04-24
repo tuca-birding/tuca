@@ -87,7 +87,7 @@ export class UserService {
   getFeaturedUsersList(): Promise<firebase.firestore.QuerySnapshot<User>> {
     return this.firestore
       .collection<User>('users', (ref: CollectionReference) =>
-        ref.limit(8)
+        ref.orderBy('lastUpdated', 'desc').limit(8)
       )
       .get()
       .toPromise();

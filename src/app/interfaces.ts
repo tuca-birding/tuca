@@ -5,6 +5,7 @@ export interface User {
   image: string;
   taxonUid?: string[];
   placeUid?: string[];
+  lastUpdated?: Date | any;
 }
 
 export interface Taxon {
@@ -20,6 +21,7 @@ export interface Taxon {
   scientificFamilyName: string;
   scientificName: string;
   thumbnail: string;
+  lastUpdated?: Date | any;
 }
 
 export interface Media {

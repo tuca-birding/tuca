@@ -58,6 +58,7 @@
         class="circle"
         *ngFor="let user of featuredUsersList"
         [header]="user.name"
+        label="{{(user.placeUid?.length ? user.placeUid?.length : '0')?.toString()}} species"
         [image]="user.image"
         icon="person"
         (click)="router.navigateByUrl('/user/' + user.uid)"

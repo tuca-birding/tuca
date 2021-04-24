@@ -9,13 +9,19 @@ exports.onMediaCreate = functions.firestore
   .document('media/{mediaUid}')
   .onCreate((mediaSnap: QueryDocumentSnapshot) => {
     const mediaDoc = mediaSnap.data();
-    if (mediaDoc?.taxonUid) {
-      // add taxonUid to user array
-      updateUserArray('taxonUid', mediaDoc?.ownerUid, mediaDoc?.taxonUid, 'union');
-    }
-    if (mediaDoc?.placeUid) {
-      // add placeUid to user array
-      updateUserArray('placeUid', mediaDoc?.ownerUid, mediaDoc?.placeUid, 'union');
+    if (mediaDoc && mediaDoc?.ownerUid) {
+      // set last updated date for user doc
+      setDocLastUpdated('users', mediaDoc?.ownerUid, new Date());
+      if (mediaDoc.taxonUid) {
+        // add taxonUid to user array
+        updateUserArray('taxonUid', mediaDoc.ownerUid, mediaDoc?.taxonUid, 'union');
+        // set last updated date for taxon doc
+        setDocLastUpdated('genus', mediaDoc.taxonUid, new Date());
+      }
+      if (mediaDoc.placeUid) {
+        // add placeUid to user array
+        updateUserArray('placeUid', mediaDoc.ownerUid, mediaDoc?.placeUid, 'union');
+      }
     }
     return null;
   });
@@ -67,7 +73,7 @@ function updateUserArray(
   userUid: string,
   docUid: string,
   operation: string
-) {
+): void {
   // defined the user doc ref
   const userDocRef = admin.firestore().collection('users').doc(userUid);
   // then either add or remove item from array, depending on operation
@@ -91,4 +97,12 @@ function updateUserArray(
         }
       });
   }
+}
+
+function setDocLastUpdated(colUid: string, docUid: string, date: Date): void {
+  admin
+    .firestore()
+    .collection(colUid)
+    .doc(docUid)
+    .update({ lastUpdated: date });
 }

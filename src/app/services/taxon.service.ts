@@ -26,7 +26,7 @@ export class TaxonService {
   getFeaturedTaxonList(): Promise<firebase.firestore.QuerySnapshot<Taxon>> {
     return this.firestore
       .collection<Taxon>('genus', (ref: CollectionReference) =>
-        ref.limit(8)
+        ref.orderBy('lastUpdated', 'desc').limit(8)
       )
       .get()
       .toPromise();
