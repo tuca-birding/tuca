@@ -12,6 +12,9 @@
     text-align: center;
     .image {
       border-radius: 50%;
+      width: calc(100% - 48px);
+      padding-top: calc(100% - 48px);
+      margin: 0 24px;
     }
   }
   .image {
