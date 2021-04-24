@@ -25,6 +25,13 @@
       .title {
         display: flex;
         justify-content: space-between;
+        .functions {
+          margin-left: 12px;
+          display: flex;
+          > * + * {
+            margin-left: 8px;
+          }
+        }
         .taxon {
           justify-content: center;
           kor-text {

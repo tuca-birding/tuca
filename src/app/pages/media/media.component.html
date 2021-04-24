@@ -33,12 +33,20 @@
           </kor-text>
         </div>
         <!-- edit button -->
-        <kor-button
-          icon="edit"
-          color="secondary"
-          (click)="editMediaModalVisible = true"
-          *ngIf="userService.user?.uid === media?.ownerUid"
-        ></kor-button>
+        <div class="functions">
+          <kor-button
+            icon="edit"
+            color="secondary"
+            (click)="editMediaModalVisible = true"
+            *ngIf="userService.user?.uid === media?.ownerUid"
+          ></kor-button>
+          <!-- likes -->
+          <app-like-button
+            [label]="media?.numLikes"
+            [active]="getLikeActive()"
+            (click)="setUserLike()"
+          ></app-like-button>
+        </div>
       </div>
       <!-- further details -->
       <div class="details">

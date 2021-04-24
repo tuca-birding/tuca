@@ -18,10 +18,9 @@
     *ngIf="media && media?.numLikes! >= 0"
     [label]="media?.numLikes"
     [active]="getLikeActive()"
-    (click)="$event.stopPropagation()"
+    (click)="setUserLike(); $event.stopPropagation()"
     (mouseenter)="setImageFilter('add')"
     (mouseleave)="setImageFilter('remove')"
-    (click)="setUserLike()"
   ></app-like-button>
 </div>
 <!-- text -->
