@@ -11,7 +11,7 @@ export class MediaService {
   constructor(
     private firestore: AngularFirestore,
     private fireStorage: AngularFireStorage
-  ) {}
+  ) { }
 
   getFilteredMediaList(
     filterKey: string,
@@ -60,7 +60,35 @@ export class MediaService {
     return this.firestore.collection<Media>('media').doc(mediaUid).delete();
   }
 
-  createRandomUid(): string {
-    return this.firestore.createId();
+  getMedia(mediaUid: string): Promise<firebase.firestore.DocumentSnapshot<Media>> {
+    return this.firestore
+      .collection<Media>('media')
+      .doc(mediaUid)
+      .get()
+      .toPromise();
+  }
+
+  setLikes(mediaUid: string, userUid: string, operation: string): Promise<string> {
+    return new Promise((resolve) => {
+      this.getMedia(mediaUid)
+        .then((mediaDocSnapshot) => {
+          // add user to array of users
+          const mediaDoc = mediaDocSnapshot.data();
+          const newLikes = mediaDoc?.likes ? mediaDoc.likes : [];
+          operation === 'add' && newLikes.indexOf(userUid) < 0
+            ? newLikes.push(userUid)
+            : newLikes.splice(newLikes.indexOf(userUid), 1);
+          this.firestore
+            .collection<Media>('media')
+            .doc(mediaUid)
+            .update({
+              likes: newLikes,
+              numLikes: newLikes.length
+            }).then(() => {
+              // resolve promise if successful
+              resolve(operation);
+            });
+        });
+    });
   }
 }

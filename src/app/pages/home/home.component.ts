@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
     private elRef: ElementRef
   ) {
     sharedService.appLabel = 'Tuca';
+    sharedService.setTitle('Home');
   }
 
   ngOnInit(): void {

@@ -41,7 +41,9 @@ export class TaxonComponent implements OnInit {
           .getTaxon(taxonUid)
           .then(
             (taxonDocSnapshot: firebase.firestore.DocumentSnapshot<Taxon>) => {
-              this.taxon = taxonDocSnapshot.data();
+              const taxonDoc = taxonDocSnapshot.data();
+              this.taxon = taxonDoc;
+              this.sharedService.setTitle(taxonDoc?.commonName?.en);
             }
           );
         this.setMediaList(taxonUid);

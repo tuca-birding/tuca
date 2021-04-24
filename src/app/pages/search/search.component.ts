@@ -21,7 +21,8 @@ export class SearchComponent implements OnInit {
     public router: Router,
     private elRef: ElementRef
   ) {
-    sharedService.appLabel = 'Taxon List';
+    sharedService.appLabel = 'Search';
+    sharedService.setTitle('Search');
   }
 
   ngOnInit(): void {

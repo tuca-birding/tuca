@@ -27,6 +27,7 @@ import { EditMediaModalComponent } from './pages/media/edit-media-modal/edit-med
 import { SelectPlaceModalComponent } from './components/select-place-modal/select-place-modal.component';
 import { PlaceComponent } from './pages/place/place.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LikeButtonComponent } from './components/like-button/like-button.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { HttpClientModule } from '@angular/common/http';
     SuggestionCardComponent,
     EditMediaModalComponent,
     SelectPlaceModalComponent,
-    PlaceComponent
+    PlaceComponent,
+    LikeButtonComponent
   ],
   imports: [
     BrowserModule,

@@ -3,8 +3,9 @@ export interface User {
   name: string;
   email: string;
   image: string;
-  numMedia?: number;
-  taxonList?: string[];
+  taxonUid?: string[];
+  placeUid?: string[];
+  lastUpdated?: Date | any;
 }
 
 export interface Taxon {
@@ -20,7 +21,7 @@ export interface Taxon {
   scientificFamilyName: string;
   scientificName: string;
   thumbnail: string;
-  numMedia?: number;
+  lastUpdated?: Date | any;
 }
 
 export interface Media {
@@ -34,4 +35,6 @@ export interface Media {
   ownerUid: string | undefined;
   taxonUid: string | undefined;
   placeUid: string | undefined;
+  likes: string[];
+  numLikes: number;
 }

@@ -1,4 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -10,10 +11,14 @@ export class SharedService {
   appLabel = 'Tuca';
   scrollBottomSubject: Subject<any> = new Subject();
 
-  constructor() {}
+  constructor(private appTitle: Title) { }
 
   setScreenSize(): void {
     this.screenSize = window.innerWidth <= 768 ? 's' : 'l';
+  }
+
+  setTitle(title: string | undefined): void {
+    this.appTitle.setTitle(`Tuca – ${title}`);
   }
 
   public capitalizeString(rawString?: string): string | undefined {

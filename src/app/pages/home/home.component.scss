@@ -34,11 +34,8 @@
     &::-webkit-scrollbar {
       display: none;
     }
-    app-media-card:not([icon="person"]) {
+    app-media-card {
       min-width: 160px;
-    }
-    app-media-card[icon="person"] {
-      min-width: 120px;
     }
   }
 }

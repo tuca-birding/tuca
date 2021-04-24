@@ -7,6 +7,7 @@ import { SharedService } from '../../services/shared.service';
 import { TaxonService } from '../../services/taxon.service';
 import firebase from 'firebase/app';
 import { PlacesService } from 'src/app/services/places.service';
+import { MediaService } from 'src/app/services/media.service';
 
 @Component({
   selector: 'app-media',
@@ -21,10 +22,10 @@ export class MediaComponent implements OnInit {
     taxonDoc: Taxon | undefined;
     ownerDoc: User | undefined;
   } = {
-    placeName: undefined,
-    taxonDoc: undefined,
-    ownerDoc: undefined
-  };
+      placeName: undefined,
+      taxonDoc: undefined,
+      ownerDoc: undefined
+    };
 
   constructor(
     public sharedService: SharedService,
@@ -34,6 +35,7 @@ export class MediaComponent implements OnInit {
     private firestore: AngularFirestore,
     private taxonService: TaxonService,
     private placesService: PlacesService,
+    private mediaService: MediaService,
     private elRef: ElementRef
   ) {
     this.sharedService.appLabel = 'Media';
@@ -77,7 +79,9 @@ export class MediaComponent implements OnInit {
                 (
                   userDocSnapshot: firebase.firestore.DocumentSnapshot<User>
                 ) => {
-                  this.mediaInfo.ownerDoc = userDocSnapshot.data();
+                  const userDoc = userDocSnapshot.data();
+                  this.mediaInfo.ownerDoc = userDoc;
+                  this.sharedService.setTitle(`${userDoc?.name}'s media`);
                 }
               );
           }
@@ -103,5 +107,27 @@ export class MediaComponent implements OnInit {
           }
         }
       });
+  }
+
+  getLikeActive(): boolean | undefined {
+    return this.userService.user && this.media?.likes?.includes(this.userService.user.uid);
+  }
+
+  setUserLike(): void {
+    const signedUserUid = this.userService.user?.uid;
+    if (signedUserUid) {
+      // add or remove like depending on if user already liked it
+      this.mediaService.setLikes(this.media!.uid, signedUserUid, this.getLikeActive() ? 'remove' : 'add')
+        .then((operation) => {
+          const newLikes = this.media?.likes ? this.media.likes : [];
+          operation === 'add'
+            ? newLikes.push(signedUserUid)
+            : newLikes.splice(this.media!.likes.indexOf(signedUserUid), 1);
+          this.media!.numLikes = newLikes.length;
+        });
+    } else {
+      // open sign in modal if no user is logged in
+      this.userService.signInModalVisible = true;
+    }
   }
 }

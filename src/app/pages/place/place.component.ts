@@ -16,9 +16,9 @@ export class PlaceComponent implements OnInit {
     name: string | undefined;
     photoUrl: string | undefined;
   } = {
-    name: undefined,
-    photoUrl: undefined
-  };
+      name: undefined,
+      photoUrl: undefined
+    };
   mediaList: Media[] = [];
 
   constructor(
@@ -28,7 +28,7 @@ export class PlaceComponent implements OnInit {
     private placesService: PlacesService,
     private elRef: ElementRef,
     private mediaService: MediaService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.subscribeToRoute();
@@ -44,6 +44,7 @@ export class PlaceComponent implements OnInit {
           .getPlaceDetails(placeUid)
           .then((placeDetails: google.maps.places.PlaceResult) => {
             this.place.name = placeDetails.name;
+            this.sharedService.setTitle(`${placeDetails.name}`);
             if (placeDetails.photos) {
               this.place.photoUrl = placeDetails.photos[0]?.getUrl({
                 maxHeight: 400,

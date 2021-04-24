@@ -1,7 +1,7 @@
 :host {
   overflow: hidden;
   cursor: pointer;
-  &:hover img {
+  &:hover img:not(.no-filter) {
     filter: brightness(0.75);
   }
   > * + * {
@@ -12,6 +12,9 @@
     text-align: center;
     .image {
       border-radius: 50%;
+      width: calc(100% - 48px);
+      padding-top: calc(100% - 48px);
+      margin: 0 24px;
     }
   }
   .image {
@@ -21,23 +24,30 @@
     border-radius: var(--border-radius);
     overflow: hidden;
     background-color: rgba(var(--neutral-1), 0.05);
-    img, kor-icon {
+    > img, 
+    > kor-icon {
       width: 100%;
       height: 100%;
       position: absolute;
       top: 0;
       left: 0;
     }
-    img {
+    > img {
       transition: 0.1s all ease-out;
       object-fit: cover;
     }
-    kor-icon {
+    > kor-icon {
       font-size: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: rgba(var(--neutral-1), 0.6);
+    }
+    app-like-button {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 8px;
     }
   }
   .text {
