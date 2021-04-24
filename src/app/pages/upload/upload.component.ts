@@ -29,7 +29,7 @@ export class UploadComponent implements OnInit, AfterViewInit {
   tempTaxonDoc: Taxon | undefined;
   tempPlaceName: string | undefined;
   media: Media | MediaModel | undefined;
-  taxonSuggestions: Array<{ uid: string; confidence: string; }> | undefined;
+  taxonSuggestions: Array<{ uid: string; confidence: string }> | undefined;
   suggestedTaxonList: Taxon[] = [];
   searchTaxonList: Taxon[] = [];
   selectPlaceModalVisible = false;
@@ -173,7 +173,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
           // update prediction on Firestore document
           this.predictionData = new PredictionModel().deserialize({
             uid: this.routeImage,
-            predictions: modelResult
+            predictions: modelResult,
+            predictionDate: new Date()
           });
           this.firestoreService.updateDocument(this.predictionData);
 

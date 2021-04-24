@@ -5,6 +5,7 @@ export class PredictionModel implements Deserializable {
   imageUrl?: string;
   uid!: string;
   submittedUid?: string;
+  predictionDate?: Date;
 
   deserialize(input: any) {
     Object.assign(this, input);
