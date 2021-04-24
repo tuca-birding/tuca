@@ -61,12 +61,12 @@
       label="Place"
       [value]="tempPlaceName"
       style="pointer-events: all"
+      (click)="selectPlaceModalVisible = true"
     >
       <kor-icon
         button
         icon="edit"
         slot="functions"
-        (click)="selectPlaceModalVisible = true"
       >
       </kor-icon>
     </kor-input>
