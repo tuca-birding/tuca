@@ -58,7 +58,6 @@
         class="circle"
         *ngFor="let user of featuredUsersList"
         [header]="user.name"
-        [label]="user.numMedia + ' media'"
         [image]="user.image"
         icon="person"
         (click)="router.navigateByUrl('/user/' + user.uid)"

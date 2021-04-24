@@ -3,8 +3,8 @@ export interface User {
   name: string;
   email: string;
   image: string;
-  numMedia?: number;
-  taxonList?: string[];
+  taxonUid?: string[];
+  placeUid?: string[];
 }
 
 export interface Taxon {
@@ -20,7 +20,6 @@ export interface Taxon {
   scientificFamilyName: string;
   scientificName: string;
   thumbnail: string;
-  numMedia?: number;
 }
 
 export interface Media {

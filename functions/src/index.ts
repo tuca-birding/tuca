@@ -1,23 +1,48 @@
 import * as functions from 'firebase-functions';
+import { Change } from 'firebase-functions/lib/cloud-functions';
+import { DocumentSnapshot, QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require('firebase-admin');
 admin.initializeApp();
 
 // runs when media is created
 exports.onMediaCreate = functions.firestore
   .document('media/{mediaUid}')
-  .onCreate((mediaSnap: functions.firestore.QueryDocumentSnapshot) => {
-    const taxonUid = mediaSnap.data().taxonUid;
-    const ownerUid = mediaSnap.data().ownerUid;
-    // increase numMedia by 1
-    if (taxonUid) {
-      setNumMedia('genus', taxonUid, 'increase');
+  .onCreate((mediaSnap: QueryDocumentSnapshot) => {
+    const mediaDoc = mediaSnap.data();
+    if (mediaDoc?.taxonUid) {
+      // add taxonUid to user array
+      updateUserArray('taxonUid', mediaDoc?.ownerUid, mediaDoc?.taxonUid, 'union');
     }
-    if (ownerUid) {
-      setNumMedia('users', ownerUid, 'increase');
+    if (mediaDoc?.placeUid) {
+      // add placeUid to user array
+      updateUserArray('placeUid', mediaDoc?.ownerUid, mediaDoc?.placeUid, 'union');
     }
-    // add taxonUid to ownerUid doc array
-    if (taxonUid && ownerUid) {
-      updateUserTaxonList(ownerUid, taxonUid, 'union');
+    return null;
+  });
+
+// runs when media is updated
+exports.onMediaUpdate = functions.firestore
+  .document('media/{mediaUid}')
+  .onUpdate((change: Change<DocumentSnapshot>) => {
+    const docBefore = change.before.data();
+    const docAfter = change.after.data();
+    // if taxonUid changed, remove old one and/or add new one
+    if (docAfter?.taxonUid !== docBefore?.taxonUid) {
+      if (docBefore?.taxonUid) {
+        updateUserArray('taxonUid', docBefore?.ownerUid, docBefore?.taxonUid, 'remove');
+      }
+      if (docAfter?.taxonUid) {
+        updateUserArray('taxonUid', docAfter?.ownerUid, docAfter?.taxonUid, 'union');
+      }
+    }
+    // if placeUid changed, remove old one and/or add new one
+    if (docAfter?.placeUid !== docBefore?.placeUid) {
+      if (docAfter?.placeUid) {
+        updateUserArray('placeUid', docBefore?.ownerUid, docBefore?.placeUid, 'remove');
+      }
+      if (docAfter?.placeUid) {
+        updateUserArray('placeUid', docAfter?.ownerUid, docAfter?.placeUid, 'union');
+      }
     }
     return null;
   });
@@ -25,71 +50,45 @@ exports.onMediaCreate = functions.firestore
 // runs when media is deleted
 exports.onMediaDelete = functions.firestore
   .document('media/{mediaUid}')
-  .onDelete((mediaSnap: functions.firestore.QueryDocumentSnapshot) => {
-    const taxonUid = mediaSnap.data().taxonUid;
-    const ownerUid = mediaSnap.data().ownerUid;
-    // decrease numMedia by 1
-    if (taxonUid) {
-      setNumMedia('genus', taxonUid, 'decrease');
+  .onDelete((mediaSnap: QueryDocumentSnapshot) => {
+    const mediaDoc = mediaSnap.data();
+    if (mediaDoc?.taxonUid && mediaDoc?.ownerUid) {
+      updateUserArray('taxonUid', mediaDoc?.ownerUid, mediaDoc?.taxonUid, 'remove');
     }
-    if (ownerUid) {
-      setNumMedia('users', ownerUid, 'decrease');
-    }
-    if (taxonUid && ownerUid) {
-      updateUserTaxonList(ownerUid, taxonUid, 'remove');
+    if (mediaDoc?.placeUid) {
+      // add placeUid to user array
+      updateUserArray('placeUid', mediaDoc?.ownerUid, mediaDoc?.placeUid, 'remove');
     }
     return null;
   });
 
-function updateUserTaxonList(
+function updateUserArray(
+  arrayKey: string,
   userUid: string,
-  taxonUid: string,
+  docUid: string,
   operation: string
 ) {
   // defined the user doc ref
   const userDocRef = admin.firestore().collection('users').doc(userUid);
   // then either add or remove item from array, depending on operation
+  const updatedFields = <any>{};
   if (operation === 'union') {
-    userDocRef.update({
-      taxonList: admin.firestore.FieldValue.arrayUnion(taxonUid)
-    });
+    updatedFields[arrayKey] = admin.firestore.FieldValue.arrayUnion(docUid);
+    userDocRef.update(updatedFields);
   } else if (operation === 'remove') {
-    // before deleting, check if user has another media from same taxon
+    // before deleting, check if user has another media with same key value
     admin
       .firestore()
       .collection('media')
       .where('ownerUid', '==', userUid)
-      .where('taxonUid', '==', taxonUid)
+      .where(arrayKey, '==', docUid)
       .get()
       .then((media: any) => {
-        // if no other media from the same taxon & user, remove string from array
+        // if not, remove string from array
         if (media.size === 0) {
-          userDocRef.update({
-            taxonList: admin.firestore.FieldValue.arrayRemove(taxonUid)
-          });
+          updatedFields[arrayKey] = admin.firestore.FieldValue.arrayRemove(docUid);
+          userDocRef.update(updatedFields);
         }
       });
   }
-}
-
-function setNumMedia(colUid: string, docUid: string, direction: string): void {
-  // first, get the current numMedia
-  admin
-    .firestore()
-    .collection(colUid)
-    .doc(docUid)
-    .get()
-    .then((docSnap: functions.firestore.DocumentSnapshot) => {
-      const oldNumMedia = docSnap.data()?.numMedia
-        ? docSnap.data()!.numMedia
-        : 0;
-      const newNumMedia =
-        direction === 'increase' ? oldNumMedia + 1 : oldNumMedia - 1;
-      // then set the new numMedia
-      admin
-        .firestore()
-        .collection(colUid)
-        .doc(docUid)
-        .set({ numMedia: newNumMedia }, { merge: true });
-    });
 }
