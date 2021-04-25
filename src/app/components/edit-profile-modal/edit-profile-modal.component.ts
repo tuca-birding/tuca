@@ -24,7 +24,6 @@ export class EditProfileModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.tempImage);
     setTimeout(() => {
       this.visible = true;
     }, 0);
