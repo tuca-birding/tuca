@@ -23,11 +23,12 @@ import { UserComponent } from './pages/user/user.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { EditMediaModalComponent } from './pages/media/edit-media-modal/edit-media-modal.component';
+import { EditMediaModalComponent } from './components/edit-media-modal/edit-media-modal.component';
 import { SelectPlaceModalComponent } from './components/select-place-modal/select-place-modal.component';
 import { PlaceComponent } from './pages/place/place.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LikeButtonComponent } from './components/like-button/like-button.component';
+import { EditProfileModalComponent } from './components/edit-profile-modal/edit-profile-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { LikeButtonComponent } from './components/like-button/like-button.compon
     EditMediaModalComponent,
     SelectPlaceModalComponent,
     PlaceComponent,
-    LikeButtonComponent
+    LikeButtonComponent,
+    EditProfileModalComponent
   ],
   imports: [
     BrowserModule,

@@ -9,8 +9,22 @@
     [info]="userService.user?.email"
     [image]="userService.user?.image"
   ></kor-avatar>
+  <kor-divider spacing="s"></kor-divider>
   <kor-menu-item
+    [toggle]="false"
+    label="Edit Profile"
+    icon="edit"
+    (click)="editProfileModalVisible = true"
+  ></kor-menu-item>
+  <kor-menu-item
+    [toggle]="false"
     label="Sign Out"
+    icon="exit_to_app"
     (click)="userService.signOut(); close.emit()"
   ></kor-menu-item>
 </kor-drawer>
+<!-- edit profile -->
+<app-edit-profile-modal
+  *ngIf="editProfileModalVisible"
+  (close)="editProfileModalVisible = false"
+></app-edit-profile-modal>

@@ -8,9 +8,10 @@ import { UserService } from '../../services/user.service';
 })
 export class UserDrawerComponent implements OnInit {
   visible: boolean | undefined;
+  editProfileModalVisible: boolean | undefined;
   @Output() close = new EventEmitter();
 
-  constructor(public userService: UserService) {}
+  constructor(public userService: UserService) { }
 
   ngOnInit(): void {
     setTimeout(() => {

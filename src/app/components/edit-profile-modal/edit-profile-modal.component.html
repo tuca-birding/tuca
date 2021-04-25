@@ -1,0 +1,40 @@
+<kor-modal
+  sticky
+  [visible]="visible"
+  label="Edit Profile"
+  [height]="sharedService.screenSize == 's' ? '100%' : '400px'"
+>
+  <!-- inputs -->
+  <div class="image">
+    <img
+      *ngIf="!editingUser?.image; else userIcon"
+      [src]="editingUser?.image"
+    />
+    <ng-template #userIcon>
+      <kor-icon icon="face"></kor-icon>
+    </ng-template>
+    <!-- upload -->
+    <kor-icon
+      icon="file_upload"
+      button
+    ></kor-icon>
+  </div>
+  <kor-input
+    label="User name"
+    name="name"
+    [value]="editingUser?.name"
+    (input)="setNewName($event.target)"
+  ></kor-input>
+  <!-- buttons -->
+  <kor-button
+    slot="footer"
+    label="Cancel"
+    color="secondary"
+    (click)="closeModal()"
+  ></kor-button>
+  <kor-button
+    slot="footer"
+    label="Confirm"
+    (click)="handleConfirm()"
+  ></kor-button>
+</kor-modal>

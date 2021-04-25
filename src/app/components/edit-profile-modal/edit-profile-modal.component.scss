@@ -1,0 +1,34 @@
+:host {
+  .image, img, kor-icon[icon="file_upload"] {
+    border-radius: 50%;
+  }
+  .image {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 136px;
+    height: 136px;
+    margin: 40px auto;
+    background: rgba(var(--neutral-1), .05);
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+    kor-icon[icon="face"] {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+    }
+    // upload button
+    kor-icon[icon="file_upload"] {
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      padding: 8px;
+      background: rgb(var(--accent-2));
+      color: white;
+    }
+   }
+}
