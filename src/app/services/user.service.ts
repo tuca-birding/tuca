@@ -66,6 +66,14 @@ export class UserService {
     }
   }
 
+  // update an existing user
+  updateUser(partialUser: Partial<User>): Promise<void> {
+    return this.firestore
+      .collection<User>('users')
+      .doc(partialUser.uid)
+      .update(partialUser);
+  }
+
   // subscribe to user document
   subscribeToUser(userUid: string): void {
     // subscribe to new user

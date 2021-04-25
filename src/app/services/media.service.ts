@@ -45,6 +45,11 @@ export class MediaService {
     });
   }
 
+  deleteFile(downloadUrl: string): void {
+    const mediaRef = this.fireStorage.refFromURL(downloadUrl);
+    mediaRef.delete();
+  }
+
   createMedia(media: Media): Promise<void> {
     return this.firestore.collection<Media>('media').doc(media.uid).set(media);
   }

@@ -21,7 +21,7 @@ export class SharedService {
     this.appTitle.setTitle(`Tuca – ${title}`);
   }
 
-  public capitalizeString(rawString?: string): string | undefined {
+  capitalizeString(rawString?: string): string | undefined {
     const wordArray = rawString?.split(' ');
     if (wordArray) {
       for (let i = 0; i < wordArray?.length; i++) {
@@ -38,5 +38,9 @@ export class SharedService {
   animateTransition(elRef: ElementRef): void {
     elRef.nativeElement.classList.add('transition');
     setTimeout(() => elRef.nativeElement.classList.remove('transition'), 0);
+  }
+
+  generateUid(length: number = 4): string {
+    return Math.random().toString(36).slice(length * -1);
   }
 }

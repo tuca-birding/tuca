@@ -7,8 +7,8 @@
   <!-- inputs -->
   <div class="image">
     <img
-      *ngIf="!editingUser?.image; else userIcon"
-      [src]="editingUser?.image"
+      *ngIf="editingUser?.image; else userIcon"
+      [src]="tempImage ? tempImage : editingUser?.image"
     />
     <ng-template #userIcon>
       <kor-icon icon="face"></kor-icon>
@@ -17,6 +17,7 @@
     <kor-icon
       icon="file_upload"
       button
+      (click)="fileInput.click()"
     ></kor-icon>
   </div>
   <kor-input
@@ -38,3 +39,11 @@
     (click)="handleConfirm()"
   ></kor-button>
 </kor-modal>
+
+<!-- image file input -->
+<input
+  type="file"
+  accept="image/*"
+  (change)="importImage($event.target)"
+  #fileInput
+/>
