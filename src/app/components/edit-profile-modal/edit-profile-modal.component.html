@@ -7,8 +7,8 @@
   <!-- inputs -->
   <div class="image">
     <img
-      *ngIf="editingUser?.image; else userIcon"
-      [src]="tempImage ? tempImage : editingUser?.image"
+      *ngIf="userService.user?.image || tempImage; else userIcon"
+      [src]="tempImage ? tempImage : userService.user?.image"
     />
     <ng-template #userIcon>
       <kor-icon icon="face"></kor-icon>
@@ -23,7 +23,7 @@
   <kor-input
     label="User name"
     name="name"
-    [value]="editingUser?.name"
+    [value]="tempName ? tempName : userService.user?.name"
     (input)="setNewName($event.target)"
   ></kor-input>
   <!-- buttons -->

@@ -1,5 +1,4 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { User } from 'src/app/interfaces';
 import { ImageService } from 'src/app/services/image.service';
 import { MediaService } from 'src/app/services/media.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -13,8 +12,8 @@ import { UserService } from 'src/app/services/user.service';
 export class EditProfileModalComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement> | undefined;
   visible = false;
-  editingUser: User | undefined;
   tempImage: string | undefined;
+  tempName: string | undefined;
   @Output() close = new EventEmitter();
 
   constructor(
@@ -25,10 +24,10 @@ export class EditProfileModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.tempImage);
     setTimeout(() => {
       this.visible = true;
     }, 0);
-    this.editingUser = this.userService.user;
   }
 
   closeModal(): void {
@@ -39,9 +38,7 @@ export class EditProfileModalComponent implements OnInit {
   }
 
   setNewName(tar: EventTarget | null): void {
-    if (this.editingUser) {
-      this.editingUser.name = (<HTMLInputElement>tar).value;
-    }
+    this.tempName = (<HTMLInputElement>tar).value;
   }
 
   importImage(tar: EventTarget | null): void {
@@ -57,25 +54,34 @@ export class EditProfileModalComponent implements OnInit {
   }
 
   handleConfirm(): void {
+    this.closeModal();
+    const userId = this.userService.user!.uid;
+    // define updated user fields
+    const updatedUser: { image?: string, name?: string; } = {};
+    if (this.tempName) {
+      updatedUser.name = this.tempName;
+    }
+    const updateUser = () => this.userService.updateUser(userId, updatedUser);
+    // if image changed, start upload flow
     if (this.tempImage) {
-      const oldImageUrl = this.editingUser?.image;
+      const oldImageUrl = this.userService.user?.image;
       this.uploadImage(this.tempImage)
         .then((downloadUrl) => {
-          // set user image url
-          this.editingUser!.image = downloadUrl;
+          // set image url
+          updatedUser.image = downloadUrl;
           // update user document
-          this.userService.updateUser({
-            uid: this.editingUser?.uid,
-            name: this.editingUser?.name,
-            image: this.editingUser?.image
-          }).then(() => {
-            // delete old user image, in case it existed
-            if (oldImageUrl) {
-              this.mediaService.deleteFile(oldImageUrl);
-            }
-            this.closeModal();
-          });
+          updateUser()
+            .then(() => {
+              // delete old user image, in case it existed
+              if (oldImageUrl) {
+                this.mediaService.deleteFile(oldImageUrl);
+              }
+            });
         });
+    }
+    // else, change name only;
+    else if (this.tempName) {
+      updateUser();
     }
   }
 
@@ -85,7 +91,7 @@ export class EditProfileModalComponent implements OnInit {
         .getBlobFromImgString(imgString)
         .then((imgBlob: Blob) => {
           this.mediaService
-            .uploadFile(`user_avatar/${this.editingUser?.uid}_${this.sharedService.generateUid()}_avatar`, imgBlob)
+            .uploadFile(`user_avatar/${this.userService.user?.uid}_${this.sharedService.generateUid()}_avatar`, imgBlob)
             .then((downloadUrl: string) => {
               resolve(downloadUrl);
             });
