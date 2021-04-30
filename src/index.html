@@ -1,41 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1"
+    />
 
-<head>
-  <meta charset="utf-8" />
-  <title>Tuca</title>
-  <base href="/" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  />
-  <link
-    rel="icon"
-    type="image/x-icon"
-    href="favicon.ico"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap"
-    rel="stylesheet"
-  />
-  <link
-    rel="manifest"
-    href="manifest.webmanifest"
-  />
-  <meta
-    name="theme-color"
-    content="#ffffff"
-  />
-  <script
-    type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCSUY-cSB6J4VgwQQXfiXm459_lqqkWum4"
-  ></script>
-</head>
+    <title>Tuca</title>
+    <base href="/" />
 
-<body>
-  <app-root></app-root>
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
-</body>
-<div id="map"></div>
+    <!-- Search Engine -->
+    <meta
+      name="description"
+      content="Identify photo of birds from any species! Share and browse through photos uploaded by a community of birders from all around the world."
+    />
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="Tuca" />
+    <meta
+      itemprop="description"
+      content="Identify photo of birds from any species! Share and browse through photos uploaded by a community of birders from all around the world."
+    />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="🐦 Tuca" />
+    <meta
+      name="twitter:description"
+      content="Identify photo of birds from any species! Share and browse through photos uploaded by a community of birders from all around the world."
+    />
+    <meta name="twitter:site" content="@slashBirding" />
+    <meta
+      name="twitter:image"
+      content="https://tuca.app/assets/icons/icon-512x512.png"
+    />
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta property="og:title" content="🐦 Tuca" />
+    <meta
+      property="og:description"
+      content="Identify photo of birds from any species! Share and browse through photos uploaded by a community of birders from all around the world."
+    />
+    <meta property="og:url" content="https://tuca.app/" />
+    <meta property="og:site_name" content="Tuca" />
+    <meta property="og:locale" content="en_US, " />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://tuca.app/assets/icons/icon-512x512.png"
+    />
 
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="keywords"
+      content="birding, identify bird, bird species, bird watching"
+    />
+    <meta name="author" content="Tuca Team" />
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#ffffff" />
+    <script
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCSUY-cSB6J4VgwQQXfiXm459_lqqkWum4"
+    ></script>
+  </head>
+
+  <body>
+    <app-root></app-root>
+    <noscript
+      >Please enable JavaScript to continue using this application.</noscript
+    >
+  </body>
+  <div id="map"></div>
 </html>
